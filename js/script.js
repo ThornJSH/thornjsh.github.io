@@ -104,13 +104,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
     // Language Toggle logic
-    // Language Toggle logic
-    // Language Toggle logic
     function setupLanguageToggle() {
         const headerContainer = document.querySelector('.RBEWZc');
         if (!headerContainer) return;
 
-        const isEnglish = window.location.pathname.includes('/en/');
+        // Clean identifier to check for english version
+        const path = window.location.pathname;
+        const isEnglish = path.includes('/en/');
+        
         const toggleBtn = document.createElement('div');
         toggleBtn.id = 'lang-toggle';
         toggleBtn.style.cssText = `
@@ -135,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         const enLabel = isEnglish ? '<span style="color:#1a73e8">EN</span>' : 'EN';
         const koLabel = isEnglish ? 'KO' : '<span style="color:#1a73e8">KO</span>';
-        toggleBtn.innerHTML = `${enLabel} / ${koLabel}`;
+        toggleBtn.innerHTML = `${enLabel}&nbsp;/&nbsp;${koLabel}`;
         
         toggleBtn.onmouseover = () => { 
             toggleBtn.style.background = '#f8f9fa';
@@ -147,19 +148,37 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         toggleBtn.onclick = function() {
-            let currentPath = window.location.pathname;
-            let currentFile = currentPath.split('/').pop() || 'index.html';
             let newPath;
-            
             if (isEnglish) {
-                newPath = currentPath.replace('/en/', '/');
+                // Return to Korean: remove '/en/' from the path
+                // Handles various formats like .../my_web/en/index.html -> .../my_web/index.html
+                newPath = path.replace('/en/', '/');
             } else {
-                if (currentPath.endsWith('/')) {
-                    newPath = currentPath + 'en/index.html';
+                // Go to English: insert '/en' before the filename or at the end
+                // We need to be careful with where we insert /en/
+                // If it's github.io/repo/folder/page.html -> github.io/repo/en/folder/page.html
+                // Since our 'en' folder is at the root of the project:
+                // If we assume 'en' is always at the site root or project root:
+                // Let's try to find the site root. For now, assuming standard mirroring:
+                
+                // Find where the project root is in the path. 
+                // A safe way is to find the first folder after the domain if it's GitHub pages,
+                // or use a more robust logic.
+                
+                // Let's assume the user is at the root of the domain OR a known subfolder.
+                // Redirect logic:
+                if (path.includes('/my_web/')) {
+                    newPath = path.replace('/my_web/', '/my_web/en/');
+                } else if (path.includes('thornjsh.github.io/')) {
+                     newPath = path.replace('thornjsh.github.io/', 'thornjsh.github.io/en/');
                 } else {
-                    const parts = currentPath.split('/');
-                    parts.pop();
-                    newPath = parts.join('/') + '/en/' + currentFile;
+                    // Fallback: try to insert /en/ after the first part of the path
+                    const parts = path.split('/');
+                    // For host.com/page.html, parts are ["", "page.html"] -> ["", "en", "page.html"]
+                    // For host.com/dir/page.html, parts are ["", "dir", "page.html"] -> ["", "en", "dir", "page.html"]
+                    // Since 'en' is at the root:
+                    parts.splice(1, 0, 'en');
+                    newPath = parts.join('/');
                 }
             }
             window.location.href = newPath;
