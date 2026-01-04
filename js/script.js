@@ -108,7 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const headerContainer = document.querySelector('.RBEWZc');
         if (!headerContainer) return;
 
-        // Clean identifier to check for english version
         const path = window.location.pathname;
         const isEnglish = path.includes('/en/');
         
@@ -150,33 +149,13 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleBtn.onclick = function() {
             let newPath;
             if (isEnglish) {
-                // Return to Korean: remove '/en/' from the path
-                // Handles various formats like .../my_web/en/index.html -> .../my_web/index.html
                 newPath = path.replace('/en/', '/');
             } else {
-                // Go to English: insert '/en' before the filename or at the end
-                // We need to be careful with where we insert /en/
-                // If it's github.io/repo/folder/page.html -> github.io/repo/en/folder/page.html
-                // Since our 'en' folder is at the root of the project:
-                // If we assume 'en' is always at the site root or project root:
-                // Let's try to find the site root. For now, assuming standard mirroring:
-                
-                // Find where the project root is in the path. 
-                // A safe way is to find the first folder after the domain if it's GitHub pages,
-                // or use a more robust logic.
-                
-                // Let's assume the user is at the root of the domain OR a known subfolder.
-                // Redirect logic:
-                if (path.includes('/my_web/')) {
+                // Improved insertion for local and production
+                if (path.includes('/my_web/') && !path.includes('/my_web/en/')) {
                     newPath = path.replace('/my_web/', '/my_web/en/');
-                } else if (path.includes('thornjsh.github.io/')) {
-                     newPath = path.replace('thornjsh.github.io/', 'thornjsh.github.io/en/');
                 } else {
-                    // Fallback: try to insert /en/ after the first part of the path
                     const parts = path.split('/');
-                    // For host.com/page.html, parts are ["", "page.html"] -> ["", "en", "page.html"]
-                    // For host.com/dir/page.html, parts are ["", "dir", "page.html"] -> ["", "en", "dir", "page.html"]
-                    // Since 'en' is at the root:
                     parts.splice(1, 0, 'en');
                     newPath = parts.join('/');
                 }
