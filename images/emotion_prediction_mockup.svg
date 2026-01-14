@@ -1,0 +1,59 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#1a1f36" rx="12" />
+  
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="200" height="600" fill="#242b47" rx="12" />
+  <rect x="0" y="0" width="200" height="600" fill="#242b47" /> <!-- Overwrite corners for logic -->
+  <path d="M12 0 H200 V600 H12 A12 12 0 0 1 0 588 V12 A12 12 0 0 1 12 0 Z" fill="#242b47" />
+  
+  <!-- Sidebar Items -->
+  <circle cx="30" cy="50" r="15" fill="#3b82f6" />
+  <rect x="60" y="40" width="100" height="8" fill="#4b5563" rx="4" />
+  <rect x="60" y="55" width="60" height="6" fill="#374151" rx="3" />
+  
+  <rect x="20" y="100" width="160" height="40" fill="#374151" rx="8" />
+  <rect x="20" y="150" width="160" height="40" fill="#1f2937" rx="8" />
+  <rect x="20" y="200" width="160" height="40" fill="#1f2937" rx="8" />
+  <rect x="20" y="250" width="160" height="40" fill="#1f2937" rx="8" />
+
+  <!-- Main Content Area -->
+  <!-- Header -->
+  <text x="240" y="60" font-family="sans-serif" font-size="24" fill="#ffffff" font-weight="bold">Client Emotion Dashboard</text>
+  <rect x="680" y="40" width="90" height="30" fill="#ef4444" rx="15" />
+  <text x="725" y="60" font-family="sans-serif" font-size="12" fill="white" text-anchor="middle" dominant-baseline="middle">Critical Alert</text>
+
+  <!-- Sentiment Chart Container -->
+  <rect x="240" y="100" width="530" height="250" fill="#161b33" rx="8" stroke="#334155" />
+  <text x="260" y="130" font-family="sans-serif" font-size="16" fill="#94a3b8">Real-time Sentiment Analysis</text>
+  
+  <!-- Grid lines -->
+  <line x1="260" y1="200" x2="750" y2="200" stroke="#334155" stroke-dasharray="4" />
+  <line x1="260" y1="250" x2="750" y2="250" stroke="#334155" stroke-dasharray="4" />
+  <line x1="260" y1="300" x2="750" y2="300" stroke="#334155" stroke-dasharray="4" />
+  
+  <!-- Chart Line -->
+  <path d="M260 250 Q 300 240, 350 280 T 450 220 T 550 260 T 650 180 T 750 210" fill="none" stroke="#3b82f6" stroke-width="3" />
+  <circle cx="650" cy="180" r="4" fill="#ef4444" /> <!-- Alert point -->
+  
+  <!-- Bottom Panels -->
+  <!-- Keywords -->
+  <rect x="240" y="370" width="250" height="200" fill="#161b33" rx="8" stroke="#334155" />
+  <text x="260" y="400" font-family="sans-serif" font-size="16" fill="#94a3b8">Key Risk Factors</text>
+  
+  <text x="300" y="450" font-family="sans-serif" font-size="18" fill="#60a5fa" opacity="0.8">Anoloiness</text>
+  <text x="380" y="480" font-family="sans-serif" font-size="22" fill="#ef4444" opacity="0.9" font-weight="bold">ISOLATION</text>
+  <text x="280" y="520" font-family="sans-serif" font-size="14" fill="#a78bfa" opacity="0.7">Sleep Loss</text>
+  <text x="350" y="550" font-family="sans-serif" font-size="16" fill="#34d399" opacity="0.6">Anxiety</text>
+
+  <!-- Crisis Gauge -->
+  <rect x="510" y="370" width="260" height="200" fill="#161b33" rx="8" stroke="#334155" />
+  <text x="530" y="400" font-family="sans-serif" font-size="16" fill="#94a3b8">Risk Assessment</text>
+  
+  <path d="M540 520 A 100 100 0 0 1 740 520" fill="none" stroke="#334155" stroke-width="20" stroke-linecap="round" />
+  <path d="M540 520 A 100 100 0 0 1 680 448" fill="none" stroke="#ef4444" stroke-width="20" stroke-linecap="round" /> <!-- Red part -->
+  
+  <text x="640" y="500" font-family="sans-serif" font-size="32" fill="#ef4444" font-weight="bold" text-anchor="middle">High</text>
+  <text x="640" y="550" font-family="sans-serif" font-size="14" fill="#64748b" text-anchor="middle">Immediate Action Required</text>
+
+</svg>

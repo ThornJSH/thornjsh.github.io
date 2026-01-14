@@ -1,0 +1,200 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 10px; color: #000;">구글 스프레드시트 활용</h2>
+        <p style="font-size: 1.1rem; color: #666;">데이터 중심의 스마트한 사회복지 행정 구현</p>
+    </div>
+
+    <div class="info-note"
+        style="background: #e7f5ff; padding: 25px; border-left: 5px solid #1971c2; border-radius: 8px; margin-bottom: 50px;">
+        <p style="font-size: 1.1rem; line-height: 1.8; color: #0b7285; margin-bottom: 0;">
+            단순히 문서를 만드는 도구를 넘어, 데이터를 관리하고 자동화하는 강력한 시스템으로 스프레드시트를 활용해 보세요.
+            한 번의 입력으로 통계와 서식이 동시에 완성되는 <strong>'발상의 전환'</strong>이 시작됩니다.
+        </p>
+    </div>
+
+    <div class="detailed-steps" style="display: flex; flex-direction: column; gap: 60px;">
+
+        <!-- 1. 핵심 개념 -->
+        <div class="guide-card"
+            style="background: #fff; border-radius: 20px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div style="padding: 30px; border-bottom: 1px solid #f8f9fa; background: #fafafa;">
+                <h3 style="margin: 0; color: #1971c2; display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #1971c2; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">1</span>
+                    [필독] 데이터와 서식의 분리
+                </h3>
+            </div>
+            <div style="padding: 30px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+                    <div>
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: #444; margin-bottom: 20px;">
+                            효율적인 데이터 관리를 위해 <strong>데이터 시트</strong>와 <strong>서식 시트</strong>를 분리해야 합니다.
+                        </p>
+                        <ul style="line-height: 2; color: #555; padding-left: 20px;">
+                            <li><strong>데이터 시트:</strong> 가공되지 않은 순수 정보를 기록 (행 단위 기록)</li>
+                            <li><strong>서식 시트:</strong> 결재 문서, 보고서 등 사람이 보여지는 양식</li>
+                        </ul>
+                        <p
+                            style="margin-top: 20px; border: 1px dashed #ced4da; padding: 15px; border-radius: 10px; color: #666; font-size: 0.95rem;">
+                            ※ 데이터가 쌓이면 서식 시트가 이를 자동으로 불러와서 보여주는 구조입니다.
+                        </p>
+                    </div>
+                    <div
+                        style="background: #f8f9fa; height: 180px; border-radius: 12px; border: 1px solid #eee; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <div style="font-size: 3rem;">🔄</div>
+                        <p style="font-weight: 600; color: #666; margin-top: 10px;">Data Row → Format Page</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 파일 ID 이해 -->
+        <div class="guide-card"
+            style="background: #fff; border-radius: 20px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div style="padding: 30px; border-bottom: 1px solid #f8f9fa; background: #fafafa;">
+                <h3 style="margin: 0; color: #1971c2; display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #1971c2; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">2</span>
+                    자동화의 열쇠: 파일 ID 개념
+                </h3>
+            </div>
+            <div style="padding: 30px;">
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #444; margin-bottom: 25px;">
+                    구글 시스템은 파일명이 아닌 <strong>고유 ID</strong>로 파일을 인식합니다.
+                    다른 파일의 데이터를 불러오거나 연동할 때 필수적으로 사용됩니다.
+                </p>
+                <div class="code-box"
+                    style="background: #2d3436; color: #b2bec3; padding: 25px; border-radius: 12px; line-height: 1.6; word-break: break-all;">
+                    <span style="font-size: 0.9rem; color: #636e72; display: block; margin-bottom: 10px;">스프레드시트 전체 주소
+                        (예시)</span>
+                    <span style="font-family: 'Courier New', monospace; font-size: 1.05rem;">
+                        https://docs.google.com/spreadsheets/d/<strong
+                            style="color: #00cec9; background: rgba(0, 206, 201, 0.1); padding: 2px 4px; border-radius: 4px;">10XC_oprXlQW2JkMjqla_EKWhU5lhveMpNHf20o7G8ts</strong>/edit?gid=0#gid=0
+                    </span>
+                    <div style="margin-top: 15px; font-size: 0.85rem; color: #fab1a0;">↑ 민트색으로 표시된 영역이 이 파일의 고유한 ID입니다.
+                    </div>
+                </div>
+
+                <!-- 추가: 앱스 스크립트 시트 버튼 -->
+                <div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 30px;">
+                    <h4 style="margin-bottom: 20px; color: #333;">🛠️ 앱스 스크립트 활용 도구 (복사해서 사용하세요)</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; border: 1px solid #eee;">
+                            <p style="margin: 0 0 15px 0; font-size: 0.95rem; color: #555; line-height: 1.5;">"무조건 A1셀에
+                                파일 ID를 입력해줍니다."</p>
+                            <a href="https://docs.google.com/spreadsheets/d/1KXY6KWX62rNuHWe4uw7sRagmLUPLm5nQoqEscLDH3gg/edit?gid=0#gid=0"
+                                target="_blank"
+                                style="display: block; text-align: center; padding: 10px; background: #4285f4; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">시트
+                                사본 만들기 ↗</a>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; border: 1px solid #eee;">
+                            <p style="margin: 0 0 15px 0; font-size: 0.95rem; color: #555; line-height: 1.5;">"메뉴 실행 시
+                                사용자가 입력하는 셀을 지정하게 합니다."</p>
+                            <a href="https://docs.google.com/spreadsheets/d/10XC_oprUlQWMJkMjqla_ECWhU5lhveMpNHf20o7G8ts/edit?gid=0#gid=0"
+                                target="_blank"
+                                style="display: block; text-align: center; padding: 10px; background: #34a853; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">시트
+                                사본 만들기 ↗</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 핵심 함수 -->
+        <div class="guide-card"
+            style="background: #fff; border-radius: 20px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div style="padding: 30px; border-bottom: 1px solid #f8f9fa; background: #fafafa;">
+                <h3 style="margin: 0; color: #1971c2; display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #1971c2; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">3</span>
+                    업무 효율을 200% 높이는 핵심 함수
+                </h3>
+            </div>
+            <div style="padding: 30px;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px;">
+                    <div style="padding: 20px; background: #f1f3f5; border-radius: 12px;">
+                        <h4 style="margin: 0 0 8px 0; color: #228be6;">IMPORTRANGE</h4>
+                        <p style="margin: 0 12px 12px 0; font-size: 0.9rem; color: #666;">다른 파일에 있는 데이터를 실시간으로 가져옵니다.
+                        </p>
+                        <code
+                            style="display: block; background: #fff; padding: 8px; border-radius: 4px; font-size: 0.85rem; color: #e64980; border: 1px solid #dee2e6;">=IMPORTRANGE("파일ID", "시트1!A1:B10")</code>
+                    </div>
+                    <div style="padding: 20px; background: #f1f3f5; border-radius: 12px;">
+                        <h4 style="margin: 0 0 8px 0; color: #228be6;">QUERY</h4>
+                        <p style="margin: 0 0 12px 0; font-size: 0.9rem; color: #666;">데이터에서 원하는 조건만 쏙쏙 뽑아냅니다.</p>
+                        <code
+                            style="display: block; background: #fff; padding: 8px; border-radius: 4px; font-size: 0.85rem; color: #e64980; border: 1px solid #dee2e6;">=QUERY(A:E, "select A, B where C > 100")</code>
+                    </div>
+                    <div style="padding: 20px; background: #f1f3f5; border-radius: 12px;">
+                        <h4 style="margin: 0 0 8px 0; color: #228be6;">XLOOKUP</h4>
+                        <p style="margin: 0 0 12px 0; font-size: 0.9rem; color: #666;">특정 값을 기준으로 다른 표에서 정보를 찾습니다.</p>
+                        <code
+                            style="display: block; background: #fff; padding: 8px; border-radius: 4px; font-size: 0.85rem; color: #e64980; border: 1px solid #dee2e6;">=XLOOKUP(A1, 명부!A:A, 명부!B:B)</code>
+                    </div>
+                    <div style="padding: 20px; background: #f1f3f5; border-radius: 12px;">
+                        <h4 style="margin: 0 0 8px 0; color: #228be6;">FILTER</h4>
+                        <p style="margin: 0 0 12px 0; font-size: 0.9rem; color: #666;">조건에 맞는 데이터만 걸러서 보여줍니다.</p>
+                        <code
+                            style="display: block; background: #fff; padding: 8px; border-radius: 4px; font-size: 0.85rem; color: #e64980; border: 1px solid #dee2e6;">=FILTER(A:B, A:A="성공")</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 실전 사례 -->
+        <div class="guide-card"
+            style="background: #fff; border-radius: 20px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div style="padding: 30px; border-bottom: 1px solid #f8f9fa; background: #fafafa;">
+                <h3 style="margin: 0; color: #1971c2; display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #1971c2; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">4</span>
+                    활용 사례: 디지털 결재 서명 자동화
+                </h3>
+            </div>
+            <div style="padding: 30px;">
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #444; margin-bottom: 25px;">
+                    서명 이미지를 미리 등록해 두고 사번만 입력하면 결재판에 서명이 자동으로 채워지게 할 수 있습니다.
+                    종이 없는 행정의 첫걸음입니다.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 12px; border: 1px solid #eee;">
+                        <h5 style="margin: 0 0 10px 0; color: #333;">💡 핵심 원리</h5>
+                        <p style="font-size: 0.9rem; color: #666; line-height: 1.6; margin-bottom: 10px;">
+                            명부 시트에 사번과 서명 이미지(셀 내 삽입)를 매칭해 두고, 결재 시트에서 사번을 검색해 이미지를 가져옵니다.
+                        </p>
+                        <code
+                            style="display: block; background: #fff; padding: 10px; border-radius: 6px; font-size: 0.85rem; color: #e64980; border: 1px solid #dee2e6;">=XLOOKUP(B3, 명부!A:A, 명부!C:C)</code>
+                    </div>
+                    <div style="padding: 20px; background: #fff9db; border-radius: 12px; border: 1px solid #ffe066;">
+                        <h5 style="margin: 0 0 10px 0; color: #f08c00;">🚀 기대 효과</h5>
+                        <ul style="margin: 0; padding-left: 18px; color: #663c00; font-size: 0.9rem; line-height: 1.7;">
+                            <li>결재를 받으러 다니는 시간 절약</li>
+                            <li>디지털 문서의 완결성 확보</li>
+                            <li>비대면/순환 근무 시 신속한 결재</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; background: #f1f3f5; padding: 25px; border-radius: 15px;">
+                    <p style="margin: 0 0 15px 0; font-weight: 600; color: #444;">상세 제작 방법이 궁금하신가요?</p>
+                    <a href="https://docs.google.com/spreadsheets/d/1hSxZLtUTDbloajbojF9hllCCpBxgxZqB13j2os-uzMo/edit?gid=0#gid=0"
+                        target="_blank"
+                        style="display: inline-block; padding: 12px 30px; background: #1971c2; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 12px rgba(25, 113, 194, 0.2);">실제
+                        적용 예시 보기 ↗</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .guide-card {
+        transition: transform 0.3s ease;
+    }
+
+    .guide-card:hover {
+        transform: translateY(-5px);
+    }
+</style>

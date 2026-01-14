@@ -1,0 +1,67 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 10px; color: #000;">이런 것도 가능해요</h2>
+        <p style="font-size: 1.1rem; color: #666;">AI와 디지털 기술이 선사하는 다채로운 경험</p>
+    </div>
+
+    <div class="main-layout"
+        style="display: grid; grid-template-columns: 1fr 450px; gap: 40px; align-items: start; margin-bottom: 50px;">
+        <div class="content-column">
+            <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 30px;">
+                사회복지 현장의 업무 효율을 넘어, AI는 우리의 상상력을 현실로 만드는 강력한 도구가 됩니다.
+                게임 제작부터 수준 높은 시각화까지, AI와 함께라면 누구나 크리에이터가 될 수 있습니다.
+            </p>
+
+            <div class="possibilities-grid"
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                <!-- 미니 게임 -->
+                <div class="poss-card" onclick="window.loadContent('[게임] 아기하마 구하기')"
+                    style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">🕹️</div>
+                    <h4 style="margin: 0 0 10px 0; font-size: 1.2rem;">AI 미니 게임</h4>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">단 이틀 만에 AI와 함께 기획하고 만든 '아기하마 구하기' 게임을 즐겨보세요.
+                    </p>
+                </div>
+
+                <!-- 쇼케이스 -->
+                <div class="poss-card" onclick="window.loadContent('크리에이티브 쇼케이스')"
+                    style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">✨</div>
+                    <h4 style="margin: 0 0 10px 0; font-size: 1.2rem;">크리에이티브 쇼케이스</h4>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">3D 이미지 생성부터 개인 홈페이지 구축까지, AI로 확장되는 디지털 가능성을
+                        확인하세요.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="screenshot-column">
+            <div class="screenshot-container"
+                style="padding: 10px; background: #fff; border-radius: 15px; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+                <div
+                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 300px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #fff;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🚀</div>
+                    <p style="font-size: 1.2rem; font-weight: 600;">Beyond Efficiency</p>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">to Unlimited Creativity</p>
+                </div>
+                <p style="margin-top: 15px; color: #999; font-size: 0.8rem; text-align: center;">상상을 현실로 만드는 기술</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .poss-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+
+    .poss-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: #764ba2 !important;
+        box-shadow: 0 20px 40px rgba(118, 75, 162, 0.15) !important;
+        background: linear-gradient(to bottom right, #ffffff, #f8f7ff) !important;
+    }
+
+    .poss-card:hover h4 {
+        color: #764ba2;
+    }
+</style>

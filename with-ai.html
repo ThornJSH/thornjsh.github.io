@@ -1,0 +1,125 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 20px; color: #000;">AI와 함께 (With AI)</h2>
+        <p style="font-size: 1.15rem; line-height: 1.8; color: #444;">
+            AI를 AI를 활용해서 자동화한 사례들(직접 개발)을 모았습니다.
+            기본적으로 Gemini API를 사용 설정을 해야지만 활용이 가능합니다.
+            익숙치 않은 분들은 FAQ의 API키 발급 메뉴를 먼저 확인해주세요.<br><br>
+            아래는 생성형 AI를 활용함에 있어 업무 효율을 높이는 프롬프트 작성의 원칙을 공유합니다.
+            단순한 질문을 넘어, AI의 잠재력을 100% 이끌어내는 기술을 만나보세요.
+        </p>
+    </div>
+
+    <!-- 프롬프트 기본 원칙 섹션 -->
+    <section class="ai-section" style="margin-bottom: 60px;">
+        <div
+            style="display: flex; align-items: center; gap: 15px; margin-bottom: 30px; border-bottom: 2px solid #fee101; padding-bottom: 10px; display: inline-block;">
+            <h3 style="margin: 0; font-size: 1.8rem; color: #333;">💡 효과적인 프롬프트 작성 원칙</h3>
+        </div>
+
+        <div class="principles-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+            <div class="principle-card"
+                style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee;">
+                <h4 style="color: #4285f4; margin-top: 0;">1. 역할을 부여하세요</h4>
+                <p style="color: #666; font-size: 0.95rem; line-height: 1.7;">
+                    "당신은 사회복지 실천 현장의 20년 경력 전문가입니다"와 같이 구체적인 페르소나를 지정하면 훨씬 전문적인 답변을 얻을 수 있습니다.
+                </p>
+            </div>
+            <div class="principle-card"
+                style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee;">
+                <h4 style="color: #ea4335; margin-top: 0;">2. 명확하고 구체적으로</h4>
+                <p style="color: #666; font-size: 0.95rem; line-height: 1.7;">
+                    모호한 질문보다는 데이터, 출처, 근거를 명확히 요구하세요. "모르면 모른다고 말해달라"는 지시는 AI의 환각(Hallucination) 현상을 줄여줍니다.
+                </p>
+            </div>
+            <div class="principle-card"
+                style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee;">
+                <h4 style="color: #fbbc05; margin-top: 0;">3. 구조화된 지시</h4>
+                <p style="color: #666; font-size: 0.95rem; line-height: 1.7;">
+                    연번으로 정리하거나 #, ##, ### 등 위계를 사용하여 명령하세요. 특히 외국 정보가 필요할 경우 "영어로 검색해서 알려줘"라고 정확히 지시하는 것이 중요합니다.
+                </p>
+            </div>
+            <div class="principle-card"
+                style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee;">
+                <h4 style="color: #34a853; margin-top: 0;">4. 예시(Few-shot) 제공</h4>
+                <p style="color: #666; font-size: 0.95rem; line-height: 1.7;">
+                    원하는 결과물의 형태가 있다면 한두 개의 샘플 예시를 직접 보여주세요. AI는 예시의 톤앤매너와 형식을 가장 잘 따라합니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 이미지 생성 팁 섹션 -->
+    <section class="ai-section" style="margin-bottom: 60px; background: #f8f9fa; padding: 40px; border-radius: 16px;">
+        <h3 style="margin: 0 0 30px 0; font-size: 1.8rem; color: #333; text-align: center;">🎨 AI 이미지 생성 마스터하기</h3>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+            <div class="tip-box">
+                <h4
+                    style="font-size: 1.2rem; color: #000; border-left: 4px solid #4285f4; padding-left: 10px; margin-bottom: 15px;">
+                    핵심 프롬프트 구성</h4>
+                <ul style="color: #555; line-height: 1.8; font-size: 0.95rem; margin-bottom: 25px;">
+                    <li><strong>메인 프롬프트:</strong> 주제, 스타일, 품질, 창의성의 정도를 상세히 나열</li>
+                    <li><strong>네거티브 프롬프트:</strong> "태양은 제외해줘"와 같이 들어가지 말아야 할 요소를 지정</li>
+                    <li><strong>구도 잡기:</strong> 그림판에 그린 대략적인 구도 이미지를 첨부하여 요청</li>
+                    <li><strong>수정 요청:</strong> 생성된 이미지를 다시 첨부하여 "이 부분만 바꿔줘"라고 지시</li>
+                </ul>
+                <div class="prompt-example"
+                    style="background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; font-size: 0.85rem;">
+                    <p style="margin: 0 0 8px 0; font-weight: bold; color: #333;">📊 이미지 생성 프롬프트 예시 (사용된 사례)</p>
+                    <div style="border-left: 3px solid #dee2e6; padding-left: 10px; margin-bottom: 10px;">
+                        <p style="margin: 0 0 5px 0; color: #666; font-style: italic;">
+                            "<span style="color: #4285f4; font-weight: bold;">(품질)</span> A sleek, professional, and
+                            futuristic <span style="color: #34a853; font-weight: bold;">(주제)</span> illustration of a
+                            human hand and a robotic AI hand collaborating over a glowing holographic interface. The
+                            interface shows floating keywords like 'Prompt', 'Context', 'Creative', and 'Insight'. <span
+                                style="color: #fbbc05; font-weight: bold;">(스타일)</span> Modern dark mode aesthetic with
+                            soft blue and gold lighting. High resolution, 3D render style, clean and minimalist."
+                        </p>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #888; line-height: 1.6;">
+                        <strong>[구조 분석]</strong><br>
+                        - <span style="color: #34a853;">●</span> <strong>주제:</strong> 인간과 AI 손의 협업, 홀로그램 인터페이스와 키워드<br>
+                        - <span style="color: #fbbc05;">●</span> <strong>스타일:</strong> 다크 모드, 블루&골드 조명, 3D 렌더링,
+                        미니멀리즘<br>
+                        - <span style="color: #4285f4;">●</span> <strong>품질/강조:</strong> Sleek, Professional,
+                        Futuristic, High Resolution
+                    </div>
+                </div>
+            </div>
+            <div class="image-preview-area"
+                style="background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 20px; text-align: center;">
+                <img src="images/ai_collaboration.png" alt="AI 협업 및 프롬프트 가이드 이미지"
+                    style="width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 10px;">
+                <p style="margin: 0; color: #888; font-size: 0.85rem;">가이드에 맞춰 생성된 이미지 예시</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 검색 및 심층 연구 -->
+    <div class="info-box" style="background: #e8f0fe; padding: 30px; border-radius: 12px; margin-bottom: 40px;">
+        <h4 style="margin-top: 0; color: #1967d2;">🚀 더 똑똑하게 질문하기</h4>
+        <p style="color: #444; line-height: 1.7; font-size: 0.95rem; margin-bottom: 0;">
+            - <strong>최신 정보:</strong> "검색해서 알려줘"라고 명시하거나 검색 기능을 활성화하세요.<br>
+            - <strong>심층 연구(Deep Research):</strong> 보고서 형태의 전문적인 답변이 필요할 때는 심층 연구 모드를 활용하세요.<br>
+            - <strong>데이터 업로드:</strong> 논문이나 신뢰할 수 있는 외부 문서는 직접 첨부한 뒤 질문하는 것이 가장 정확합니다.
+        </p>
+    </div>
+
+    <!-- 링크 박스 -->
+    <div style="text-align: center;">
+        <p style="color: #777; margin-bottom: 20px;">AI와 함께하는 더 많은 업무 자동화 도구들을 확인해보세요.</p>
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <a href="#" onclick="window.loadContent('SNS 홍보문 만들기')"
+                style="padding: 10px 20px; background: #fff; border: 1px solid #ddd; border-radius: 30px; text-decoration: none; color: #444; font-size: 0.9rem;">SNS
+                홍보문 만들기</a>
+            <a href="#" onclick="window.loadContent('문서 타당성 검토')"
+                style="padding: 10px 20px; background: #fff; border: 1px solid #ddd; border-radius: 30px; text-decoration: none; color: #444; font-size: 0.9rem;">문서
+                타당성 검토</a>
+            <a href="#" onclick="window.loadContent('챗봇, Chatbot')"
+                style="padding: 10px 20px; background: #fff; border: 1px solid #ddd; border-radius: 30px; text-decoration: none; color: #444; font-size: 0.9rem;">AI
+                챗봇 활용</a>
+        </div>
+    </div>
+</div>
