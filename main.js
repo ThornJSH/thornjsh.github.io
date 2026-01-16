@@ -31,6 +31,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/smart-welfare-tech.html');
     } else if (pageName === '구글 스프레드시트' || pageName === 'Google Sheets') {
         await loadModule('page-body', '/smartwork-google-sheets.html');
+    } else if (pageName === 'DX 스프레드 시트 예제' || pageName === 'DX Spreadsheet Examples' || pageName === '스프레드 시트 예제' || pageName === 'Spreadsheet Examples') {
+        await loadModule('page-body', '/sheets-examples.html');
     } else if (pageName === '스마트워크' || pageName === 'Smart Work') {
         await loadModule('page-body', '/smart-work.html');
     } else if (pageName === 'AI 활용 강좌' || pageName === 'AI Courses') {
