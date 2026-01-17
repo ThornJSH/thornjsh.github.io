@@ -134,15 +134,35 @@ export async function loadContent(pageName) {
 }
 
 async function init() {
-    await Promise.all([
-        loadModule('header', '/header.html'),
-        loadModule('footer', '/footer.html')
-    ]);
+    const header = document.getElementById('header');
+    if (header && !header.innerHTML.trim()) {
+        await loadModule('header', '/header.html');
+    }
+
+    const footer = document.getElementById('footer');
+    if (footer && !footer.innerHTML.trim()) {
+        await loadModule('footer', '/footer.html');
+    }
 
     initMenu();
 
-    // 초기 로딩 시 홈 컨텐츠 로드
-    loadContent('홈');
+    // URL 파라미터 처리 (?page=...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('page');
+
+    if (pageParam) {
+        // 파라미터가 있으면 해당 페이지 로드
+        loadContent(pageParam);
+        updatePageTitle(pageParam);
+    } else {
+        // 파라미터가 없으면 기본값(홈) 로드 로직
+        const pageBody = document.getElementById('page-body');
+        const hasStaticHome = pageBody && pageBody.querySelector('.home-container');
+
+        if (!hasStaticHome) {
+            loadContent('홈');
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', init);

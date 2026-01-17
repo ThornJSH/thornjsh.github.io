@@ -1,0 +1,73 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 10px; color: #000;">자주 묻는 질문 (FAQ)</h2>
+        <p style="font-size: 1.1rem; color: #666;">도구 사용 중 궁금한 점을 빠르게 해결해 드립니다.</p>
+    </div>
+
+    <div class="main-layout"
+        style="display: grid; grid-template-columns: 1fr 450px; gap: 40px; align-items: start; margin-bottom: 50px;">
+        <div class="content-column">
+            <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 30px;">
+                웹앱과 통계 도구를 원활하게 사용하기 위한 필수 설정 가이드 모음입니다.
+                처음 사용하시는 분들은 아래 가이드를 참고하여 설정을 완료해 주세요.
+            </p>
+
+            <div class="faq-grid" style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+                <!-- 권한 설정 -->
+                <div class="faq-card" onclick="window.loadContent('초기설정(권한 설정)')"
+                    style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                    <div style="font-size: 2.5rem;">🔐</div>
+                    <div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.2rem;">초기 권한 설정</h4>
+                        <p style="margin: 0; color: #666; font-size: 0.95rem;">'Review Permissions' 및 허용 단계 안내</p>
+                    </div>
+                </div>
+
+                <!-- 사본 만들기 -->
+                <div class="faq-card" onclick="window.loadContent('사본 만들기')"
+                    style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                    <div style="font-size: 2.5rem;">📝</div>
+                    <div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.2rem;">사본 만들기</h4>
+                        <p style="margin: 0; color: #666; font-size: 0.95rem;">도구를 개인 드라이브로 가져오는 방법</p>
+                    </div>
+                </div>
+
+                <!-- API 키 발급 -->
+                <div class="faq-card" onclick="window.loadContent('API 키 만들기')"
+                    style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                    <div style="font-size: 2.5rem;">🔑</div>
+                    <div>
+                        <h4 style="margin: 0 0 5px 0; font-size: 1.2rem;">API 키 발급</h4>
+                        <p style="margin: 0; color: #666; font-size: 0.95rem;">Google AI Studio Gemini API 키 발급 가이드</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screenshot-column">
+            <div class="screenshot-container"
+                style="padding: 10px; background: #fff; border-radius: 15px; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+                <div
+                    style="background: #f8f9fa; height: 300px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #adb5bd;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">❓</div>
+                    <p style="font-size: 1.1rem; font-weight: 600;">Help & Support</p>
+                </div>
+                <p style="margin-top: 15px; color: #999; font-size: 0.8rem; text-align: center;">가이드를 따라하면 쉽게 설정할 수
+                    있습니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .faq-card:hover {
+        transform: translateX(10px);
+        border-color: #4285f4 !important;
+        background: #f8faff !important;
+    }
+
+    .faq-card:hover h4 {
+        color: #4285f4;
+    }
+</style>

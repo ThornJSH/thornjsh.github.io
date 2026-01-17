@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://thornjsh.github.io/</loc>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <!-- Main Sections -->
+  <url>
+    <loc>https://thornjsh.github.io/?page=스마트복지기술</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=사회복지사를 위한</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=With AI</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=Mini App</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=통계다루기</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=이런 것도 가능해요</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=FAQ</loc>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Smart Welfare Tech Subpages -->
+  <url>
+    <loc>https://thornjsh.github.io/?page=스마트워크</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=구글 스프레드시트</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=AI 활용 강좌</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=부산 스마트복지 실천기관</loc>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- For Social Workers Subpages -->
+  <url>
+    <loc>https://thornjsh.github.io/?page=가계도 그리기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=생태도 그리기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=PDF 플립북</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=표 스타일 정리 도구</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=후원신청서</loc>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- With AI Subpages -->
+  <url>
+    <loc>https://thornjsh.github.io/?page=AI Prompt Pro</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=SNS 홍보문 만들기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=문서 타당성 검토</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=인권 지향적 글쓰기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=Docs에서 AI 쓰기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=Sheet에서 AI 쓰기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=Slide에서 AI 쓰기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=후원 전략 컨설팅</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=챗봇, Chatbot</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=Ct 정서 예측 모델</loc>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Mini App Subpages -->
+  <url>
+    <loc>https://thornjsh.github.io/?page=윈도우 시계 설정</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=시간조건 파일 복사</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=엑셀 비밀번호 일괄변경</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=PDF MultiTool</loc>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Statistics Subpages -->
+  <url>
+    <loc>https://thornjsh.github.io/?page=기초 통계 분석</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=사전-사후 비교</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=IPA 분석(Excel)</loc>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Extras Subpages -->
+  <url>
+    <loc>https://thornjsh.github.io/?page=[게임] 아기하마 구하기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=크리에이티브 쇼케이스</loc>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- FAQ Subpages -->
+  <url>
+    <loc>https://thornjsh.github.io/?page=초기설정(권한 설정)</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=사본 만들기</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=API 키 만들기</loc>
+    <priority>0.6</priority>
+  </url>
+</urlset>
