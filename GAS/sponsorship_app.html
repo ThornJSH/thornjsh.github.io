@@ -1,0 +1,640 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 30px; text-align: center;">
+        <h2 style="font-size: 2rem; margin-bottom: 10px; color: #333;">후원 신청서</h2>
+        <p style="font-size: 1rem; color: #666;">따뜻한 마음을 나누어 주셔서 감사합니다. 아래 내용을 작성해 주세요.</p>
+    </div>
+
+    <form id="donationForm" class="styled-form">
+
+        <!-- 섹션 1: 기부자 정보 -->
+        <div class="form-section">
+            <h3 class="section-title">👤 기부자 정보</h3>
+            <div class="form-grid">
+                <!-- 이름 & 찾기 버튼 -->
+                <div class="form-group">
+                    <label for="name">이름 <span class="required">*</span></label>
+                    <div class="input-with-button">
+                        <input type="text" id="name" name="name" placeholder="성명을 입력하세요" required>
+                        <button type="button" onclick="autofillForm()" class="btn-check">기존정보 찾기</button>
+                    </div>
+                </div>
+
+                <!-- 성별 -->
+                <div class="form-group">
+                    <label>성별</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="gender" value="남"> <span>남자</span></label>
+                        <label class="radio-label"><input type="radio" name="gender" value="여"> <span>여자</span></label>
+                    </div>
+                </div>
+
+                <!-- 주민등록번호 -->
+                <div class="form-group full-width">
+                    <label>주민등록번호 <span class="required">*</span></label>
+                    <div class="ssn-group">
+                        <input type="text" id="ssn_a" name="ssn_a" maxlength="6" placeholder="앞 6자리">
+                        <span class="dash">-</span>
+                        <input type="password" id="ssn_b" name="ssn_b" maxlength="7" placeholder="뒤 7자리" required>
+                    </div>
+                </div>
+
+                <!-- 연락처 -->
+                <div class="form-group">
+                    <label for="cphone_n">휴대전화 <span class="required">*</span> <small>(숫자만)</small></label>
+                    <input type="text" id="cphone_n" name="cphone_n" maxlength="11" placeholder="01012345678">
+                </div>
+                <div class="form-group">
+                    <label for="phone_n">일반전화 <small>(숫자만)</small></label>
+                    <input type="text" id="phone_n" name="phone_n" maxlength="11" placeholder="021234567">
+                </div>
+
+                <!-- 주소 & 이메일 -->
+                <div class="form-group full-width">
+                    <label for="address">주소</label>
+                    <input type="text" id="address" name="address" placeholder="도로명 주소 등">
+                </div>
+                <div class="form-group full-width">
+                    <label for="e_mail">이메일</label>
+                    <input type="text" id="e_mail" name="e_mail" placeholder="example@email.com">
+                </div>
+            </div>
+        </div>
+
+        <!-- 섹션 2: 후원 상세 정보 -->
+        <div class="form-section">
+            <h3 class="section-title">💸 후원 상세 내용</h3>
+            <div class="form-grid">
+                <!-- 후원 방식 -->
+                <div class="form-group">
+                    <label>후원방식</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="s_term" value="정기"> <span>정기</span></label>
+                        <label class="radio-label"><input type="radio" name="s_term" value="비정기">
+                            <span>비정기</span></label>
+                    </div>
+                </div>
+
+                <!-- 후원 구분 -->
+                <div class="form-group">
+                    <label>후원구분</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="s_type" value="지정"> <span>지정</span></label>
+                        <label class="radio-label"><input type="radio" name="s_type" value="비지정">
+                            <span>비지정</span></label>
+                    </div>
+                </div>
+
+                <!-- 후원금 -->
+                <div class="form-group">
+                    <label for="s_money">후원금(원)</label>
+                    <input type="text" id="s_money" name="s_money" placeholder="금액 입력">
+                </div>
+
+                <!-- 후원 방법 -->
+                <div class="form-group full-width">
+                    <label>후원방법</label>
+                    <div class="radio-group wrap">
+                        <label class="radio-label"><input type="radio" name="s_how" value="자동이체">
+                            <span>자동이체</span></label>
+                        <label class="radio-label"><input type="radio" name="s_how" value="현금납부">
+                            <span>현금납부</span></label>
+                        <label class="radio-label"><input type="radio" name="s_how" value="CMS"> <span>CMS
+                                이체</span></label>
+                        <label class="radio-label"><input type="radio" name="s_how" value="기타"> <span>기타</span></label>
+                    </div>
+                </div>
+
+                <!-- 후원품 (복합 입력) -->
+                <div class="form-group full-width box-group">
+                    <label>후원품 (물품 후원 시 작성)</label>
+                    <div class="item-inputs">
+                        <input type="text" id="s_item" name="s_item" placeholder="품명">
+                        <input type="number" id="s_item_q" name="s_item_q" placeholder="수량">
+                        <select id="s_unit" name="s_unit">
+                            <option value="">단위 선택</option>
+                            <option value="개">개</option>
+                            <option value="세트">세트</option>
+                            <option value="Box">Box</option>
+                            <option value="건">건</option>
+                            <option value="Kg">Kg</option>
+                            <option value="명">명</option>
+                            <option value="포">포</option>
+                            <option value="g">g(그램)</option>
+                            <option value="리터">리터</option>
+                            <option value="대">대</option>
+                            <option value="장">장</option>
+                            <option value="통">통</option>
+                            <option value="판">판</option>
+                            <option value="병">병</option>
+                            <option value="마리">마리</option>
+                            <option value="봉지">봉지</option>
+                            <option value="팩">팩</option>
+                            <option value="묶음">묶음</option>
+                            <option value="그루">그루</option>
+                            <option value="송이">송이</option>
+                            <option value="포기">포기</option>
+                            <option value="자루">자루</option>
+                            <option value="인분">인분</option>
+                            <option value="짝">짝</option>
+                            <option value="포대">포대</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 후원분야 -->
+                <div class="form-group">
+                    <label for="s_sector">후원분야</label>
+                    <select id="s_sector" name="s_sector">
+                        <option value="">선택하세요</option>
+                        <option value="밑반찬지원">밑반찬지원</option>
+                        <option value="저소득노인 무료급식사업">저소득노인 무료급식사업</option>
+                        <option value="위기 및 취약노인 사업">위기 및 취약노인 사업</option>
+                        <option value="지역복지 연계사업">지역복지 연계사업</option>
+                        <option value="명절 정나눔 행사">명절 정나눔 행사</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 섹션 3: 설문 및 동의 -->
+        <div class="form-section">
+            <h3 class="section-title">📝 설문 및 동의</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="s_why">참여동기</label>
+                    <select id="s_why" name="s_why">
+                        <option value="">선택하세요</option>
+                        <option value="경제적 여유가 있어서">경제적 여유가 있어서</option>
+                        <option value="불우한 이웃을 돕기위해">불우한 이웃을 돕기위해</option>
+                        <option value="지역사회복지를 위해">지역사회복지를 위해</option>
+                        <option value="종교적 신념으로">종교적 신념으로</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="s_path">참여경로</label>
+                    <select id="s_path" name="s_path">
+                        <option value="">선택하세요</option>
+                        <option value="기존 후원자/자원봉사자 소개를 통해">기존 후원자/자원봉사자 소개를 통해</option>
+                        <option value="복지관 소식지나 안내물을 통해">복지관 소식지나 안내물을 통해</option>
+                        <option value="언론매체를 통해">언론매체를 통해(TV, 라디오, 신문 등)</option>
+                        <option value="특정 행사 및 기념일 축하">특정 행사 및 기념일 축하</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width checkbox-group">
+                    <label>후원금영수증 및 연말정산</label>
+                    <label class="check-label"><input type="checkbox" name="receipt1" value="후원금영수증 필요"> <span>후원금 영수증
+                            발급 필요</span></label>
+                    <label class="check-label"><input type="checkbox" name="receipt2" value="국세청 연말정산 간소화 후원내역 제공 동의">
+                        <span>국세청 연말정산 간소화 자료 제공 동의</span></label>
+                </div>
+
+                <div class="form-group">
+                    <label for="a_date">신청일자</label>
+                    <input type="date" id="a_date" name="a_date">
+                </div>
+            </div>
+        </div>
+
+        <!-- 섹션 4: 서명 -->
+        <div class="form-section">
+            <h3 class="section-title">✍️ 서명</h3>
+            <div class="signature-container">
+                <canvas id="sig"></canvas>
+                <button type="button" id="clearSig" class="btn-clear">다시 쓰기</button>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" onclick="submitData()" class="btn-submit">후원 신청하기</button>
+            <p class="submit-note">※ 제출 완료까지 약간의 시간이 소요될 수 있습니다.</p>
+        </div>
+
+    </form>
+
+    <div id="loadingMessage" class="status-overlay">
+        <div class="spinner"></div>
+        <p>데이터를 검색하고 있습니다...</p>
+    </div>
+    <div id="savingMessage" class="status-overlay">
+        <div class="spinner"></div>
+        <p>신청서를 안전하게 저장 중입니다...</p>
+    </div>
+</div>
+
+<style>
+    /* 로컬 스타일 정의 (style.css로 이동 권장) */
+    .styled-form {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-section {
+        margin-bottom: 40px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 30px;
+    }
+
+    .form-section:last-child {
+        border-bottom: none;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        color: #4285f4;
+        margin-bottom: 20px;
+        border-left: 4px solid #4285f4;
+        padding-left: 10px;
+        font-weight: 700;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px 30px;
+    }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .styled-form {
+            padding: 20px;
+        }
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #444;
+    }
+
+    .required {
+        color: #ea4335;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="email"],
+    input[type="date"],
+    select {
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #4285f4;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+
+    /* Input with Button */
+    .input-with-button {
+        display: flex;
+        gap: 10px;
+    }
+
+    .input-with-button input {
+        flex: 1;
+    }
+
+    .btn-check {
+        padding: 0 15px;
+        background: #f1f3f4;
+        border: 1px solid #dcdcdc;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #555;
+        white-space: nowrap;
+    }
+
+    .btn-check:hover {
+        background: #e8eaed;
+    }
+
+    /* SSN Group */
+    .ssn-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .ssn-group input {
+        width: 120px;
+        text-align: center;
+        letter-spacing: 2px;
+    }
+
+    .dash {
+        color: #999;
+    }
+
+    /* Radio Group */
+    .radio-group {
+        display: flex;
+        gap: 20px;
+        padding: 10px 0;
+    }
+
+    .radio-group.wrap {
+        flex-wrap: wrap;
+    }
+
+    .radio-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+    }
+
+    .radio-label input {
+        accent-color: #4285f4;
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Item Inputs */
+    .item-inputs {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 10px;
+    }
+
+    /* Checkbox Group */
+    .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .check-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+    }
+
+    .check-label input {
+        width: 18px;
+        height: 18px;
+        accent-color: #4285f4;
+    }
+
+    /* Signature */
+    .signature-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #sig {
+        background: #f8f9fa;
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        cursor: crosshair;
+        width: 100%;
+        max-width: 500px;
+        height: 250px;
+    }
+
+    .btn-clear {
+        padding: 8px 16px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #666;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    /* Submit Button */
+    .form-actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-submit {
+        background: #4285f4;
+        color: white;
+        border: none;
+        padding: 15px 50px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+    }
+
+    .submit-note {
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #888;
+    }
+
+    /* Overlay */
+    .status-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 9999;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@5.0.3/dist/signature_pad.umd.min.js"></script>
+<script>
+    var signaturePad;
+
+    function setupSignatureBox() {
+        var canvas = document.getElementById("sig");
+
+        // 반응형 캔버스 리사이징
+        function resizeCanvas() {
+            var ratio = Math.max(window.devicePixelRatio || 1, 1);
+            // 캔버스 너비는 부모 컨테이너에 맞춤, 최대 500px 대략
+            var containerWidth = canvas.parentElement.offsetWidth;
+            canvas.width = Math.min(containerWidth, 500) * ratio;
+            canvas.height = 250 * ratio; // 높이 고정
+            canvas.getContext("2d").scale(ratio, ratio);
+
+            // CSS 사이즈 조정
+            canvas.style.width = Math.min(containerWidth, 500) + "px";
+            canvas.style.height = "250px";
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        signaturePad = new SignaturePad(canvas);
+    }
+
+    function clearSignature() {
+        signaturePad.clear();
+    }
+
+    function submitData() {
+        const form = document.getElementById('donationForm');
+        const formData = new FormData(form);
+
+        // 필수 입력 필드 확인
+        if (!formData.get('name') || !formData.get('ssn_a') || !formData.get('ssn_b') || !formData.get('cphone_n') || signaturePad.isEmpty()) {
+            alert('성명, 주민등록번호, 연락처, 서명은 필수 입력 항목입니다.');
+            return;
+        }
+
+        const data = {
+            name: formData.get('name'),
+            gender: formData.get('gender'),
+            ssn_a: formData.get('ssn_a'),
+            ssn_b: formData.get('ssn_b'),
+            cphone_n: formData.get('cphone_n'),
+            phone_n: formData.get('phone_n'),
+            address: formData.get('address'),
+            e_mail: formData.get('e_mail'),
+            s_term: formData.get('s_term'),
+            s_type: formData.get('s_type'),
+            s_money: formData.get('s_money'),
+            s_how: formData.get('s_how'),
+            s_item: formData.get('s_item'),
+            s_item_q: formData.get('s_item_q'),
+            s_unit: formData.get('s_unit'),
+            s_sector: formData.get('s_sector'),
+            s_why: formData.get('s_why'),
+            s_path: formData.get('s_path'),
+            receipt1: formData.get('receipt1') ? '필요' : '불필요',
+            receipt2: formData.get('receipt2') ? '동의' : '미동의',
+            a_date: formData.get('a_date'),
+            signature: signaturePad.toDataURL()
+        };
+
+        const savingMsg = document.getElementById('savingMessage');
+        savingMsg.style.display = 'flex'; // 저장 중 메시지 표시
+
+        // Check availability of google.script.run
+        if (typeof google === 'undefined' || typeof google.script === 'undefined') {
+            console.warn('google.script.run is unavailable. Running in simulation mode.');
+            setTimeout(() => {
+                savingMsg.style.display = 'none';
+                alert('[시뮬레이션] 데이터가 성공적으로 저장되었습니다.\n(실제 저장되려면 Google Apps Script 환경이 필요합니다)');
+            }, 1500);
+            return;
+        }
+
+        google.script.run.withSuccessHandler(() => {
+            savingMsg.style.display = 'none';
+            alert('데이터가 성공적으로 저장되었습니다.');
+        }).withFailureHandler(error => {
+            savingMsg.style.display = 'none';
+            console.error('Error:', error);
+            alert('데이터 저장 중 오류가 발생했습니다. 다시 입력해주세요.');
+        }).sendUserData(
+            data.name, data.gender, data.ssn_a, data.ssn_b, data.cphone_n, data.phone_n,
+            data.address, data.e_mail, data.s_term, data.s_type, data.s_money, data.s_how,
+            data.s_item, data.s_item_q, data.s_unit, data.s_sector, data.s_why, data.s_path,
+            data.receipt1, data.receipt2, data.a_date, data.signature
+        );
+    }
+
+    function autofillForm() {
+        const name = document.getElementById('name').value;
+        const loadingMsg = document.getElementById('loadingMessage');
+        loadingMsg.style.display = 'flex'; // 로딩 메시지 표시
+
+        if (typeof google === 'undefined' || typeof google.script === 'undefined') {
+            setTimeout(() => {
+                loadingMsg.style.display = 'none';
+                alert('[시뮬레이션] 해당 이름의 데이터를 찾을 수 없습니다.\n(실제 검색하려면 Google Apps Script 환경이 필요합니다)');
+            }, 1000);
+            return;
+        }
+
+        google.script.run.withSuccessHandler(fillForm).getUserDataByName(name);
+    }
+
+    function fillForm(data) {
+        document.getElementById('loadingMessage').style.display = 'none'; // 로딩 메시지 숨기기
+        if (data) {
+            document.getElementById('ssn_a').value = data.ssn_a;
+            document.getElementById('address').value = data.address;
+            document.getElementById('cphone_n').value = data.cphone_n;
+            document.getElementById('phone_n').value = data.phone_n;
+
+            // 성별 필드 업데이트
+            if (data.gender === '남') {
+                document.querySelector('input[name="gender"][value="남"]').checked = true;
+            } else if (data.gender === '여') {
+                document.querySelector('input[name="gender"][value="여"]').checked = true;
+            }
+        } else {
+            alert('해당 이름의 데이터를 찾을 수 없습니다.');
+        }
+    }
+
+    document.getElementById("clearSig").addEventListener("click", clearSignature);
+
+    // 서명 패드 초기화는 DOM이 로드된 후 실행
+    // loadModule로 불러올 경우를 대비해 약간의 지연 또는 직접 호출 고려
+    setTimeout(setupSignatureBox, 100); 
+</script>
