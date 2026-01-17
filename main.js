@@ -121,6 +121,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/faq-make-copy.html');
     } else if (pageName === 'API 키 만들기' || pageName === 'Create API Key') {
         await loadModule('page-body', '/faq-api-key.html');
+    } else if (pageName === 'Q&A (질문과 답변)' || pageName === 'Q&A') {
+        await loadModule('page-body', '/qna.html');
     }
     else {
         // 다른 메뉴의 경우 임시 자리표시자
