@@ -503,3 +503,30 @@ body {
     box-sizing: border-box;
   }
 }
+
+/* Responsive Grid Utility Classes */
+.responsive-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 450px;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 50px;
+}
+
+.responsive-half-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 900px) {
+  .responsive-intro-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .responsive-half-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
