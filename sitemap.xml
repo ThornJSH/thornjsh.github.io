@@ -172,4 +172,8 @@
     <loc>https://thornjsh.github.io/?page=API 키 만들기</loc>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://thornjsh.github.io/?page=Q&amp;A (질문과 답변)</loc>
+    <priority>0.6</priority>
+  </url>
 </urlset>
