@@ -54,7 +54,8 @@ export function initMenu() {
         const dropdownBox = this.nextElementSibling;
         const isDropdownLink = dropdownBox && dropdownBox.classList.contains('dropdown-content');
 
-        if (this.getAttribute('href') === '#') {
+        const href = this.getAttribute('href');
+        if (href === '#' || href.startsWith('?page=')) {
           e.preventDefault();
         }
 
