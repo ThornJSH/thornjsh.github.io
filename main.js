@@ -55,6 +55,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/pdf_flipbook.html');
     } else if (pageName === '표 스타일 정리 도구' || pageName === 'Table Styler') {
         await loadModule('page-body', '/table_styler.html');
+    } else if (pageName === 'GPS를 활용한 출퇴근관리' || pageName === 'GPS Attendance Management') {
+        await loadModule('page-body', '/gps-attendance.html');
     } else if (pageName === '후원신청서' || pageName === 'Sponsorship Form') {
         await loadModule('page-body', '/sponsorship_form.html');
     }

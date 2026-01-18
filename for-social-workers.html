@@ -58,19 +58,33 @@
     <!-- 하위 메뉴 바로가기 (예시) -->
     <div class="tool-list-preview"
         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-        <div class="tool-card" style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center;">
+        <div class="tool-card"
+            style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer;"
+            onclick="loadContent('가계도 그리기'); updatePageTitle('가계도 그리기');">
             <h4 style="margin-bottom: 10px;">가계도/생태도 그리기</h4>
             <p style="font-size: 0.9rem; color: #666;">클라이언트 관계망 시각화 도구 (.exe / Web)</p>
         </div>
-        <div class="tool-card" style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center;">
+        <div class="tool-card"
+            style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer;"
+            onclick="loadContent('PDF 플립북'); updatePageTitle('PDF 플립북');">
             <h4 style="margin-bottom: 10px;">PDF 플립북</h4>
             <p style="font-size: 0.9rem; color: #666;">PDF 문서를 E-Book 형태의 HTML로 변환</p>
         </div>
-        <div class="tool-card" style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center;">
+        <div class="tool-card"
+            style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer;"
+            onclick="loadContent('표 스타일 정리 도구'); updatePageTitle('표 스타일 정리 도구');">
             <h4 style="margin-bottom: 10px;">표 스타일 정리</h4>
             <p style="font-size: 0.9rem; color: #666;">복잡한 한글/워드 표 스타일 일괄 정돈</p>
         </div>
-        <div class="tool-card" style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center;">
+        <div class="tool-card"
+            style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer;"
+            onclick="loadContent('GPS를 활용한 출퇴근관리'); updatePageTitle('GPS를 활용한 출퇴근관리');">
+            <h4 style="margin-bottom: 10px;">GPS 출퇴근관리</h4>
+            <p style="font-size: 0.9rem; color: #666;">GPS 기반 스마트 출퇴근 관리 시스템</p>
+        </div>
+        <div class="tool-card"
+            style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer;"
+            onclick="loadContent('후원신청서'); updatePageTitle('후원신청서');">
             <h4 style="margin-bottom: 10px;">후원신청서</h4>
             <p style="font-size: 0.9rem; color: #666;">스마트한 후원 관리 및 신청서 생성</p>
         </div>

@@ -139,20 +139,24 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
                     <div>
                         <p style="font-size: 1.05rem; line-height: 1.8; color: #444; margin-bottom: 15px;">
-                            구글 앱스 스크립트(GAS)를 활용하여 정해진 위치 범위 내에서만 출근 등록이 가능하게 구현한 시스템입니다.
+                            스마트폰의 GPS 정보를 활용하여 <strong>지정된 근무지 반경 내에서만</strong> 원터치로 출퇴근을 기록하고, 이를 구급 스프레드시트에 실시간으로 저장하는
+                            시스템입니다.
                         </p>
                         <ul style="color: #555; padding-left: 20px; font-size: 0.95rem; line-height: 1.8;">
-                            <li>모바일 위치 정보를 연동한 부정 출근 방지</li>
-                            <li>버튼 클릭 한 번으로 시간과 좌표 기록</li>
-                            <li>현장 근무가 많은 사회복지 시설에 최적화</li>
+                            <li><strong>정교한 위치 검증:</strong> 설정된 위경도 좌표 기준 100m 이내에서만 기록 가능</li>
+                            <li><strong>보안 수준 강화:</strong> 30초 유효 토큰(OTT) 및 5분 이내 중복 기록 차단</li>
+                            <li><strong>다양한 모드 지원:</strong> QR코드 전용 uid 접속, 자동 출퇴근 판단 모드 등</li>
+                            <li><strong>다중 근무지 관리:</strong> 한 명의 사용자가 여러 장소에 등록 시 자동 매칭</li>
                         </ul>
                     </div>
                     <div
                         style="text-align: center; background: #f8f9fa; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #eee;">
-                        <p style="font-weight: 600; color: #444; margin-bottom: 15px;">활용 기술</p>
+                        <p style="font-weight: 600; color: #444; margin-bottom: 15px;">활용 기술 및 도구</p>
                         <code
-                            style="background: #e9ecef; padding: 10px; border-radius: 6px; color: #e8590c; font-weight: bold; margin-bottom: 20px;">Google Apps Script (GAS)</code>
-                        <div style="color: #666; font-size: 0.85rem;">(상세 내용 준비 중)</div>
+                            style="background: #e9ecef; padding: 10px; border-radius: 6px; color: #e8590c; font-weight: bold; margin-bottom: 20px;">Google Apps Script + Spreadsheet</code>
+                        <a href="#" onclick="window.loadContent('GPS를 활용한 출퇴근관리'); window.scrollTo(0, 0); return false;"
+                            style="display: inline-block; padding: 12px 20px; background: #fd7e14; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">자세히
+                            보기 & 매뉴얼 확인 ↗</a>
                     </div>
                 </div>
             </div>

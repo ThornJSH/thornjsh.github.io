@@ -1,0 +1,128 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 20px; color: #000;">GPS를 활용한 출퇴근관리</h2>
+    </div>
+
+    <!-- 상단 레이아웃: 설명 + 이미지(아이콘) -->
+    <div class="main-layout responsive-intro-grid">
+
+        <!-- 왼쪽: 설명 및 특징 -->
+        <div class="content-column">
+            <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 30px;">
+                구글 스프레드시트와 Apps Script를 활용한 <strong>스마트 근태 관리 시스템</strong>입니다.
+                GPS 정보를 활용하여 정해진 근무지 반경 내에서만 출퇴근 기록이 가능하며, 보안 토큰을 통해 부정 기록을 방지합니다.
+            </p>
+
+            <div class="feature-list" style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px;">
+                <div class="feature-item"
+                    style="display: flex; gap: 15px; align-items: flex-start; padding: 15px; background: #fff; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                    <div style="font-size: 1.5rem;">📍</div>
+                    <div>
+                        <h4 style="margin: 0 0 5px 0;">GPS 기반 위치 검증</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: #666;">등록된 근무지 반경 100m 이내에서만 기록을 허용하여 실제 현장 출근을
+                            보장합니다.</p>
+                    </div>
+                </div>
+                <div class="feature-item"
+                    style="display: flex; gap: 15px; align-items: flex-start; padding: 15px; background: #fff; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                    <div style="font-size: 1.5rem;">🏢</div>
+                    <div>
+                        <h4 style="margin: 0 0 5px 0;">다중 근무지 지원</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: #666;">하나의 ID로 여러 근무지를 등록할 수 있으며, 현재 위치에서 가장 가까운
+                            곳을 자동 매칭합니다.</p>
+                    </div>
+                </div>
+                <div class="feature-item"
+                    style="display: flex; gap: 15px; align-items: flex-start; padding: 15px; background: #fff; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                    <div style="font-size: 1.5rem;">🔒</div>
+                    <div>
+                        <h4 style="margin: 0 0 5px 0;">강력한 보안 및 중복 방지</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: #666;">30초 유효한 일회성 토큰(OTT)과 5분 이내 중복 기록 차단 기능으로
+                            데이터의 신뢰성을 높입니다.</p>
+                    </div>
+                </div>
+                <div class="feature-item"
+                    style="display: flex; gap: 15px; align-items: flex-start; padding: 15px; background: #fff; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                    <div style="font-size: 1.5rem;">🔄</div>
+                    <div>
+                        <h4 style="margin: 0 0 5px 0;">스마트 토글 모드</h4>
+                        <p style="margin: 0; font-size: 0.9rem; color: #666;">사용자의 당일 기록 유무를 파악하여 출근 또는 퇴근을 자동으로 판단하여
+                            기록합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px;">
+                <a href="https://docs.google.com/spreadsheets/d/1hWNkIvCC_OjWTfJdWrWyWtUO3gWUXRAt8gCx-jolC5g/copy"
+                    target="_blank"
+                    style="padding: 12px 30px; background: #4285f4; color: #fff; text-decoration: none; border-radius: 30px; font-weight: 700; box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);">
+                    사본 만들기 &rarr;
+                </a>
+                <a href="https://script.google.com/macros/s/AKfycbzALIN5VqMh0JLgtI0HrXTbcJogO5wa7iswlNtAQIf9yzgxs5DVM6Kyi_cyjOSYg6w/exec"
+                    target="_blank"
+                    style="padding: 12px 30px; background: #fff; color: #4285f4; text-decoration: none; border: 1px solid #4285f4; border-radius: 30px; font-weight: 700;">
+                    실행 예시 &rarr;
+                </a>
+                <a href="https://docs.google.com/document/d/17rIENGjU48G-79-zJCRnuHEbVUl4bk0Q6uhG_33-Sls/edit?usp=sharing"
+                    target="_blank"
+                    style="padding: 12px 30px; background: #fff; color: #34a853; text-decoration: none; border: 1px solid #34a853; border-radius: 30px; font-weight: 700;">
+                    사용 설명서 &rarr;
+                </a>
+            </div>
+
+            <div class="guide-container"
+                style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; margin-bottom: 30px;">
+                <h4 style="margin-top: 0; margin-bottom: 15px;">🚀 빠른 시작 가이드</h4>
+                <ol style="padding-left: 20px; color: #555; font-size: 0.95rem; line-height: 1.7;">
+                    <li>위 버튼을 눌러 스프레드시트 <strong>사본을 생성</strong>합니다.</li>
+                    <li>시트 내 <strong>[확장 프로그램] > [Apps Script]</strong>를 실행합니다.</li>
+                    <li>스크립트 에디터에서 <strong>[배포] > [새 배포]</strong>를 선택합니다.</li>
+                    <li>웹앱 URL을 생성한 후 직원들에게 QR코드나 링크로 배포하세요.</li>
+                </ol>
+                <div
+                    style="margin-top: 15px; padding: 15px; background: #fff8e1; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <p style="margin: 0; font-size: 0.85rem; color: #856404;">
+                        <strong>Tip:</strong> QR 접속 시 URL 뒤에 <code>?uid=사용자ID</code>를 붙이면 ID 입력 없이 바로 기록 페이지로 연결됩니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 오른쪽: 스크린샷 및 안내 사항 -->
+        <div class="screenshot-column">
+            <div class="screenshot-container" style="margin-bottom: 20px;">
+                <img src="images/gps_attn.png" alt="GPS 출퇴근관리 화면"
+                    style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #ddd;">
+                <p style="margin-top: 10px; color: #888; font-size: 0.85rem; text-align: center;">출퇴근 기록 화면 예시</p>
+            </div>
+            <div class="screenshot-container" style="margin-bottom: 20px;">
+                <img src="images/gps_attn_reg.png" alt="직원 등록 화면"
+                    style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #ddd;">
+                <p style="margin-top: 10px; color: #888; font-size: 0.85rem; text-align: center;">직원 및 근무지 등록 화면</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단: 접속 모드 안내 -->
+    <div class="additional-info" style="background: #f8f9fa; padding: 30px; border-radius: 12px; margin-top: 40px;">
+        <h4 style="margin-top: 0; margin-bottom: 20px;">다양한 접속 모드 (Router 기능)</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div style="padding: 15px; background: #fff; border-radius: 8px; border: 1px solid #eee;">
+                <code style="color: #d81b60; font-weight: bold;">/exec</code>
+                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #777;">일반 접속 및 수동 입력</p>
+            </div>
+            <div style="padding: 15px; background: #fff; border-radius: 8px; border: 1px solid #eee;">
+                <code style="color: #d81b60; font-weight: bold;">?uid=사용자ID</code>
+                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #777;">QR코드 전용 접속</p>
+            </div>
+            <div style="padding: 15px; background: #fff; border-radius: 8px; border: 1px solid #eee;">
+                <code style="color: #d81b60; font-weight: bold;">?mode=출근</code>
+                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #777;">자동 출근 모드</p>
+            </div>
+            <div style="padding: 15px; background: #fff; border-radius: 8px; border: 1px solid #eee;">
+                <code style="color: #d81b60; font-weight: bold;">?action=register</code>
+                <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #777;">신규 직원 등록 페이지</p>
+            </div>
+        </div>
+    </div>
+</div>
