@@ -17,6 +17,8 @@ export function updatePageTitle(title) {
     if (titleElement) {
         titleElement.textContent = title;
     }
+    // 브라우저 탭 제목도 업데이트 (AdSense 크롤러 및 SEO)
+    document.title = `${title} : Smart Welfare Tech`;
 }
 
 // 컨텐츠 로드 함수 추가
@@ -149,6 +151,14 @@ async function init() {
     }
 
     initMenu();
+
+    // 뒤로가기/앞으로가기 버튼 대응
+    window.addEventListener('popstate', (event) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageParam = urlParams.get('page') || '홈';
+        loadContent(pageParam);
+        updatePageTitle(pageParam);
+    });
 
     // URL 파라미터 처리 (?page=...)
     const urlParams = new URLSearchParams(window.location.search);

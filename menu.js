@@ -58,9 +58,15 @@ export function initMenu() {
           e.preventDefault();
         }
 
+        // URL 업데이트 (History API)
+        const pageName = this.textContent.trim();
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('page', pageName);
+        window.history.pushState({ page: pageName }, '', currentUrl);
+
         // 제목 및 컨텐츠 업데이트
-        window.updatePageTitle(this.textContent);
-        window.loadContent(this.textContent);
+        window.updatePageTitle(pageName);
+        window.loadContent(pageName);
 
         document.querySelectorAll('.dropdown-content').forEach(el => {
           if (el !== dropdownBox) {
