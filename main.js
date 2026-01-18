@@ -18,7 +18,25 @@ export function updatePageTitle(title) {
         titleElement.textContent = title;
     }
     // 브라우저 탭 제목도 업데이트 (AdSense 크롤러 및 SEO)
-    document.title = `${title} : Smart Welfare Tech`;
+    const fullTitle = `${title} : Smart Welfare Tech`;
+    document.title = fullTitle;
+
+    // OG Title 및 Meta Description 동적 업데이트
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', fullTitle);
+
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitle) twitterTitle.setAttribute('content', fullTitle);
+
+    // 페이지 이름에 따라 설명문 최적화 (간단 예시)
+    const description = document.querySelector('meta[name="description"]');
+    if (description) {
+        let content = `Smart Welfare Tech - ${title}: 사회복지 현장을 위한 AI 및 디지털 전환 가이드`;
+        description.setAttribute('content', content);
+
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute('content', content);
+    }
 }
 
 // 컨텐츠 로드 함수 추가
