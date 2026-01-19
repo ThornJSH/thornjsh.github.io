@@ -17,45 +17,6 @@ export function updatePageTitle(title) {
     if (titleElement) {
         titleElement.textContent = title;
     }
-    // 브라우저 탭 제목도 업데이트 (AdSense 크롤러 및 SEO)
-    const fullTitle = `${title} : Smart Welfare Tech`;
-    document.title = fullTitle;
-
-    // OG Title 및 Meta Description 동적 업데이트
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', fullTitle);
-
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitle) twitterTitle.setAttribute('content', fullTitle);
-
-    // 페이지 이름에 따라 설명문 최적화 (간단 예시)
-    const description = document.querySelector('meta[name="description"]');
-    if (description) {
-        let content = `Smart Welfare Tech - ${title}: 사회복지 현장을 위한 AI 및 디지털 전환 가이드`;
-        description.setAttribute('content', content);
-
-        const ogDesc = document.querySelector('meta[property="og:description"]');
-        if (ogDesc) ogDesc.setAttribute('content', content);
-    }
-
-    // Canonical 태그 업데이트
-    let canonical = document.getElementById('canonical-link');
-    if (!canonical) {
-        canonical = document.createElement('link');
-        canonical.id = 'canonical-link';
-        canonical.rel = 'canonical';
-        document.head.appendChild(canonical);
-    }
-
-    // 현재 URL 구성을 유지하되 파라미터를 정확히 반영
-    const currentUrl = new URL(window.location.href);
-    if (title === '홈' || title === 'Home') {
-        canonical.setAttribute('href', 'https://thornjsh.github.io/');
-    } else {
-        // 공백 처리 등을 고려하여 정확한 파라미터 URL 생성
-        const canonicalUrl = `https://thornjsh.github.io/?page=${encodeURIComponent(title)}`;
-        canonical.setAttribute('href', canonicalUrl);
-    }
 }
 
 // 컨텐츠 로드 함수 추가
@@ -70,8 +31,6 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/smart-welfare-tech.html');
     } else if (pageName === '구글 스프레드시트' || pageName === 'Google Sheets') {
         await loadModule('page-body', '/smartwork-google-sheets.html');
-    } else if (pageName === 'DX 스프레드 시트 예제' || pageName === 'DX Spreadsheet Examples' || pageName === '스프레드 시트 예제' || pageName === 'Spreadsheet Examples') {
-        await loadModule('page-body', '/sheets-examples.html');
     } else if (pageName === '스마트워크' || pageName === 'Smart Work') {
         await loadModule('page-body', '/smart-work.html');
     } else if (pageName === 'AI 활용 강좌' || pageName === 'AI Courses') {
@@ -94,8 +53,6 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/pdf_flipbook.html');
     } else if (pageName === '표 스타일 정리 도구' || pageName === 'Table Styler') {
         await loadModule('page-body', '/table_styler.html');
-    } else if (pageName === 'GPS를 활용한 출퇴근관리' || pageName === 'GPS Attendance Management') {
-        await loadModule('page-body', '/gps-attendance.html');
     } else if (pageName === '후원신청서' || pageName === 'Sponsorship Form') {
         await loadModule('page-body', '/sponsorship_form.html');
     }
@@ -162,8 +119,6 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/faq-make-copy.html');
     } else if (pageName === 'API 키 만들기' || pageName === 'Create API Key') {
         await loadModule('page-body', '/faq-api-key.html');
-    } else if (pageName === 'Q&A (질문과 답변)' || pageName === 'Q&A') {
-        await loadModule('page-body', '/qna.html');
     }
     else {
         // 다른 메뉴의 경우 임시 자리표시자
@@ -177,43 +132,15 @@ export async function loadContent(pageName) {
 }
 
 async function init() {
-    const header = document.getElementById('header');
-    if (header && !header.innerHTML.trim()) {
-        await loadModule('header', '/header.html');
-    }
-
-    const footer = document.getElementById('footer');
-    if (footer && !footer.innerHTML.trim()) {
-        await loadModule('footer', '/footer.html');
-    }
+    await Promise.all([
+        loadModule('header', '/header.html'),
+        loadModule('footer', '/footer.html')
+    ]);
 
     initMenu();
 
-    // 뒤로가기/앞으로가기 버튼 대응
-    window.addEventListener('popstate', (event) => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const pageParam = urlParams.get('page') || '홈';
-        loadContent(pageParam);
-        updatePageTitle(pageParam);
-    });
-
-    // URL 파라미터 처리 (?page=...)
-    const urlParams = new URLSearchParams(window.location.search);
-    const pageParam = urlParams.get('page');
-
-    if (pageParam) {
-        // 파라미터가 있으면 해당 페이지 로드
-        loadContent(pageParam);
-        updatePageTitle(pageParam);
-    } else {
-        // 파라미터가 없으면 기본값(홈) 로드 로직
-        const pageBody = document.getElementById('page-body');
-        const hasStaticHome = pageBody && pageBody.querySelector('.home-container');
-
-        if (!hasStaticHome) {
-            loadContent('홈');
-        }
-    }
+    // 초기 로딩 시 홈 컨텐츠 로드
+    loadContent('홈');
 }
 
 document.addEventListener('DOMContentLoaded', init);
