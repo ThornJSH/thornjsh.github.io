@@ -5,7 +5,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Welfare Tech: 사회복지사의 AI 활용 및 실무 도구</title>
-  <link rel="canonical" id="canonical-link" href="https://thornjsh.github.io/">
+  <!-- Canonical Tag (Dynamic for SPA) -->
+  <script>
+    (function () {
+      var link = document.createElement('link');
+      link.rel = 'canonical';
+      link.id = 'canonical-link';
+      var urlParams = new URLSearchParams(window.location.search);
+      var page = urlParams.get('page');
+      if (page) {
+        link.href = 'https://thornjsh.github.io/?page=' + encodeURIComponent(page);
+      } else {
+        link.href = 'https://thornjsh.github.io/';
+      }
+      document.head.appendChild(link);
+    })();
+  </script>
   <link rel="stylesheet" href="style.css">
   <meta name="description"
     content="사회복지 현장의 디지털 전환과 AI 기술 활용을 돕는 정수홍의 포트폴리오입니다. 가계도, 생태도, GPS 출퇴근 관리 등 실무 도구와 AI 가이드를 확인하세요.">
