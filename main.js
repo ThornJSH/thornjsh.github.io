@@ -163,6 +163,11 @@ export async function loadContent(pageName) {
     else if (pageName === '바이브 코딩(활용팁)' || pageName === '바이브 코딩(꿀팁)' || pageName === 'Vibe Coding: Tips') {
         await loadModule('page-body', '/vibe-coding-tips.html');
     }
+    else if (pageName === '열매똑똑 아이디어 HUB' || pageName === 'Idea HUB') {
+        await loadModule('page-body', '/idea-hub.html');
+        // 페이지 로딩 시 새 창으로 자동 이동 (브라우저 팝업 차단에 주의)
+        window.open('https://script.google.com/macros/s/AKfycbyPLnlrTM2-0tNy-O9fQj5eoVNC9oytxkCDBzIy094CJyYJsdJ5S9XFsbqnT194tovJ/exec', '_blank');
+    }
     else if (pageName === '초기설정(권한 설정)' || pageName === 'Initial Setting') {
         await loadModule('page-body', '/faq-permission.html');
     } else if (pageName === '사본 만들기' || pageName === 'Make a Copy') {
