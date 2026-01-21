@@ -156,6 +156,13 @@ export async function loadContent(pageName) {
     else if (pageName === 'FAQ') {
         await loadModule('page-body', '/faq.html');
     }
+    // Vibe Coding
+    else if (pageName === '바이브 코딩(철학)' || pageName === 'Vibe Coding: Philosophy') {
+        await loadModule('page-body', '/vibe-coding-philosophy.html');
+    }
+    else if (pageName === '바이브 코딩(활용팁)' || pageName === '바이브 코딩(꿀팁)' || pageName === 'Vibe Coding: Tips') {
+        await loadModule('page-body', '/vibe-coding-tips.html');
+    }
     else if (pageName === '초기설정(권한 설정)' || pageName === 'Initial Setting') {
         await loadModule('page-body', '/faq-permission.html');
     } else if (pageName === '사본 만들기' || pageName === 'Make a Copy') {
