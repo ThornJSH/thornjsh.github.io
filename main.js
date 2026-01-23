@@ -74,6 +74,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/sheets-examples.html');
     } else if (pageName === '스마트워크' || pageName === 'Smart Work') {
         await loadModule('page-body', '/smart-work.html');
+    } else if (pageName === 'DX Docs 매뉴얼' || pageName === 'DX Docs Manuals') {
+        await loadModule('page-body', '/docs-manuals.html');
     } else if (pageName === 'AI 활용 강좌' || pageName === 'AI Courses') {
         await loadModule('page-body', '/ai-courses.html');
     } else if (pageName === '부산 스마트복지 실천기관' || pageName === 'Practice Agencies' || pageName === 'Busan Smart Welfare Agencies') {
@@ -98,6 +100,9 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/gps-attendance.html');
     } else if (pageName === '후원신청서' || pageName === 'Sponsorship Form') {
         await loadModule('page-body', '/sponsorship_form.html');
+    }
+    else if (pageName === '사회복지시설 공통업무 캘린더' || pageName === 'Common Work Calendar') {
+        await loadModule('page-body', '/social-worker-calendar.html');
     }
     // With AI 세부 항목
     else if (pageName === 'AI Prompt Pro') {
