@@ -110,13 +110,31 @@
         <!-- 4. 프롬프트 입력 -->
         <section class="guide-step">
             <h3 style="border-left: 5px solid #6e8efb; padding-left: 15px; margin-bottom: 20px;">4. 프롬프트 입력 예시</h3>
+
+            <!-- (추가) 간단 프롬프트 -->
             <div
-                style="background: #f0f7ff; padding: 25px; border-radius: 15px; border: 1px solid #cfe2ff; position: relative;">
+                style="background: #f8f9fa; padding: 25px; border-radius: 15px; border: 1px solid #eee; position: relative; margin-bottom: 25px;">
                 <div
-                    style="position: absolute; top: -10px; right: 20px; background: #004085; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
-                    추천 프롬프트</div>
+                    style="position: absolute; top: -10px; right: 20px; background: #6c757d; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
+                    간단 프롬프트</div>
                 <code
-                    style="display: block; white-space: pre-wrap; line-height: 1.6; color: #004085; font-family: inherit;">당신은 <strong>전략 컨설팅 펌의 프레젠테이션 디자이너이자 콘텐츠 전략가</strong>입니다.
+                    style="display: block; white-space: pre-wrap; line-height: 1.6; color: #444; font-family: inherit;">전략 컨설팅 전문가로서 첨부된 NotebookLM 데이터를 분석하여, 현대적이고 전문적인 비즈니스 스타일의 슬라이드 구성을 제안해줘.
+각 슬라이드에는 명확한 문장형 제목, 3~5개의 핵심 불렛 포인트, 발표자용 강조 인사이트를 포함해줘.
+데이터에 최적화된 차트(폭포형, 파이 등)와 인포그래픽 배치를 구체적으로 묘사하고, 전체 내용을 한글로 작성해줘.</code>
+            </div>
+
+            <!-- (수정) 추천 프롬프트: 클릭해야 나타나도록 변경 -->
+            <details style="border-radius: 15px; border: 1px solid #cfe2ff; overflow: hidden; background: #f0f7ff;">
+                <summary
+                    style="padding: 20px 25px; cursor: pointer; color: #004085; font-weight: bold; list-style: none; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cfe2ff; background: #e7f3ff; transition: background 0.3s;">
+                    <span style="display: flex; align-items: center; gap: 10px;">🚀 추천 프롬프트 (더 세밀한 설정)</span>
+                    <span
+                        style="background: #004085; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem;">클릭하여
+                        펼치기</span>
+                </summary>
+                <div style="padding: 25px; position: relative;">
+                    <code
+                        style="display: block; white-space: pre-wrap; line-height: 1.6; color: #004085; font-family: inherit;">당신은 <strong>전략 컨설팅 펌의 프레젠테이션 디자이너이자 콘텐츠 전략가</strong>입니다.
 전달하는 <span style="color: #d93025; font-weight: bold;">[데이터/파일/주제]</span>를 바탕으로, 현대적이고 전문적인 Google Slide(슬라이드) 덱 구성을 제안해 주세요.
 
 ### 1. 디자인 가이드라인
@@ -141,7 +159,8 @@
 
 ---
 <strong>내용/데이터</strong>: NotebookLM의 데이터를 참조하세요.</code>
-            </div>
+                </div>
+            </details>
         </section>
 
         <!-- 5. Slides로 내보내기 -->
