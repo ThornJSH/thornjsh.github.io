@@ -1,21 +1,18 @@
 <div class="content-section">
-    <div class="intro-box" style="margin-bottom: 40px;">
-        <h2 style="font-size: 2.3rem; margin-bottom: 10px; color: #000;">기초 통계 분석</h2>
-        <p style="font-size: 1.1rem; color: #666;">스프레드시트를 활용한 자동 데이터 분석</p>
-    </div>
-
-    <div class="main-layout"
-        style="display: flex; flex-direction: column; gap: 40px; max-width: 800px; margin: 0 auto 50px auto;">
-        <div class="content-column">
-            <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 30px;">
+    <div class="responsive-intro-grid">
+        <!-- 좌측: 설명 및 버튼 -->
+        <div class="intro-text">
+            <h2>기초 통계 분석</h2>
+            <p class="tagline">"스프레드시트를 활용한 자동 데이터 분석"</p>
+            <p class="description">
                 기본적인 통계 분석을 위해 구글 스프레드시트를 활용한 자동화 도구를 제공합니다.
                 데이터셋 선택 후 관찰값을 입력하면 실시간으로 분석 결과가 산출됩니다.
             </p>
 
             <div class="usage-steps"
-                style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 30px;">
+                style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 30px 0; border: 1px solid #eee;">
                 <h4 style="margin-top: 0; margin-bottom: 15px; color: #333;">💡 사용 방법</h4>
-                <ol style="margin: 0; padding-left: 20px; line-height: 2; color: #555;">
+                <ol style="margin: 0; padding-left: 20px; line-height: 1.8; color: #555;">
                     <li>기본적인 통계 이론에 대한 이해를 바탕으로 시작합니다.</li>
                     <li>분석하려는 <strong>변수의 수</strong>에 맞는 Data set을 선택합니다.</li>
                     <li>조사된 관찰값을 입력 시트에 붙여넣습니다.</li>
@@ -23,25 +20,22 @@
                 </ol>
             </div>
 
-            <div class="action-buttons" style="display: flex; gap: 15px; margin-bottom: 20px;">
+            <div class="cta-buttons" style="justify-content: flex-start;">
                 <a href="https://docs.google.com/document/d/1Cg-tf54kb2PbBgolP3Rglf3WjPvpScF2Np7fuW8FRAo/edit?usp=sharing"
-                    target="_blank"
-                    style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #34a853; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
-                    <span>📊</span> 데이터 분석 도구 v1.6 (Google Sheets)
+                    target="_blank" class="btn btn-primary"
+                    style="display: inline-flex; align-items: center; gap: 8px;">
+                    <span>📊</span> 도구(v1.6) 사용하기
                 </a>
             </div>
         </div>
 
-        <div class="screenshot-column">
-            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center;">
-                <div class="screenshot-container"
-                    style="width: 100%; max-width: 600px; padding: 15px; background: #fdfdfd; border-radius: 12px; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center;">
-                    <img src="images/stats_basic_tool.png" alt="기초 통계 분석 도구"
-                        style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                    <p style="margin-top: 12px; color: #888; font-size: 0.85rem; text-align: center; margin-bottom: 0;">
-                        기초 통계 분석 인터페이스</p>
-                </div>
+        <!-- 우측: 스크린샷 -->
+        <div class="profile-image-area">
+            <div class="profile-image-box" style="height: auto; min-height: 300px;">
+                <img src="images/stats_basic_tool.png" alt="기초 통계 분석 도구"
+                    style="width: 100%; height: auto; display: block;">
             </div>
+            <p style="margin-top: 15px; color: #888; font-size: 0.9rem; text-align: center;">기초 통계 분석 인터페이스 예시</p>
         </div>
     </div>
 </div>

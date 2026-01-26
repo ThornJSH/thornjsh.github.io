@@ -1,51 +1,42 @@
 <div class="content-section">
-    <div class="intro-box" style="margin-bottom: 40px;">
-        <h2 style="font-size: 2.3rem; margin-bottom: 10px; color: #000;">IPA 분석 (Importance-Performance Analysis)</h2>
-        <p style="font-size: 1.1rem; color: #666;">중요도와 만족도를 바탕으로 한 우선순위 도출</p>
-    </div>
-
-    <div class="main-layout"
-        style="display: flex; flex-direction: column; gap: 40px; max-width: 800px; margin: 0 auto 50px auto;">
-        <div class="content-column">
-            <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 30px;">
-                IPA 분석은 평균 비교의 변형으로, 평균값을 중심으로 4가지 영역으로 구분하여 각 영역별 특징에 맞는 해석을 제공합니다.
+    <div class="responsive-intro-grid">
+        <!-- 좌측: 설명 및 버튼 -->
+        <div class="intro-text">
+            <h2>IPA 분석</h2>
+            <p class="tagline">"중요도와 만족도 기반의 우선순위 도출"</p>
+            <p class="description">
+                IPA 분석(Importance-Performance Analysis)은 평균 비교의 변형으로, 평균값을 중심으로 4가지 영역으로 구분하여 각 영역별 특징에 맞는 해석을 제공합니다.
                 AI가 작성해준 VBA 스크립트를 활용해 만든 엑셀 기반 도구입니다.
             </p>
 
             <div class="feature-item"
-                style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 30px;">
-                <h4 style="margin-top: 0; margin-bottom: 10px;">📋 도구 특징</h4>
-                <p style="margin: 0; color: #666; font-size: 1rem; line-height: 1.6;">
-                    - 데이터 입력 시 자동으로 4분면 차트 생성<br>
-                    - 영역별(Keep up the good work, Concentrate here 등) 자동 분류<br>
-                    - 설치 없이 엑셀 매크로(VBA)만으로 구동
+                style="background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #eee; margin: 30px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <h4 style="margin-top: 0; margin-bottom: 12px; color: #333;">📋 도구 특징</h4>
+                <p style="margin: 0; color: #666; font-size: 1.05rem; line-height: 1.7;">
+                    • 데이터 입력 시 자동으로 4분면 차트 생성<br>
+                    • 유지/집중/저순위/과잉 영역 자동 분류<br>
+                    • 설치 없이 엑셀 매크로(VBA)만으로 바로 구동
                 </p>
             </div>
 
-            <div class="action-buttons" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;">
+            <div class="cta-buttons" style="flex-direction: column; align-items: flex-start; gap: 15px;">
                 <a href="https://drive.google.com/file/d/1P0DNi3PEicMIhUCWkCHuVQp_CemyLT0E/view?usp=sharing"
-                    target="_blank"
-                    style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 24px; background: #217346; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
+                    target="_blank" class="btn btn-primary" style="width: auto; padding: 12px 30px;">
                     <span>📥</span> IPA 분석 (기본형) 다운로드
                 </a>
                 <a href="https://drive.google.com/file/d/1Tr4Vm50hvW9C09vCYACCtYqIkCMHAvKJ/view?usp=sharing"
-                    target="_blank"
-                    style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 24px; background: #217346; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
+                    target="_blank" class="btn btn-secondary" style="width: auto; padding: 12px 30px;">
                     <span>📤</span> IPA 분석 (마우스 제어 ver) 다운로드
                 </a>
             </div>
         </div>
 
-        <div class="screenshot-column">
-            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center;">
-                <div class="screenshot-container"
-                    style="width: 100%; max-width: 600px; padding: 15px; background: #fdfdfd; border-radius: 12px; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center;">
-                    <img src="images/stats_ipa_tool.png" alt="IPA 분석 예시"
-                        style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                    <p style="margin-top: 12px; color: #888; font-size: 0.85rem; text-align: center; margin-bottom: 0;">
-                        IPA 분석 결과 차트 예시</p>
-                </div>
+        <!-- 우측: 스크린샷 -->
+        <div class="profile-image-area">
+            <div class="profile-image-box" style="height: auto; min-height: 300px;">
+                <img src="images/stats_ipa_tool.png" alt="IPA 분석 예시" style="width: 100%; height: auto; display: block;">
             </div>
+            <p style="margin-top: 15px; color: #888; font-size: 0.9rem; text-align: center;">IPA 분석 결과 차트 예시</p>
         </div>
     </div>
 </div>
