@@ -182,7 +182,14 @@ export async function loadContent(pageName) {
     } else if (pageName === 'Q&A (질문과 답변)' || pageName === 'Q&A') {
         await loadModule('page-body', '/qna.html');
     }
+    else if (pageName === '사이트맵' || pageName === 'Sitemap') {
+        await loadModule('page-body', '/sitemap.html');
+    }
+    else if (pageName === '개인정보처리방침' || pageName === 'Privacy Policy') {
+        await loadModule('page-body', '/privacy.html');
+    }
     else {
+
         // 다른 메뉴의 경우 임시 자리표시자
         pageBody.innerHTML = `
       <section class="content-placeholder">
@@ -190,6 +197,13 @@ export async function loadContent(pageName) {
         <p>죄송합니다. '${pageName}'에 대한 콘텐츠를 준비 중입니다.</p>
       </section>
     `;
+    }
+
+    // [애드센스 최적화] 페이지 로드 후 광고 갱신
+    try {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+        // 첫 로드 시점에 라이브러리가 아직 안 왔을 수 있음
     }
 }
 
