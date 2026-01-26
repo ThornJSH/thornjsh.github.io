@@ -119,6 +119,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/ai-in-sheets.html');
     } else if (pageName === 'Slide에서 AI 쓰기' || pageName === 'AI in G.Slides') {
         await loadModule('page-body', '/ai-in-slides.html');
+    } else if (pageName === 'Gemini로 PPT 만들기' || pageName === 'Creating PPT with Gemini') {
+        await loadModule('page-body', '/gemini-ppt.html');
     } else if (pageName === '후원 전략 컨설팅' || pageName === 'Sponsorship Consulting') {
         await loadModule('page-body', '/sponsorship-consulting.html');
     } else if (pageName === '챗봇, Chatbot' || pageName === 'AI Chatbot') {

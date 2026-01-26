@@ -1,0 +1,151 @@
+<div class="content-section">
+    <div class="intro-box"
+        style="margin-bottom: 40px; background: linear-gradient(135deg, #6e8efb, #a777e3); padding: 40px; border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(110, 142, 251, 0.3);">
+        <h2 style="font-size: 2.5rem; margin-bottom: 15px; color: #fff;">Gemini로 PPT 만들기</h2>
+        <p style="font-size: 1.2rem; opacity: 0.9; line-height: 1.6;">
+            노트북LM의 데이터를 기반으로 Gemini가 구글 슬라이드 초안을 만들어주면, <br>
+            그걸 PPT 형식으로 변환하여 사용하는 효율적인 발표 자료 제작 방식입니다.
+        </p>
+    </div>
+
+    <div class="workflow-overview"
+        style="margin-bottom: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div class="step-card"
+            style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #e9ecef;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">📂</div>
+            <h4 style="margin: 0;">데이터 업로드</h4>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">노트북LM</p>
+        </div>
+        <div class="step-card"
+            style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #e9ecef;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">🔗</div>
+            <h4 style="margin: 0;">앱 연결</h4>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">Gemini + Workspace</p>
+        </div>
+        <div class="step-card"
+            style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #e9ecef;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">✨</div>
+            <h4 style="margin: 0;">슬라이드 생성</h4>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">Gemini (사고 모드)</p>
+        </div>
+        <div class="step-card"
+            style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #e9ecef;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">💾</div>
+            <h4 style="margin: 0;">PPT 변환</h4>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">다운로드 및 수정</p>
+        </div>
+    </div>
+
+    <div class="main-layout" style="display: flex; flex-direction: column; gap: 40px;">
+        <!-- 1. 진행하기 전에 -->
+        <section class="guide-step">
+            <h3 style="border-left: 5px solid #6e8efb; padding-left: 15px; margin-bottom: 20px;">1. 진행하기 전에.. (설정 필수)
+            </h3>
+            <div
+                style="background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <p>노트북LM의 데이터를 Gemini가 읽어들일 수 있도록 설정을 해주셔야 합니다.</p>
+                <ul style="margin-top: 15px; list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">📍 왼쪽 하단에 메뉴가 있습니다.</li>
+                    <li>⚙️ <strong>설정 및 도움말 > 연결된 앱 > Google Workspace "연결"</strong></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 데이터 준비 -->
+        <section class="guide-step">
+            <h3 style="border-left: 5px solid #6e8efb; padding-left: 15px; margin-bottom: 20px;">2. 데이터 준비</h3>
+            <div style="background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #eee;">
+                <p>모든 자료는 <strong>노트북LM</strong>에 모두 올려둡니다.</p>
+            </div>
+        </section>
+
+        <!-- 3. Gemini 슬라이드 제작 설정 -->
+        <section class="guide-step">
+            <h3 style="border-left: 5px solid #6e8efb; padding-left: 15px; margin-bottom: 20px;">3. Gemini 슬라이드 제작 설정
+            </h3>
+            <div style="background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #eee;">
+                <p>슬라이드는 Gemini로 만드는데, 이때 3가지 설정을 하셔야 합니다.</p>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="padding: 15px; background: #f1f3f4; border-radius: 10px;">
+                        <strong>① 노트북 추가</strong><br>
+                        "+" 버튼 > NotebookLM 선택 > 데이터 저장 노트북 추가
+                    </div>
+                    <div style="padding: 15px; background: #f1f3f4; border-radius: 10px;">
+                        <strong>② Canvas 선택</strong><br>
+                        "도구" 버튼 클릭 > "Canvas"를 선택
+                    </div>
+                    <div style="padding: 15px; background: #f1f3f4; border-radius: 10px;">
+                        <strong>③ 사고 모드 변경</strong><br>
+                        "빠른 모드" → "사고 모드"로 전환
+                    </div>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">※ (옵션) 추가 reference가 있다면 "+"버튼의 "파일업로드"를
+                    활용하세요.</p>
+            </div>
+        </section>
+
+        <!-- 4. 프롬프트 입력 -->
+        <section class="guide-step">
+            <h3 style="border-left: 5px solid #6e8efb; padding-left: 15px; margin-bottom: 20px;">4. 프롬프트 입력 예시</h3>
+            <div style="background: #f0f7ff; padding: 25px; border-radius: 15px; border: 1px solid #cfe2ff;">
+                <code
+                    style="display: block; white-space: pre-wrap; line-height: 1.6; color: #004085; font-family: inherit;">당신은 <strong>전략 컨설팅 펌의 시니어 프레젠테이션 디자이너이자 콘텐츠 전략가</strong>입니다.
+전달하는 <span style="color: #d93025; font-weight: bold;">[데이터/파일/주제]</span>를 바탕으로, 현대적이고 전문적인 슬라이드 덱 구성을 제안해 주세요.
+
+### 1. 디자인 가이드라인
+- <strong>톤앤매너</strong>: <span style="color: #d93025; font-weight: bold;">[예: 신뢰감을 주는 비즈니스 스타일 / 혁신적이고 미니멀한 테크 스타일]</span>
+- <strong>메인 컬러</strong>: 현대적 감각에 맞춘 <span style="color: #d93025; font-weight: bold;">[예: 딥 네이비와 포인트 오렌지]</span> 조합 (또는 첨부 파일의 디자인 시스템 준수)
+- <strong>배경</strong>: 가독성을 극대화한 깔끔한 레이아웃
+
+### 2. 슬라이드 구성 원칙 (각 슬라이드 공통)
+- <strong>Headline</strong>: 한눈에 핵심이 파악되는 명확한 문장형 제목
+- <strong>Body</strong>: 3~5개의 핵심 포인트를 불렛 포인트로 정리
+- <strong>Visual Asset</strong>: 슬라이드 성격에 맞는 시각적 요소(타임라인, 차트, 인포그래픽, 도표, 핵심 인용구)를 구체적으로 묘사하고 배치 제안
+- <strong>Speaker Note</strong>: 발표자가 강조해야 할 핵심 인사이트 1줄 추가
+
+### 3. 출력 형식
+- 슬라이드 번호순으로 정리하여 한글로 작성해 주세요.
+- 각 슬라이드에서 사용할 적절한 차트 종류(예: 폭포형 차트, 파이 차트 등)를 명시해 주세요.
+
+---
+<strong>내용/데이터</strong>: NotebookLM의 데이터를 참조하세요.</code>
+            </div>
+        </section>
+
+        <!-- 5. Slides로 내보내기 -->
+        <section class="guide-step">
+            <h3 style="border-left: 5px solid #6e8efb; padding-left: 15px; margin-bottom: 20px;">5. Slides로 내보내기 및 저장
+            </h3>
+            <div style="background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #eee;">
+                <p>Gemini가 만들어준 내용을 우측 상단 <strong>"Slides로 내보내기"</strong>를 눌러 내 구글 드라이브에 저장합니다.</p>
+                <p style="margin-top: 10px;">내보내기가 완료되면 왼쪽 하단에 <strong
+                        style="background-color: black; color: white; padding: 2px 10px; border-radius: 4px;">새 슬라이드
+                        생성됨&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Slides열기</strong>가 보입니다. 이걸 누릅니다.
+                </p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">(또는 내 구글 드라이브에서 직접 확인 가능합니다.)</p>
+            </div>
+        </section>
+
+        <!-- 6. PPT로 다운로드 -->
+        <section class="guide-step">
+            <h3 style="border-left: 5px solid #6e8efb; padding-left: 15px; margin-bottom: 20px;">6. 수정 및 파워포인트 변환</h3>
+            <div style="background: #fff; padding: 25px; border-radius: 15px; border: 1px solid #eee;">
+                <p>만들어진 슬라이드 초안을 수정/편집한 후 파워포인트 파일로 다운로드합니다.</p>
+                <div
+                    style="margin-top: 15px; display: inline-block; padding: 10px 20px; background: #e8f0fe; border-radius: 8px; color: #1967d2; font-weight: bold;">
+                    파일 > 다운로드 > Microsoft PowerPoint (.pptx)
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="summary-box"
+        style="margin-top: 50px; padding: 30px; background: #fff8e1; border-radius: 20px; border: 2px dashed #ffc107;">
+        <h4 style="margin: 0 0 10px 0; color: #f57c00;">💡 핵심 요약</h4>
+        <p style="margin: 0; line-height: 1.6;">
+            결론적으로 말해, <strong>노트북LM의 데이터</strong>를 기반으로 <strong>Gemini가 구글 슬라이드 초안</strong>을 만들어주면,
+            그걸 <strong>PPT 형식으로 변환 다운로드</strong>해서 사용하는 방식입니다.
+        </p>
+    </div>
+</div>
