@@ -58,6 +58,15 @@ export function updatePageTitle(title) {
     }
 }
 
+// 페이지 이동 통합 함수
+export function navigateToPage(pageName) {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('page', pageName);
+    window.history.pushState({ page: pageName }, '', currentUrl);
+    updatePageTitle(pageName);
+    loadContent(pageName);
+}
+
 // 컨텐츠 로드 함수 추가
 export async function loadContent(pageName) {
     const pageBody = document.getElementById('page-body');
@@ -252,3 +261,4 @@ async function init() {
 document.addEventListener('DOMContentLoaded', init);
 window.updatePageTitle = updatePageTitle;
 window.loadContent = loadContent; // 전역 접근 허용
+window.navigateToPage = navigateToPage; // 전역 접근 허용
