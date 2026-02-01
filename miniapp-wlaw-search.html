@@ -1,0 +1,91 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 15px; color: #000;">법령 조문(키워드) 검색 도구</h2>
+        <p style="font-size: 1.1rem; color: #666; line-height: 1.6;">국가법령정보센터 Open API 기반 스마트 법령 데이터 추출기</p>
+    </div>
+
+    <div class="main-layout responsive-intro-grid">
+        <!-- 왼쪽: 설명 및 사용법 -->
+        <div class="content-column">
+            <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 30px;">
+                특정 법령 내에서 내가 찾는 키워드가 포함된 조문만 골라내는 작업이 더 이상 어렵지 않습니다.
+                <strong>WLawSearch</strong>는 국가법령정보센터의 데이터를 직접 조회하여 모든 검색 결과를 체계적으로 정리해 드립니다.
+            </p>
+
+            <div class="feature-highlights" style="margin-bottom: 40px; display: grid; gap: 15px;">
+                <div style="padding: 15px; background: #f0f4ff; border-radius: 12px; border-left: 4px solid #4285f4;">
+                    <h4 style="margin: 0 0 5px 0;">🔍 실시간 키워드 검색</h4>
+                    <p style="margin: 0; font-size: 0.95rem; color: #455a64;">법령 제목과 키워드를 입력하면 관련 조문 내용을 즉시 수집합니다.</p>
+                </div>
+                <div style="padding: 15px; background: #e8f5e9; border-radius: 12px; border-left: 4px solid #34a853;">
+                    <h4 style="margin: 0 0 5px 0;">📊 다양한 내보내기 형식</h4>
+                    <p style="margin: 0; font-size: 0.95rem; color: #2e7d32;">Excel(.xlsx), CSV, JSON 파일은 물론 구글 스프레드시트
+                        연동까지 지원합니다.</p>
+                </div>
+                <div style="padding: 15px; background: #fff8e1; border-radius: 12px; border-left: 4px solid #ffc107;">
+                    <h4 style="margin: 0 0 5px 0;">🔄 중단 없는 연속 최적화</h4>
+                    <p style="margin: 0; font-size: 0.95rem; color: #6d4c41;">수천 개의 조문도 대기 시간 없이 안정적으로 검색하고 처리합니다.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 20px; font-size: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                시작하기 (사용 방법)</h3>
+            <div class="usage-guide"
+                style="background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; margin-bottom: 30px;">
+                <ol style="margin: 0; padding-left: 20px; line-height: 2; color: #333;">
+                    <li><strong>프로그램 다운로드</strong>: 아래 버튼을 클릭하여 ZIP 파일을 다운로드하고 압축을 해제합니다.</li>
+                    <li><strong>OC(API ID) 발급</strong>:
+                        <a href="https://open.law.go.kr/LSO/login.do?ReURI=/LSO/openApi/cuAskList.do" target="_blank"
+                            style="color: #1976d2; font-weight: bold; text-decoration: underline;">국가법령정보센터 Open API</a>
+                        사이트에서 '인증키 신청'을 통해 OC ID를 발급받습니다. (이메일 인증 후 즉시 확인 가능)
+                    </li>
+                    <li><strong>프로그램 실행</strong>: <code>WLawSearch.exe</code>를 실행합니다.</li>
+                    <li><strong>검색어 설정</strong>: 검색할 키워드(예: 사회복지시설, 노유자시설)를 입력합니다.</li>
+                    <li><strong>API 인증</strong>: 최초 실행 시 발급받은 <strong>OC ID</strong>를 입력합니다.</li>
+                    <li><strong>결과 확인</strong>: 프로젝트 폴더 내 <code>output</code> 폴더에서 생성된 파일을 확인합니다.</li>
+                </ol>
+            </div>
+
+            <!-- 바이러스 오인 경고 알림 -->
+            <div class="warning-box"
+                style="background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px;">
+                <h4 style="margin: 0 0 8px 0; color: #e65100; display: flex; align-items: center; gap: 8px;">
+                    <span>⚠️</span> 바이러스 오진 관련 안내
+                </h4>
+                <p style="margin: 0; font-size: 0.9rem; color: #5d4037; line-height: 1.6;">
+                    본 프로그램은 파이썬 코드를 윈도우 실행파일(.exe)로 변환하는 과정에서 <strong>백신 프로그램(Avast 등)이 바이러스로 오인</strong>하여
+                    차단하는 경우가 발생할 수 있습니다.
+                    이는 배포자 정보가 등록되지 않은 독립 실행형 파일에서 흔히 발생하는 현상이며, 시스템에 유해한 코드는 포함되어 있지 않으니 안심하고 '실행' 또는 '제외 설정' 후 사용해 주시기
+                    바랍니다.
+                </p>
+            </div>
+
+            <div class="action-buttons" style="display: flex; gap: 15px; margin-bottom: 30px;">
+                <a href="https://drive.google.com/file/d/104vV_dA3jLSxxSUC1RvJkWHbuBxzXY4M/view?usp=sharing"
+                    target="_blank"
+                    style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 30px; background: #1976d2; color: white; text-decoration: none; border-radius: 30px; font-weight: 700; transition: all 0.3s; box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);">
+                    <span>📥</span> WLawSearch 다운로드 (.zip)
+                </a>
+                <a href="?page=구글+클라우드+설정"
+                    style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 30px; background: #fff; color: #1976d2; text-decoration: none; border: 2px solid #1976d2; border-radius: 30px; font-weight: 700;">
+                    <span>⚙️</span> 구글 시트 연동 설정
+                </a>
+            </div>
+        </div>
+
+        <!-- 오른쪽: 프리미엄 이미지 및 안내 -->
+        <div class="screenshot-column">
+            <div class="premium-illustration" style="margin-bottom: 30px;">
+                <img src="images/miniapp_wlaw_search.png" alt="WLawSearch 프리미엄 일러스트"
+                    style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.12);">
+            </div>
+            <div class="actual-screenshot"
+                style="background: #f8f9fa; padding: 15px; border-radius: 12px; border: 1px solid #ddd;">
+                <img src="images/w_law_search.png" alt="WLawSearch 실행 화면"
+                    style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <p style="margin-top: 10px; color: #777; font-size: 0.85rem; text-align: center; font-style: italic;">실제
+                    프로그램 실행 인터페이스</p>
+            </div>
+        </div>
+    </div>
+</div>
