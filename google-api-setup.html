@@ -1,0 +1,168 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 15px; color: #000;">구글 API 및 서비스 계정 설정 가이드</h2>
+        <p style="font-size: 1.1rem; color: #666; line-height: 1.6;">
+            다양한 애플리케이션 및 자동화 도구에서 구글 서비스(Sheets, Drive 등)를 연동하기 위한 Google Cloud 프로젝트 설정과 서비스 계정(JSON 키) 발급 절차를 안내합니다.
+        </p>
+    </div>
+
+    <!-- Step 1: Project Creation -->
+    <div class="responsive-intro-grid" style="margin-bottom: 60px;">
+        <div class="content-column">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                <span
+                    style="background: #4285f4; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</span>
+                <h3 style="margin: 0; font-size: 1.6rem;">구글 클라우드 프로젝트 생성</h3>
+            </div>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 15px;">
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #4285f4; font-weight: bold;">01.</span>
+                    <span><a href="https://console.cloud.google.com/" target="_blank"
+                            style="color: #4285f4; font-weight: 600;">구글 클라우드 콘솔</a>에 접속하여 로그인합니다.</span>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #4285f4; font-weight: bold;">02.</span>
+                    <span>왼쪽 상단의 <strong>프로젝트 선택</strong> 메뉴를 클릭한 후 <strong>[새 프로젝트]</strong>를 선택합니다.</span>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #4285f4; font-weight: bold;">03.</span>
+                    <span>원하는 프로젝트 이름을 입력하고 <strong>[만들기]</strong> 버튼을 클릭합니다.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="screenshot-column">
+            <img src="images/gcp_setup_1.png" alt="프로젝트 생성 일러스트"
+                style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee;">
+        </div>
+    </div>
+
+    <!-- Step 2: API Enablement -->
+    <div class="responsive-intro-grid" style="margin-bottom: 60px; grid-template-columns: 450px 1fr;" id="step-2-grid">
+        <style>
+            @media (max-width: 900px) {
+                #step-2-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                #step-2-grid .screenshot-column {
+                    order: 2;
+                }
+
+                #step-2-grid .content-column {
+                    order: 1;
+                }
+            }
+        </style>
+        <div class="screenshot-column">
+            <img src="images/gcp_setup_2.png" alt="API 활성화 일러스트"
+                style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee;">
+        </div>
+        <div class="content-column">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                <span
+                    style="background: #34a853; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</span>
+                <h3 style="margin: 0; font-size: 1.6rem;">필요한 API 활성화</h3>
+            </div>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 15px;">
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #34a853; font-weight: bold;">01.</span>
+                    <span>좌측 메뉴의 <strong>[API 및 서비스] > [라이브러리]</strong>로 이동합니다.</span>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #34a853; font-weight: bold;">02.</span>
+                    <span>사용하려는 서비스(예: <code>Google Sheets API</code>, <code>Google Drive API</code>)를 검색합니다.</span>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #34a853; font-weight: bold;">03.</span>
+                    <span>해당 API를 클릭한 후 <strong>[사용]</strong> 버튼을 눌러 활성화합니다.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Step 3: Service Account & Key Icons -->
+    <div class="responsive-intro-grid" style="margin-bottom: 60px;">
+        <div class="content-column">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                <span
+                    style="background: #f4b400; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</span>
+                <h3 style="margin: 0; font-size: 1.6rem;">서비스 계정 생성 및 키 발급</h3>
+            </div>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 15px;">
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #f4b400; font-weight: bold;">01.</span>
+                    <span>좌측 메뉴에서 <strong>[IAM 및 관리자] > [서비스 계정]</strong>으로 이동합니다.</span>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #f4b400; font-weight: bold;">02.</span>
+                    <span>상단의 <strong>[+ 서비스 계정 만들기]</strong>를 클릭하고 계정 정보를 입력합니다.</span>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #f4b400; font-weight: bold;">03.</span>
+                    <span>생성된 계정의 이메일 주소를 클릭한 후 <strong>[키]</strong> 탭에서 <strong>[새 키 만들기]</strong>를 선택합니다.</span>
+                </li>
+                <li style="display: flex; gap: 10px; align-items: flex-start;">
+                    <span style="color: #f4b400; font-weight: bold;">04.</span>
+                    <span>키 유형을 <strong>JSON</strong>으로 설정하여 다운로드합니다. 이 파일이 인증 키가 됩니다.</span>
+                </li>
+            </ul>
+        </div>
+        <div class="screenshot-column">
+            <img src="images/gcp_setup_3.png" alt="서비스 계정 키 일러스트"
+                style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee;">
+        </div>
+    </div>
+
+    <!-- Sharing Section -->
+    <div class="guide-container"
+        style="background: #fff8e1; border-left: 5px solid #ffc107; padding: 25px; border-radius: 12px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <h4 style="margin-top: 0; margin-bottom: 15px; color: #856404; display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🤝</span> 중요: 스프레드시트 공유 설정
+        </h4>
+        <p style="margin: 0; color: #856404; line-height: 1.7;">
+            서비스 계정은 일반 구글 계정과 같습니다. 연동할 스프레드시트나 구글 드라이브 폴더의 <strong>[공유]</strong> 버튼을 누르고, 발급받은 서비스 계정의 <strong>이메일
+                주소</strong>(예: <code>bot-name@project.iam.gserviceaccount.com</code>)를 추가하여 <strong>편집자</strong> 권한을
+            부여해야 정상적으로 작동합니다.
+        </p>
+    </div>
+
+    <!-- Final Tips -->
+    <div class="guide-container"
+        style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 30px; border-radius: 20px; border: 1px solid #dee2e6;">
+        <h4 style="margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.5rem;">🚀</span> 설정 완료 및 활용
+        </h4>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 280px;">
+                <h5 style="margin-top: 0; margin-bottom: 10px; color: #4285f4;">환경 설정 및 보안</h5>
+                <ul style="padding-left: 20px; font-size: 0.95rem; color: #555; line-height: 1.6;">
+                    <li>인증 파일(JSON)의 이름을 프로그램이 요구하는 이름으로 변경하여 설정 폴더에 배치합니다.</li>
+                    <li style="margin-top: 10px;"><strong>보안 주의</strong>: 인증 키 파일은 비밀번호와 같습니다. GitHub 등 오픈소스에 업로드되지 않도록
+                        주의하세요.</li>
+                </ul>
+            </div>
+            <div
+                style="flex: 1; min-width: 280px; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #eee;">
+                <h5 style="margin-top: 0; margin-bottom: 10px; color: #34a853;">연동 지원 기능</h5>
+                <p style="margin: 0; font-size: 0.9rem; color: #666; line-height: 1.6;">
+                    - 구글 시트 데이터 읽기/쓰기<br>
+                    - 구글 드라이브 파일 업로드/다운로드<br>
+                    - 구글 캘린더 일정 관리 자동화 등
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Action Buttons -->
+    <div
+        style="margin-top: 60px; text-align: center; padding: 40px; background: #000; border-radius: 30px; color: #fff;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-weight: 800; font-size: 1.8rem;">더 궁금한 점이 있으신가요?</h3>
+        <p style="color: #aaa; margin-bottom: 30px;">API 활용 사례와 다양한 디지털 실무 도구들을 확인해 보세요.</p>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <a href="?page=스마트복지기술" class="btn btn-primary" style="padding: 12px 40px; border-radius: 30px;">스마트복지기술
+                보기</a>
+            <a href="?page=FAQ" class="btn btn-secondary" style="padding: 12px 40px; border-radius: 30px;">도움말(FAQ)
+                센터</a>
+        </div>
+    </div>
+</div>

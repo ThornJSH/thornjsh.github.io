@@ -12,8 +12,10 @@
   <url><loc>https://thornjsh.github.io/?page=%EC%8A%A4%EB%A7%88%ED%8A%B8%EC%9B%8C%ED%81%AC</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%EA%B5%AC%EA%B8%80%20%EC%8A%A4%ED%94%84%EB%A0%88%EB%93%9C%EC%8B%9C%ED%8A%B8</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=DX%20%EC%8A%A4%ED%94%84%EB%A0%88%EB%93%9C%20%EC%8B%9C%ED%8A%B8%20%EC%98%88%EC%A0%9C</loc><priority>0.6</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=DX%20Docs%20%EB%A7%A4%EB%89%B4%EC%96%BC</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=AI%20%ED%99%9C%EC%9A%A9%20%EA%B0%95%EC%A2%8C</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%EB%B6%80%EC%82%B0%20%EC%8A%A4%EB%A7%88%ED%8A%B8%EB%B3%B5%EC%A7%80%20%EC%8B%A4%EC%B2%9C%EA%B8%B0%EA%B4%80</loc><priority>0.6</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=%EC%97%B4%EB%A7%A4%EB%98%91%EB%98%91%20%EC%95%84%EC%9D%B4%EB%94%94%EC%96%B4%20HUB</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%EB%B0%94%EC%9D%B4%EB%B8%8C%20%EC%BD%94%EB%94%A9(%EC%B2%A0%ED%95%99)</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%EB%B0%94%EC%9D%B4%EB%B8%8C%20%EC%BD%94%EB%94%A9(%ED%99%9C%EC%9A%A9%ED%8C%81)</loc><priority>0.6</priority></url>
   
@@ -24,6 +26,7 @@
   <url><loc>https://thornjsh.github.io/?page=PDF%20%ED%94%8C%EB%A6%BD%EB%B6%81</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%ED%91%9C%20%EC%8A%A4%ED%83%80%EC%9D%BC%20%EC%A0%95%EB%A6%AC%20%EB%8F%84%EA%B5%AC</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%ED%9B%84%EC%9B%90%EC%82%B0%EC%B2%AD%EC%84%9C</loc><priority>0.6</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=%EC%82%AC%ED%9A%8C%EB%B3%B5%EC%A7%80%EC%8B%9C%EC%84%A4%20%EA%B3%B5%ED%86%B5%EC%97%85%EB%AC%B4%20%EC%BA%AC%EB%A6%B0%EB%8D%94</loc><priority>0.6</priority></url>
 
   <url><loc>https://thornjsh.github.io/?page=With%20AI</loc><priority>0.8</priority></url>
   <url><loc>https://thornjsh.github.io/?page=AI%20Prompt%20Pro</loc><priority>0.6</priority></url>
@@ -33,6 +36,7 @@
   <url><loc>https://thornjsh.github.io/?page=Docs%EC%97%90%EC%84%9C%20AI%20%EC%93%B0%EA%B8%B0</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Sheet%EC%97%90%EC%84%9C%20AI%20%EC%93%B0%EA%B8%B0</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Slide%EC%97%90%EC%84%9C%20AI%20%EC%93%B0%EA%B8%B0</loc><priority>0.6</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=Gemini%EB%A1%9C%20PPT%20%EB%A7%8C%EB%93%A4%EA%B8%B0</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%ED%9B%84%EC%9B%90%20%EC%A0%84%EB%9E%B5%20%EC%BB%A8%EC%84%A4%ED%8C%85</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%EC%B1%97%EB%B4%87%2C%20Chatbot</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Ct%20%EC%A0%95%EC%84%9C%20%EC%98%88%EC%B8%A1%20%EB%AA%A8%EB%8D%B8</loc><priority>0.6</priority></url>
@@ -42,6 +46,7 @@
   <url><loc>https://thornjsh.github.io/?page=%EC%8B%9C%EA%B0%84%EC%A1%B0%EA%B1%B4%20%ED%8C%8C%EC%9D%BC%20%EB%B3%B5%EC%82%AC</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%EC%97%91%EC%85%80%20%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8%20%EC%9D%BC%EA%B4%84%EB%B3%80%EA%B2%BD</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=PDF%20MultiTool</loc><priority>0.6</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=%EB%B2%95%EB%A0%B9%20%EC%A1%B0%EB%AC%B8(%ED%82%A4%EC%9B%8C%EB%93%9C)%20%EA%B2%80%EC%83%89</loc><priority>0.6</priority></url>
 
   <url><loc>https://thornjsh.github.io/?page=%ED%86%B5%EA%B3%84%EB%8B%A4%EB%A3%A8%EA%B8%B0</loc><priority>0.8</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%EA%B8%B0%EC%B4%88%20%ED%86%B5%EA%B3%84%20%EB%B6%84%EC%84%9D</loc><priority>0.6</priority></url>
@@ -56,6 +61,7 @@
   <url><loc>https://thornjsh.github.io/?page=%EC%B4%88%EA%B8%B0%EC%84%A4%EC%A0%95%28%EA%B6%8C%ED%95%9C%20%EC%84%A4%EC%A0%95%29</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=%EC%82%AC%EB%B3%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=API%20%ED%82%A4%20%EB%A7%8C%EB%93%A4%EA%B8%B0</loc><priority>0.6</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=%EA%B5%AC%EA%B8%80%20%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C%20%EC%84%A4%EC%A0%95</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Q%26A%20%28%EC%A7%88%EB%AC%B8%EA%B3%BC%20%EB%8B%B5%EB%B3%80%29</loc><priority>0.6</priority></url>
 
   <!-- English Menu Sections -->
@@ -64,6 +70,7 @@
   <url><loc>https://thornjsh.github.io/?page=Smart%20Work</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Google%20Sheets</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=DX%20Spreadsheet%20Examples</loc><priority>0.4</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=DX%20Docs%20Manuals</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=AI%20Courses</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Practice%20Agencies</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Idea%20HUB</loc><priority>0.4</priority></url>
@@ -76,6 +83,7 @@
   <url><loc>https://thornjsh.github.io/?page=PDF%20Flipbook</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Table%20Styler</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Sponsorship%20Form</loc><priority>0.4</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=Common%20Work%20Calendar</loc><priority>0.4</priority></url>
 
   <url><loc>https://thornjsh.github.io/?page=SNS%20PR%20Creation</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Document%20Review</loc><priority>0.4</priority></url>
@@ -83,6 +91,7 @@
   <url><loc>https://thornjsh.github.io/?page=AI%20in%20G.Docs</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=AI%20in%20G.SpreadSheets</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=AI%20in%20G.Slides</loc><priority>0.4</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=Creating%20PPT%20with%20Gemini</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Sponsorship%20Consulting</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=AI%20Chatbot</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Ct%20Emotion%20Model</loc><priority>0.4</priority></url>
@@ -91,6 +100,7 @@
   <url><loc>https://thornjsh.github.io/?page=File%20Copy%20based%20on%20Time</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Excel%20Password%20Change%20in%20bulk</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=PDF%20MultiTool%28Split/Merge/Protect%29</loc><priority>0.4</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=Legal%20Provision%20Search</loc><priority>0.4</priority></url>
 
   <url><loc>https://thornjsh.github.io/?page=Statistics</loc><priority>0.5</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Basic%20Analysis</loc><priority>0.4</priority></url>
@@ -104,5 +114,6 @@
   <url><loc>https://thornjsh.github.io/?page=Initial%20Setting</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Make%20a%20Copy</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Create%20API%20Key</loc><priority>0.4</priority></url>
+  <url><loc>https://thornjsh.github.io/?page=Google%20Cloud%20Setup</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/?page=Q%26A</loc><priority>0.4</priority></url>
 </urlset>

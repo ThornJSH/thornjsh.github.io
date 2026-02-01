@@ -148,6 +148,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/miniapp-excel-password.html');
     } else if (pageName === 'PDF MultiTool' || pageName === 'PDF MultiTool(Split/Merge/Protect)') {
         await loadModule('page-body', '/miniapp-pdf-tool.html');
+    } else if (pageName === '법령 조문(키워드) 검색' || pageName === 'Legal Provision Search') {
+        await loadModule('page-body', '/miniapp-wlaw-search.html');
     }
     // 통계다루기
     else if (pageName === '통계다루기' || pageName === 'Statistics' || pageName === '통계다루기' || pageName === 'Statistics Overview') {
@@ -190,6 +192,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/faq-make-copy.html');
     } else if (pageName === 'API 키 만들기' || pageName === 'Create API Key') {
         await loadModule('page-body', '/faq-api-key.html');
+    } else if (pageName === '구글 클라우드 설정' || pageName === 'Google Cloud Setup') {
+        await loadModule('page-body', '/google-api-setup.html');
     } else if (pageName === 'Q&A (질문과 답변)' || pageName === 'Q&A') {
         await loadModule('page-body', '/qna.html');
     }
