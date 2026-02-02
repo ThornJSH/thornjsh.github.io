@@ -59,11 +59,10 @@ export function initMenu() {
           e.preventDefault();
         }
 
-        // URL 업데이트 (History API)
+        // URL 업데이트 (History API) - Clean URL 방식 적용
         const pageName = this.textContent.trim();
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('page', pageName);
-        window.history.pushState({ page: pageName }, '', currentUrl);
+        const cleanUrl = pageName === '홈' || pageName === 'Home' ? '/' : `/${pageName}`;
+        window.history.pushState({ page: pageName }, '', cleanUrl);
 
         // 제목 및 컨텐츠 업데이트
         window.updatePageTitle(pageName);

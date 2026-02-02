@@ -238,14 +238,22 @@ async function init() {
     // 뒤로가기/앞으로가기 버튼 대응
     window.addEventListener('popstate', (event) => {
         const urlParams = new URLSearchParams(window.location.search);
-        const pageParam = urlParams.get('page') || '홈';
+        const pageParam = urlParams.get('page') || urlParams.get('p')?.substring(1) || '홈';
         loadContent(pageParam);
         updatePageTitle(pageParam);
     });
 
-    // URL 파라미터 처리 (?page=...)
+    // URL 파라미터 처리 (?page=... 또는 ?p=...)
     const urlParams = new URLSearchParams(window.location.search);
-    const pageParam = urlParams.get('page');
+    let pageParam = urlParams.get('page');
+    const pathParam = urlParams.get('p');
+
+    // 만약 404 리다이렉트로 들어온 경우 (?p=/page-name)
+    if (pathParam) {
+        pageParam = pathParam.substring(1); // 맨 앞의 '/' 제거
+        // 주소를 깔끔하게 정리 (브라우저 주소창에서 ?p=... 제거)
+        window.history.replaceState(null, '', pathParam);
+    }
 
     if (pageParam) {
         // 파라미터가 있으면 해당 페이지 로드
