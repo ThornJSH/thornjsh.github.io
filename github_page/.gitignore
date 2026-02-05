@@ -1,8 +1,0 @@
-node_modules/
-.DS_Store
-*.log
-backup_가변형/
-backup_기본형/
-run_server.bat
-package.json
-package-lock.json

@@ -207,6 +207,42 @@
             </div>
         </div>
 
+        <!-- 예제 6: 연가 관리 -->
+        <div class="guide-card"
+            style="background: #fff; border-radius: 20px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div style="padding: 30px; border-bottom: 1px solid #f8f9fa; background: #fafafa;">
+                <h3 style="margin: 0; color: #1098ad; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.5rem;">🏖️</span>
+                    연가 관리 및 촉진일 자동 계산
+                </h3>
+            </div>
+            <div style="padding: 30px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div>
+                        <p style="font-size: 1.05rem; line-height: 1.8; color: #444; margin-bottom: 15px;">
+                            A~F열에 기본정보를 입력하면 자동으로 연가일수와 연가촉진일을 계산해주는 시트입니다.
+                        </p>
+                        <ul style="color: #555; padding-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+                            <li><strong>간편한 설정:</strong> A1셀에 해당 연도(숫자)만 입력하면 당해연도 정보가 자동 갱신됩니다.</li>
+                            <li><strong>자동 계산:</strong> F3~N3 셀은 Arrayformula로 처리되어 별도 조치 없이 자동 계산됩니다. (수정 금지)</li>
+                            <li><strong>연가 촉진일:</strong> 근로기준법에 따른 연가 사용 촉진 시기를 자동으로 알려줍니다.</li>
+                            <li><strong>조건부 서식:</strong> 퇴사일을 입력하면 해당 당사자의 개인정보를 보이지 않도록 처리합니다.</li>
+                        </ul>
+                    </div>
+                    <div
+                        style="text-align: center; background: #f8f9fa; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #eee;">
+                        <p style="font-weight: 600; color: #444; margin-bottom: 15px;">활용된 핵심 함수</p>
+                        <code
+                            style="background: #e3fafc; padding: 10px; border-radius: 6px; color: #0c8599; font-weight: bold; margin-bottom: 20px;">DATEDIF</code>
+                        <a href="https://docs.google.com/spreadsheets/d/17d9V2-JojM-fiP4zpxtrrHNwn2ko0qGMLC3mJcd0WgA/edit?usp=sharing"
+                            target="_blank"
+                            style="display: inline-block; padding: 12px 20px; background: #1098ad; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">예제
+                            시트 바로가기 ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 안내: 추가 예제 예정 -->
         <div style="text-align: center; padding: 40px; border: 2px dashed #ddd; border-radius: 20px; color: #888;">
             <p style="font-size: 1.1rem;">주기적으로 새로운 예제가 업데이트될 예정입니다.</p>
