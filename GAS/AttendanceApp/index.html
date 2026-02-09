@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="datetime-local"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: #3367d6;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            color: #666;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin: 30px 0 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>근태관리대장</h2>
+        <form id="attendanceForm" onsubmit="handleFormSubmit(event)">
+
+            <div class="form-group">
+                <label for="applicant">신청자 성명</label>
+                <input type="text" id="applicant" name="applicant" required placeholder="성명을 입력하세요">
+            </div>
+
+            <div class="section-title">근태 정보</div>
+
+            <div class="form-group">
+                <label for="type">구분</label>
+                <select id="type" name="type" required>
+                    <option value="" disabled selected>선택하세요</option>
+                    <option value="외근">외근</option>
+                    <option value="회의">회의</option>
+                    <option value="교육">교육</option>
+                    <option value="연가">연가</option>
+                    <option value="병가">병가</option>
+                    <option value="공가">공가</option>
+                    <option value="특별휴가">특별휴가</option>
+                    <option value="무급휴가">무급휴가</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="purpose">출장(연가) 목적</label>
+                <input type="text" id="purpose" name="purpose" required placeholder="목적을 입력하세요">
+            </div>
+
+            <div class="form-group">
+                <label for="location">출장지역(기관명)</label>
+                <input type="text" id="location" name="location" placeholder="출장 시 입력">
+            </div>
+
+            <div class="section-title">일시</div>
+
+            <div class="form-group">
+                <label for="startDate">시작 일시</label>
+                <input type="datetime-local" id="startDate" name="startDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">종료 일시</label>
+                <input type="datetime-local" id="endDate" name="endDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="includeBreak">휴게시간 포함 (연가 시)</label>
+                <select id="includeBreak" name="includeBreak">
+                    <option value="0">해당사항 없음</option>
+                    <option value="30">30분</option>
+                    <option value="60">1시간</option>
+                </select>
+            </div>
+
+            <!-- [주석 처리됨: 서명 UI] 
+            <div class="section-title">신청자 서명</div>
+            <div class="form-group" style="text-align: center;">
+                <canvas id="signatureCanvas" width="300" height="150" style="border: 1px solid #ccc; border-radius: 8px; cursor: crosshair; touch-action: none; background: #fff;"></canvas>
+                <div style="margin-top: 5px;">
+                    <button type="button" onclick="clearSignature()" style="padding: 5px 10px; background: #eee; border: none; border-radius: 4px; cursor: pointer;">서명 지우기</button>
+                </div>
+                <input type="hidden" id="signatureData" name="signatureData">
+            </div>
+            -->
+
+            <input type="hidden" name="check" value="">
+
+            <button type="submit" class="btn-submit">제출하기</button>
+            <div id="loading" class="loading">처리 중입니다... 잠시만 기다려주세요.</div>
+        </form>
+    </div>
+
+    <script>
+        // 페이지 로드 시 초기화
+        window.onload = function () {
+            setDefaultDateTime();
+            // initSignaturePad(); // [서명 활성화 시 주석 해제]
+        };
+
+        function setDefaultDateTime() {
+            const now = new Date();
+            // 한국 시간대(KST) 보정 (UTC+9) - 단순 로컬 시간 포맷팅
+            // datetime-local input은 'YYYY-MM-DDThh:mm' 형식을 요구함
+
+            const offset = now.getTimezoneOffset() * 60000; // 분 단위를 밀리초로 변환
+            const localIsoString = new Date(now - offset).toISOString().slice(0, 16);
+
+            document.getElementById('startDate').value = localIsoString;
+            document.getElementById('endDate').value = localIsoString;
+        }
+
+        /* [주석 처리됨: 서명 관련 스크립트]
+        let canvas, ctx, isDrawing = false;
+
+        function initSignaturePad() {
+            canvas = document.getElementById('signatureCanvas');
+            // ... (서명 패드 초기화 로직)
+            // 필요 시 이전 단계의 코드를 참고하여 복원하세요.
+        }
+        // ...
+        */
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const submitBtn = document.querySelector('.btn-submit');
+            const loadingDiv = document.getElementById('loading');
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '제출 중...';
+            loadingDiv.style.display = 'block';
+
+            const form = document.getElementById('attendanceForm');
+
+            google.script.run
+                .withSuccessHandler(onSuccess)
+                .withFailureHandler(onFailure)
+                .processForm(form);
+        }
+
+        function onSuccess(response) {
+            const submitBtn = document.querySelector('.btn-submit');
+            const loadingDiv = document.getElementById('loading');
+
+            if (response.success) {
+                alert(response.message);
+                document.getElementById('attendanceForm').reset();
+                setDefaultDateTime(); // 날짜 다시 설정
+            } else {
+                alert('오류가 발생했습니다: ' + response.message);
+            }
+
+            // 상태 복구
+            submitBtn.disabled = false;
+            submitBtn.textContent = '제출하기';
+            loadingDiv.style.display = 'none';
+        }
+
+        function onFailure(error) {
+            alert('서버 오류: ' + error.message);
+
+            const submitBtn = document.querySelector('.btn-submit');
+            const loadingDiv = document.getElementById('loading');
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = '제출하기';
+            loadingDiv.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
