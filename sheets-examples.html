@@ -100,27 +100,38 @@
             <div style="padding: 30px; border-bottom: 1px solid #f8f9fa; background: #fafafa;">
                 <h3 style="margin: 0; color: #f06595; display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 1.5rem;">⏰</span>
-                    근태관리대장 및 연차 자동 계산
+                    근태관리대장 (GAS 웹앱 + 자동 서식)
                 </h3>
             </div>
             <div style="padding: 30px;">
                 <div class="responsive-half-grid">
                     <div>
                         <p style="font-size: 1.05rem; line-height: 1.8; color: #444; margin-bottom: 15px;">
-                            직원별 출퇴근 기록을 바탕으로 근무 시간, 연장 근로, 잔여 연차 등을 자동으로 관리하는 템플릿입니다.
+                            Google Apps Script(GAS) 웹앱으로 제작된 <strong>모바일 친화적 입력폼</strong>을 통해 근태 정보를 제출하면,
+                            스프레드시트에 자동 저장되고 <strong>근태관리대장</strong>과 <strong>연가관리대장</strong> 서식이 자동으로 생성됩니다.
                         </p>
                         <ul style="color: #555; padding-left: 20px; font-size: 0.95rem; line-height: 1.8;">
-                            <li>출근/퇴근 시간 입력 시 실 근무시간 자동 산출</li>
-                            <li>월별 근태 현황 요약 및 통계 기능</li>
-                            <li>입사일 기준 연차 발생 및 사용 내역 관리</li>
+                            <li><strong>간편한 입력:</strong> 성명, 구분(외근/회의/교육/연가/병가 등), 목적, 출장지역, 시작·종료 일시를 입력합니다.</li>
+                            <li><strong>자동 시간 설정:</strong> 시작·종료 일시가 현재 시각으로 자동 세팅되어 빠르게 제출할 수 있습니다.</li>
+                            <li><strong>휴게시간 처리:</strong> 연가 시 휴게시간(30분/1시간)을 선택하여 실 근무시간에 반영합니다.</li>
+                            <li><strong>서식 자동 연동:</strong> 제출된 데이터가 근태관리대장·연가관리대장 시트에 자동 반영됩니다.</li>
                         </ul>
                     </div>
                     <div
-                        style="text-align: center; background: #f8f9fa; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #eee;">
-                        <p style="font-weight: 600; color: #444; margin-bottom: 15px;">활용된 핵심 함수</p>
-                        <code
-                            style="background: #e9ecef; padding: 10px; border-radius: 6px; color: #d6336c; font-weight: bold; margin-bottom: 20px;">=IF(B3>C3, C3+1-B3, C3-B3)</code>
-                        <div style="color: #666; font-size: 0.85rem;">(상세 내용 준비 중)</div>
+                        style="text-align: center; background: #f8f9fa; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; gap: 10px; border: 1px solid #eee;">
+                        <p style="font-weight: 600; color: #444; margin-bottom: 5px;">📋 관련 링크</p>
+                        <a href="https://script.google.com/macros/s/AKfycbxLU86sxC16OqXioFjGaGfDmKhnhTo9-7vcXm1ECY6-osZMqf7yWIBIuDMy-2ocfUQ/exec"
+                            target="_blank"
+                            style="display: inline-block; padding: 10px 16px; background: #f06595; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem;">📝
+                            입력폼 바로가기 ↗</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1sCfPZluLHhEdsEYQ8XmFOnPO1KEsTjM3TNlxHg13qA0/edit?gid=109912036#gid=109912036"
+                            target="_blank"
+                            style="display: inline-block; padding: 10px 16px; background: #e64980; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem;">📊
+                            서식1) 근태관리대장 ↗</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1sCfPZluLHhEdsEYQ8XmFOnPO1KEsTjM3TNlxHg13qA0/edit?gid=1833354850#gid=1833354850"
+                            target="_blank"
+                            style="display: inline-block; padding: 10px 16px; background: #d6336c; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem;">🏖️
+                            서식2) 연가관리대장 ↗</a>
                     </div>
                 </div>
             </div>
