@@ -172,6 +172,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/miniapp-pdf-tool.html');
     } else if (pageName === 'PDF Binder(Web)' || pageName === 'PDF Binder (Web)') {
         await loadModule('page-body', '/miniapp-pdf-binder-web.html');
+    } else if (pageName === 'Table Styler Web') {
+        await loadModule('page-body', '/miniapp-table-cleaner-web.html');
     } else if (pageName === '법령 조문(키워드) 검색' || pageName === 'Legal Provision Search') {
         await loadModule('page-body', '/miniapp-wlaw-search.html');
     }

@@ -1,0 +1,247 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px; text-align: center;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 15px; color: #333;">표 스타일 정리 (Table Styler Web)</h2>
+        <p style="color: #666; font-size: 1.1rem;">한글/엑셀 표의 불필요한 스타일을 제거하고 깔끔하게 정리합니다.</p>
+    </div>
+
+    <!-- Main Tool Container -->
+    <div class="styler-wrapper"
+        style="max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 20px; padding: 40px; box-shadow: 0 15px 50px rgba(0,0,0,0.1); border: 1px solid #eee;">
+
+        <!-- Input Section -->
+        <div class="section" style="margin-bottom: 35px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <span
+                    style="background: #ffda00; color: #000; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 800; font-size: 0.9rem;">1</span>
+                <label style="font-size: 1.2rem; font-weight: 700; color: #333;">표 붙여넣기</label>
+            </div>
+            <div id="inputArea" class="editable-area" contenteditable="true"
+                data-placeholder="한글이나 엑셀에서 표를 복사한 후 여기에 붙여넣으세요 (Ctrl+V)"
+                style="width: 100%; min-height: 220px; max-height: 450px; padding: 20px; border: 2px solid #eef0f2; border-radius: 15px; background: #fafbfc; overflow: auto; outline: none; transition: all 0.3s; font-size: 1rem; line-height: 1.6; color: #444;">
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 20px;">
+                <button onclick="cleanTable()"
+                    style="flex: 2; padding: 15px; background: #ffda00; color: #000; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 800; cursor: pointer; box-shadow: 0 5px 15px rgba(255,218,0,0.3); transition: all 0.2s;">
+                    🧹 표 정리하기 (Clean Styler)
+                </button>
+                <button onclick="clearInput()"
+                    style="flex: 0.5; padding: 15px; background: #f4f5f7; color: #666; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    지우기
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Note -->
+        <div
+            style="background: #fff9db; border-radius: 12px; padding: 15px 20px; border-left: 5px solid #ffda00; margin-bottom: 40px; font-size: 0.95rem; color: #856404; line-height: 1.6;">
+            <strong>✨ 정리 효과:</strong> 모든 인라인 스타일(색상, 폰트 등)과 불필요한 클래스를 제거하고, 표 구조(병합 정보 등)와 정렬 상태만 깨끗하게 남깁니다.
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultSection" style="display: none;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span
+                        style="background: #333; color: #fff; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 800; font-size: 0.9rem;">2</span>
+                    <label style="font-size: 1.2rem; font-weight: 700; color: #333;">정리된 결과</label>
+                </div>
+                <div id="copyBadge"
+                    style="display: none; color: #2e7d32; font-weight: 700; font-size: 0.9rem; animation: fadeIn 0.3s;">
+                    ✓ 복사 완료!</div>
+            </div>
+
+            <textarea id="outputArea" readonly
+                style="width: 100%; height: 120px; padding: 15px; border: 1px solid #ddd; border-radius: 10px; background: #f8f9fa; font-family: 'Consolas', monospace; font-size: 0.85rem; color: #666; resize: none; outline: none; margin-bottom: 20px;"></textarea>
+
+            <div style="display: flex; gap: 12px; margin-bottom: 40px;">
+                <button onclick="copyAsTable()"
+                    style="flex: 1; padding: 12px; background: #333; color: #fff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+                    📋 표 형식으로 복사 (문서용)
+                </button>
+                <button onclick="copyAsHTML()"
+                    style="flex: 1; padding: 12px; background: #fff; color: #333; border: 1px solid #333; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s;">
+                    📝 HTML 코드 복사
+                </button>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 1rem; font-weight: 700; color: #888;">미리보기</label>
+            </div>
+            <div id="previewArea"
+                style="width: 100%; min-height: 150px; padding: 20px; background: #fff; border: 1px dashed #ced4da; border-radius: 15px; overflow: auto;">
+                <!-- Preview content -->
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note" style="text-align: center; margin-top: 50px; color: #999; font-size: 0.9rem;">
+        <p>본 도구는 사용자의 데이터를 서버로 전송하지 않으며, 모든 처리는 브라우저 내에서 안전하게 이루어집니다.</p>
+    </div>
+</div>
+
+<style>
+    .editable-area:focus {
+        border-color: #ffda00 !important;
+        background: #fff !important;
+        box-shadow: 0 0 0 4px rgba(255, 218, 0, 0.1);
+    }
+
+    .editable-area:empty:before {
+        content: attr(data-placeholder);
+        color: #adb5bd;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Table styling for preview */
+    #previewArea table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    #previewArea th,
+    #previewArea td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: left;
+    }
+</style>
+
+<script>
+    (function () {
+        window.cleanTable = function () {
+            const inputArea = document.getElementById('inputArea');
+            const outputArea = document.getElementById('outputArea');
+            const previewArea = document.getElementById('previewArea');
+            const resultSection = document.getElementById('resultSection');
+
+            const inputHTML = inputArea.innerHTML.trim();
+            if (!inputHTML) {
+                alert('입력 영역에 표를 붙여넣어 주세요.');
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(inputHTML, 'text/html');
+
+                // Remove comments
+                const iterator = document.createNodeIterator(doc.body, NodeFilter.SHOW_COMMENT);
+                const comments = [];
+                let comment;
+                while (comment = iterator.nextNode()) comments.push(comment);
+                comments.forEach(c => c.remove());
+
+                // Remove HWP specific wrapper
+                const hwpDiv = doc.querySelector('#hwpEditorBoardContent');
+                if (hwpDiv) hwpDiv.remove();
+
+                const tables = doc.querySelectorAll('table');
+                if (tables.length === 0) {
+                    alert('표(table) 내용을 찾을 수 없습니다. 다시 복사해 주세요.');
+                    return;
+                }
+
+                const structuralAttrs = ['colspan', 'rowspan', 'align'];
+
+                tables.forEach(table => {
+                    // Step 1: Handle text-align in <p> tags
+                    table.querySelectorAll('p').forEach(p => {
+                        const style = p.getAttribute('style');
+                        let textAlign = (style && style.match(/text-align\s*:\s*([^;]+)/i)) ? style.match(/text-align\s*:\s*([^;]+)/i)[1].trim() : p.getAttribute('align');
+
+                        if (textAlign) {
+                            let parent = p.parentElement;
+                            while (parent && !['TD', 'TH'].includes(parent.tagName)) parent = parent.parentElement;
+                            if (parent && !parent.getAttribute('align')) parent.setAttribute('align', textAlign);
+                        }
+                    });
+
+                    // Step 2: Unwrap <p>, <span>
+                    table.querySelectorAll('p, span').forEach(el => {
+                        if (el.tagName === 'P') {
+                            const br = document.createElement('br');
+                            while (el.firstChild) el.parentNode.insertBefore(el.firstChild, el);
+                            el.parentNode.insertBefore(br, el);
+                        } else {
+                            while (el.firstChild) el.parentNode.insertBefore(el.firstChild, el);
+                        }
+                        el.parentNode.removeChild(el);
+                    });
+
+                    // Step 3: Global Table Attrs
+                    while (table.attributes.length > 0) table.removeAttribute(table.attributes[0].name);
+                    table.setAttribute('width', '100%');
+                    table.setAttribute('border', '1');
+                    table.style.cssText = 'table-layout: auto; border-collapse: collapse;';
+
+                    // Step 4: Clean all sub-elements
+                    table.querySelectorAll('*').forEach(el => {
+                        if (el.tagName === 'TABLE' && el !== table) return;
+                        const attrNames = Array.from(el.attributes).map(a => a.name);
+                        attrNames.forEach(name => { if (!structuralAttrs.includes(name)) el.removeAttribute(name); });
+                        if (['TD', 'TH'].includes(el.tagName)) el.style.cssText = 'border: 1px solid #000; padding: 4px;';
+                    });
+                });
+
+                const cleaned = doc.body.innerHTML.trim();
+                outputArea.value = cleaned;
+                previewArea.innerHTML = cleaned;
+                resultSection.style.display = 'block';
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } catch (err) {
+                alert('처리 중 오류가 발생했습니다: ' + err.message);
+            }
+        };
+
+        window.clearInput = function () {
+            document.getElementById('inputArea').innerHTML = '';
+            document.getElementById('resultSection').style.display = 'none';
+        };
+
+        window.copyAsTable = async function () {
+            const content = document.getElementById('outputArea').value;
+            try {
+                await navigator.clipboard.write([
+                    new ClipboardItem({
+                        'text/html': new Blob([content], { type: 'text/html' }),
+                        'text/plain': new Blob([content], { type: 'text/plain' })
+                    })
+                ]);
+                showBadge();
+            } catch (e) {
+                // Fallback
+                const area = document.getElementById('outputArea');
+                area.select();
+                document.execCommand('copy');
+                showBadge();
+            }
+        };
+
+        window.copyAsHTML = function () {
+            const area = document.getElementById('outputArea');
+            area.select();
+            document.execCommand('copy');
+            showBadge();
+        };
+
+        function showBadge() {
+            const badge = document.getElementById('copyBadge');
+            badge.style.display = 'block';
+            setTimeout(() => { badge.style.display = 'none'; }, 2000);
+        }
+    })();
+</script>
