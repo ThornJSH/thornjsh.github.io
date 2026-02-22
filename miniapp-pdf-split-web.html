@@ -1,0 +1,195 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 10px; color: #000;">PDF 나누기 (Web Version)</h2>
+        <p style="font-size: 1.1rem; color: #666;">PDF 파일을 원하는 페이지를 기준으로 두 개의 파일로 분할하세요.</p>
+    </div>
+
+    <div class="web-tool-container"
+        style="background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee;">
+        <div class="upload-area" id="split-drop-zone"
+            style="border: 2px dashed #ddd; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.3s; margin-bottom: 30px;">
+            <div style="font-size: 3.5rem; margin-bottom: 15px;">✂️</div>
+            <h4 style="margin: 0 0 10px 0; font-size: 1.3rem;">나눌 PDF 파일을 여기에 드래그하거나 클릭하세요</h4>
+            <p style="margin: 0; color: #888;">하나의 PDF 파일을 선택할 수 있습니다.</p>
+            <input type="file" id="split-pdf-input" accept="application/pdf" style="display: none;">
+        </div>
+
+        <div id="split-settings-container" style="display: none;">
+            <div
+                style="background: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 30px; border: 1px solid #eee;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div style="font-size: 2rem;">📄</div>
+                    <div>
+                        <h4 id="target-file-name" style="margin: 0; font-size: 1.1rem; color: #333;">파일명.pdf</h4>
+                        <p id="target-file-info" style="margin: 5px 0 0 0; font-size: 0.9rem; color: #666;">총 0페이지 /
+                            0.00 MB</p>
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+                    <label for="split-point"
+                        style="display: block; margin-bottom: 10px; font-weight: 600; color: #333;">분할 지점 페이지 번호</label>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <input type="number" id="split-point" min="1" value="1"
+                            style="width: 100px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <span style="color: #666; font-size: 0.95rem;">페이지를 기준으로 나눕니다.</span>
+                    </div>
+                    <p style="margin: 10px 0 0 0; font-size: 0.85rem; color: #888;">
+                        * 예: 3을 입력하면 1~3페이지(파일 1)와 4페이지~끝(파일 2)으로 분리됩니다.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button id="split-run-btn"
+                    style="padding: 15px 40px; background: #2e7d32; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);">
+                    PDF 나누기 및 다운로드
+                </button>
+                <button id="split-reset-btn"
+                    style="padding: 15px 30px; background: #f5f5f5; color: #666; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                    다른 파일 선택
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-note"
+        style="background: #e1f5fe; padding: 20px; border-radius: 12px; border-left: 4px solid #03a9f4; margin-top: 40px;">
+        <h5 style="margin: 0 0 10px 0; color: #01579b; font-size: 1rem;">💡 활용 팁</h5>
+        <p style="margin: 0; font-size: 0.95rem; color: #555; line-height: 1.6;">
+            나누기 기능을 사용하면 대용량 PDF에서 필요한 섹션만 분리하거나 공문서의 붙임 서류만 따로 추출할 때 유용합니다.
+            모든 과정은 <strong>보안을 위해 내부 시스템</strong>에서 처리됩니다.
+        </p>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script>
+    (function () {
+        const dropZone = document.getElementById('split-drop-zone');
+        const pdfInput = document.getElementById('split-pdf-input');
+        const settingsContainer = document.getElementById('split-settings-container');
+        const fileNameDisplay = document.getElementById('target-file-name');
+        const fileInfoDisplay = document.getElementById('target-file-info');
+        const splitPointInput = document.getElementById('split-point');
+        const runBtn = document.getElementById('split-run-btn');
+        const resetBtn = document.getElementById('split-reset-btn');
+
+        let targetFile = null;
+        let totalPages = 0;
+
+        dropZone.addEventListener('click', () => pdfInput.click());
+        pdfInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#2e7d32';
+            dropZone.style.background = '#f1f8e9';
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = '#ddd';
+            dropZone.style.background = 'transparent';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#ddd';
+            dropZone.style.background = 'transparent';
+            handleFile(e.dataTransfer.files[0]);
+        });
+
+        async function handleFile(file) {
+            if (!file || file.type !== 'application/pdf') {
+                alert('PDF 파일을 선택해주세요.');
+                return;
+            }
+
+            targetFile = file;
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                totalPages = pdfDoc.getPageCount();
+
+                fileNameDisplay.textContent = file.name;
+                fileInfoDisplay.textContent = `총 ${totalPages}페이지 / ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+
+                splitPointInput.max = totalPages - 1;
+                splitPointInput.value = Math.floor(totalPages / 2) || 1;
+
+                settingsContainer.style.display = 'block';
+                dropZone.style.display = 'none';
+            } catch (error) {
+                console.error('File load error:', error);
+                alert('PDF 파일을 읽는 중 오류가 발생했습니다.');
+            }
+        }
+
+        resetBtn.addEventListener('click', () => {
+            targetFile = null;
+            settingsContainer.style.display = 'none';
+            dropZone.style.display = 'block';
+            pdfInput.value = '';
+        });
+
+        runBtn.addEventListener('click', async () => {
+            const splitVal = parseInt(splitPointInput.value);
+
+            if (isNaN(splitVal) || splitVal < 1 || splitVal >= totalPages) {
+                alert(`1부터 ${totalPages - 1} 사이의 페이지 번호를 입력해주세요.`);
+                return;
+            }
+
+            runBtn.disabled = true;
+            runBtn.textContent = '처리 중...';
+            runBtn.style.opacity = '0.7';
+
+            try {
+                const arrayBuffer = await targetFile.arrayBuffer();
+                const srcDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+
+                // 파일 1 생성 (1 ~ splitVal)
+                const doc1 = await PDFLib.PDFDocument.create();
+                const pages1 = await doc1.copyPages(srcDoc, Array.from({ length: splitVal }, (_, i) => i));
+                pages1.forEach(p => doc1.addPage(p));
+                const bytes1 = await doc1.save();
+
+                // 파일 2 생성 (splitVal + 1 ~ 끝)
+                const doc2 = await PDFLib.PDFDocument.create();
+                const pages2 = await doc2.copyPages(srcDoc, Array.from({ length: totalPages - splitVal }, (_, i) => i + splitVal));
+                pages2.forEach(p => doc2.addPage(p));
+                const bytes2 = await doc2.save();
+
+                // 순차적 다운로드
+                download(bytes1, `${targetFile.name.replace('.pdf', '')}_part1.pdf`);
+
+                // 약간의 지연 후 두 번째 파일 다운로드 (브라우저 정책 대응)
+                setTimeout(() => {
+                    download(bytes2, `${targetFile.name.replace('.pdf', '')}_part2.pdf`);
+                    alert('파일 분할이 완료되어 2개의 파일이 다운로드됩니다.');
+                }, 500);
+
+            } catch (error) {
+                console.error('Split error:', error);
+                alert('PDF 분할 중 오류가 발생했습니다.');
+            } finally {
+                runBtn.disabled = false;
+                runBtn.textContent = 'PDF 나누기 및 다운로드';
+                runBtn.style.opacity = '1';
+            }
+        });
+
+        function download(bytes, name) {
+            const blob = new Blob([bytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    })();
+</script>

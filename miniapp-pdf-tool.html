@@ -63,12 +63,29 @@
                 </p>
             </div>
 
-            <div class="action-buttons" style="display: flex; gap: 15px;">
+            <div class="action-buttons" style="display: flex; gap: 15px; margin-bottom: 40px;">
                 <a href="https://drive.google.com/file/d/1B6RfGRbIDXQxb89mUzaX4rdNm3-B1s9u/view?usp=sharing"
                     target="_blank"
                     style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #d32f2f; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
                     <span>📥</span> PDF MultiTool 다운로드 (.zip)
                 </a>
+            </div>
+
+            <!-- Web Version Section -->
+            <div class="web-version-section" style="border-top: 1px solid #eee; padding-top: 30px;">
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #333;">Web Version (온라인 도구)</h3>
+                <p style="color: #666; margin-bottom: 20px;">설치 없이 브라우저에서 즉시 PDF를 편집할 수 있습니다. (서버 저장 없이 브라우저 내에서 직접 처리)
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                    <button onclick="window.navigateToPage('PDF 합치기(Web)')"
+                        style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; background: #fff; color: #d32f2f; border: 1px solid #d32f2f; text-decoration: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <span>📑</span> PDF 합치기 시작하기
+                    </button>
+                    <button onclick="window.navigateToPage('PDF 나누기(Web)')"
+                        style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; background: #fff; color: #2e7d32; border: 1px solid #2e7d32; text-decoration: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <span>✂️</span> PDF 나누기 시작하기
+                    </button>
+                </div>
             </div>
         </div>
 

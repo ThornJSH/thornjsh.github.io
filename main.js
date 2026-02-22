@@ -5,7 +5,27 @@ async function loadModule(id, file) {
         const response = await fetch(file);
         if (!response.ok) throw new Error(`Failed to load ${file}`);
         const data = await response.text();
-        document.getElementById(id).innerHTML = data;
+        const element = document.getElementById(id);
+        if (!element) return;
+
+        element.innerHTML = data;
+
+        // 동적으로 삽입된 스크립트 실행 처리
+        const scripts = element.querySelectorAll('script');
+        scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            // 원래 스크립트의 모든 속성 복사 (src 등)
+            Array.from(oldScript.attributes).forEach(attr => {
+                newScript.setAttribute(attr.name, attr.value);
+            });
+            // 인라인 스크립트 내용 복사
+            if (oldScript.innerHTML) {
+                newScript.textContent = oldScript.innerHTML;
+            }
+            // 기존 스크립트를 새 스크립트로 교체하여 실행 유도
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+        });
+
         return data;
     } catch (error) {
         console.error(`Error loading ${file}:`, error);
@@ -150,6 +170,10 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/miniapp-excel-password.html');
     } else if (pageName === 'PDF MultiTool' || pageName === 'PDF MultiTool(Split/Merge/Protect)') {
         await loadModule('page-body', '/miniapp-pdf-tool.html');
+    } else if (pageName === 'PDF 합치기(Web)' || pageName === 'PDF Merge (Web)') {
+        await loadModule('page-body', '/miniapp-pdf-merge-web.html');
+    } else if (pageName === 'PDF 나누기(Web)' || pageName === 'PDF Split (Web)') {
+        await loadModule('page-body', '/miniapp-pdf-split-web.html');
     } else if (pageName === '법령 조문(키워드) 검색' || pageName === 'Legal Provision Search') {
         await loadModule('page-body', '/miniapp-wlaw-search.html');
     }
