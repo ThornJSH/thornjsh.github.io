@@ -9,7 +9,7 @@
         <div class="upload-area" id="split-drop-zone"
             style="border: 2px dashed #ddd; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.3s; margin-bottom: 30px;">
             <div style="font-size: 3.5rem; margin-bottom: 15px;">✂️</div>
-            <h4 style="margin: 0 0 10px 0; font-size: 1.3rem;">나눌 PDF 파일을 여기에 드래그하거나 클릭하세요</h4>
+            <h4 style="margin: 0 0 10px 0; font-size: 1.3rem;">PDF 파일을 여기에 드래그하거나 클릭하세요</h4>
             <p style="margin: 0; color: #888;">하나의 PDF 파일을 선택할 수 있습니다.</p>
             <input type="file" id="split-pdf-input" accept="application/pdf" style="display: none;">
         </div>
@@ -17,7 +17,7 @@
         <div id="split-settings-container" style="display: none;">
             <div
                 style="background: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 30px; border: 1px solid #eee;">
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
                     <div style="font-size: 2rem;">📄</div>
                     <div>
                         <h4 id="target-file-name" style="margin: 0; font-size: 1.1rem; color: #333;">파일명.pdf</h4>
@@ -26,7 +26,17 @@
                     </div>
                 </div>
 
-                <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+                <!-- Mode Selector -->
+                <div style="display: flex; gap: 10px; margin-bottom: 25px;">
+                    <button id="mode-split" class="mode-btn active"
+                        style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font-weight: 600; cursor: pointer;">2개로
+                        나누기</button>
+                    <button id="mode-extract" class="mode-btn"
+                        style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font-weight: 600; cursor: pointer;">범위
+                        추출하기</button>
+                </div>
+
+                <div id="split-input-group" style="border-top: 1px solid #eee; padding-top: 20px;">
                     <label for="split-point"
                         style="display: block; margin-bottom: 10px; font-weight: 600; color: #333;">분할 지점 페이지 번호</label>
                     <div style="display: flex; align-items: center; gap: 15px;">
@@ -38,12 +48,28 @@
                         * 예: 3을 입력하면 1~3페이지(파일 1)와 4페이지~끝(파일 2)으로 분리됩니다.
                     </p>
                 </div>
+
+                <div id="extract-input-group" style="border-top: 1px solid #eee; padding-top: 20px; display: none;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #333;">추출할 페이지
+                        범위</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="number" id="extract-start" min="1" value="1"
+                            style="width: 80px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <span>~</span>
+                        <input type="number" id="extract-end" min="1" value="1"
+                            style="width: 80px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <span style="color: #666; font-size: 0.95rem;">섹션만 따로 저장합니다.</span>
+                    </div>
+                    <p style="margin: 10px 0 0 0; font-size: 0.85rem; color: #888;">
+                        * 선택한 범위의 페이지들만 포함된 하나의 새로운 파일을 생성합니다.
+                    </p>
+                </div>
             </div>
 
             <div style="display: flex; gap: 15px; justify-content: center;">
                 <button id="split-run-btn"
                     style="padding: 15px 40px; background: #2e7d32; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);">
-                    PDF 나누기 및 다운로드
+                    실행 및 다운로드
                 </button>
                 <button id="split-reset-btn"
                     style="padding: 15px 30px; background: #f5f5f5; color: #666; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
@@ -53,12 +79,20 @@
         </div>
     </div>
 
+    <style>
+        .mode-btn.active {
+            border-color: #2e7d32 !important;
+            color: #2e7d32 !important;
+            background: #f1f8e9 !important;
+        }
+    </style>
+
     <div class="info-note"
         style="background: #e1f5fe; padding: 20px; border-radius: 12px; border-left: 4px solid #03a9f4; margin-top: 40px;">
         <h5 style="margin: 0 0 10px 0; color: #01579b; font-size: 1rem;">💡 활용 팁</h5>
         <p style="margin: 0; font-size: 0.95rem; color: #555; line-height: 1.6;">
-            나누기 기능을 사용하면 대용량 PDF에서 필요한 섹션만 분리하거나 공문서의 붙임 서류만 따로 추출할 때 유용합니다.
-            모든 과정은 <strong>보안을 위해 내부 시스템</strong>에서 처리됩니다.
+            <strong>나누기:</strong> 긴 문서를 두 부분으로 분리할 때 유용합니다.<br>
+            <strong>추출하기:</strong> 문서 중간의 특정 보고서나 서식 부분만 따로 뽑아낼 때 사용하세요.
         </p>
     </div>
 
@@ -84,11 +118,35 @@
         const fileNameDisplay = document.getElementById('target-file-name');
         const fileInfoDisplay = document.getElementById('target-file-info');
         const splitPointInput = document.getElementById('split-point');
+        const extractStartInput = document.getElementById('extract-start');
+        const extractEndInput = document.getElementById('extract-end');
         const runBtn = document.getElementById('split-run-btn');
         const resetBtn = document.getElementById('split-reset-btn');
+        const modeSplitBtn = document.getElementById('mode-split');
+        const modeExtractBtn = document.getElementById('mode-extract');
+        const splitInputGroup = document.getElementById('split-input-group');
+        const extractInputGroup = document.getElementById('extract-input-group');
 
         let targetFile = null;
         let totalPages = 0;
+        let currentMode = 'split'; // 'split' or 'extract'
+
+        // 모드 전환
+        modeSplitBtn.addEventListener('click', () => {
+            currentMode = 'split';
+            modeSplitBtn.classList.add('active');
+            modeExtractBtn.classList.remove('active');
+            splitInputGroup.style.display = 'block';
+            extractInputGroup.style.display = 'none';
+        });
+
+        modeExtractBtn.addEventListener('click', () => {
+            currentMode = 'extract';
+            modeExtractBtn.classList.add('active');
+            modeSplitBtn.classList.remove('active');
+            splitInputGroup.style.display = 'none';
+            extractInputGroup.style.display = 'block';
+        });
 
         dropZone.addEventListener('click', () => pdfInput.click());
         pdfInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
@@ -130,6 +188,11 @@
                 splitPointInput.max = totalPages - 1;
                 splitPointInput.value = Math.floor(totalPages / 2) || 1;
 
+                extractStartInput.max = totalPages;
+                extractEndInput.max = totalPages;
+                extractStartInput.value = 1;
+                extractEndInput.value = totalPages;
+
                 settingsContainer.style.display = 'block';
                 dropZone.style.display = 'none';
             } catch (error) {
@@ -146,13 +209,6 @@
         });
 
         runBtn.addEventListener('click', async () => {
-            const splitVal = parseInt(splitPointInput.value);
-
-            if (isNaN(splitVal) || splitVal < 1 || splitVal >= totalPages) {
-                alert(`1부터 ${totalPages - 1} 사이의 페이지 번호를 입력해주세요.`);
-                return;
-            }
-
             runBtn.disabled = true;
             runBtn.textContent = '처리 중...';
             runBtn.style.opacity = '0.7';
@@ -161,33 +217,50 @@
                 const arrayBuffer = await targetFile.arrayBuffer();
                 const srcDoc = await PDFLib.PDFDocument.load(arrayBuffer);
 
-                // 파일 1 생성 (1 ~ splitVal)
-                const doc1 = await PDFLib.PDFDocument.create();
-                const pages1 = await doc1.copyPages(srcDoc, Array.from({ length: splitVal }, (_, i) => i));
-                pages1.forEach(p => doc1.addPage(p));
-                const bytes1 = await doc1.save();
+                if (currentMode === 'split') {
+                    const splitVal = parseInt(splitPointInput.value);
+                    if (isNaN(splitVal) || splitVal < 1 || splitVal >= totalPages) {
+                        throw new Error(`1부터 ${totalPages - 1} 사이의 페이지 번호를 입력해주세요.`);
+                    }
 
-                // 파일 2 생성 (splitVal + 1 ~ 끝)
-                const doc2 = await PDFLib.PDFDocument.create();
-                const pages2 = await doc2.copyPages(srcDoc, Array.from({ length: totalPages - splitVal }, (_, i) => i + splitVal));
-                pages2.forEach(p => doc2.addPage(p));
-                const bytes2 = await doc2.save();
+                    // 파일 1 생성 (1 ~ splitVal)
+                    const doc1 = await PDFLib.PDFDocument.create();
+                    const pages1 = await doc1.copyPages(srcDoc, Array.from({ length: splitVal }, (_, i) => i));
+                    pages1.forEach(p => doc1.addPage(p));
+                    const bytes1 = await doc1.save();
 
-                // 순차적 다운로드
-                download(bytes1, `${targetFile.name.replace('.pdf', '')}_part1.pdf`);
+                    // 파일 2 생성 (splitVal + 1 ~ 끝)
+                    const doc2 = await PDFLib.PDFDocument.create();
+                    const pages2 = await doc2.copyPages(srcDoc, Array.from({ length: totalPages - splitVal }, (_, i) => i + splitVal));
+                    pages2.forEach(p => doc2.addPage(p));
+                    const bytes2 = await doc2.save();
 
-                // 약간의 지연 후 두 번째 파일 다운로드 (브라우저 정책 대응)
-                setTimeout(() => {
-                    download(bytes2, `${targetFile.name.replace('.pdf', '')}_part2.pdf`);
-                    alert('파일 분할이 완료되어 2개의 파일이 다운로드됩니다.');
-                }, 500);
+                    download(bytes1, `${targetFile.name.replace('.pdf', '')}_part1.pdf`);
+                    setTimeout(() => download(bytes2, `${targetFile.name.replace('.pdf', '')}_part2.pdf`), 500);
+                } else {
+                    const start = parseInt(extractStartInput.value);
+                    const end = parseInt(extractEndInput.value);
+
+                    if (isNaN(start) || isNaN(end) || start < 1 || end > totalPages || start > end) {
+                        throw new Error(`유효한 범위를 입력해주세요. (1 ~ ${totalPages})`);
+                    }
+
+                    const extractDoc = await PDFLib.PDFDocument.create();
+                    const rangePages = await extractDoc.copyPages(srcDoc, Array.from({ length: end - start + 1 }, (_, i) => i + start - 1));
+                    rangePages.forEach(p => extractDoc.addPage(p));
+                    const extractBytes = await extractDoc.save();
+
+                    download(extractBytes, `${targetFile.name.replace('.pdf', '')}_extracted_${start}-${end}.pdf`);
+                }
+
+                alert('작업이 완료되었습니다!');
 
             } catch (error) {
-                console.error('Split error:', error);
-                alert('PDF 분할 중 오류가 발생했습니다.');
+                console.error('Process error:', error);
+                alert(error.message || '처리 중 오류가 발생했습니다.');
             } finally {
                 runBtn.disabled = false;
-                runBtn.textContent = 'PDF 나누기 및 다운로드';
+                runBtn.textContent = '실행 및 다운로드';
                 runBtn.style.opacity = '1';
             }
         });

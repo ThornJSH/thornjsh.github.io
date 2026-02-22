@@ -174,6 +174,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/miniapp-pdf-merge-web.html');
     } else if (pageName === 'PDF 나누기(Web)' || pageName === 'PDF Split (Web)') {
         await loadModule('page-body', '/miniapp-pdf-split-web.html');
+    } else if (pageName === 'PDF Binder(Web)' || pageName === 'PDF Binder (Web)') {
+        await loadModule('page-body', '/miniapp-pdf-binder-web.html');
     } else if (pageName === '법령 조문(키워드) 검색' || pageName === 'Legal Provision Search') {
         await loadModule('page-body', '/miniapp-wlaw-search.html');
     }

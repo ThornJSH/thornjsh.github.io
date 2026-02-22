@@ -1,0 +1,441 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 10px; color: #000;">PDF Binder (Web Version)</h2>
+        <p style="font-size: 1.1rem; color: #666;">여러 PDF를 하나로 합치거나, 필요한 페이지만 쏙 뽑아내세요.</p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-container" style="display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid #eee;">
+        <button id="tab-merge" class="tab-btn active"
+            style="padding: 12px 25px; border: none; background: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; color: #666; position: relative;">
+            PDF 합치기
+        </button>
+        <button id="tab-split" class="tab-btn"
+            style="padding: 12px 25px; border: none; background: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; color: #666; position: relative;">
+            PDF 나누기/추출
+        </button>
+    </div>
+
+    <style>
+        .tab-btn.active {
+            color: #d32f2f !important;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #d32f2f;
+        }
+
+        #tab-split.active {
+            color: #2e7d32 !important;
+        }
+
+        #tab-split.active::after {
+            background: #2e7d32;
+        }
+
+        .mode-btn.active {
+            border-color: #2e7d32 !important;
+            color: #2e7d32 !important;
+            background: #f1f8e9 !important;
+        }
+    </style>
+
+    <!-- Merge Section -->
+    <div id="section-merge" class="tool-section">
+        <div class="web-tool-container"
+            style="background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee;">
+            <div class="upload-area" id="merge-drop-zone"
+                style="border: 2px dashed #ddd; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.3s; margin-bottom: 30px;">
+                <div style="font-size: 3.5rem; margin-bottom: 15px;">📂</div>
+                <h4 style="margin: 0 0 10px 0; font-size: 1.3rem;">합칠 PDF 파일들을 여기에 드래그하거나 클릭하세요</h4>
+                <p style="margin: 0; color: #888;">여러 개의 PDF 파일을 한꺼번에 선택할 수 있습니다.</p>
+                <input type="file" id="merge-pdf-input" multiple accept="application/pdf" style="display: none;">
+            </div>
+
+            <div id="merge-list-container" style="display: none;">
+                <h4
+                    style="margin-bottom: 15px; font-size: 1.1rem; color: #333; display: flex; align-items: center; gap: 8px;">
+                    <span>📋</span> 선택된 파일 목록 (드래그하여 순서를 바꿀 수 있습니다)
+                </h4>
+                <ul id="merge-file-list"
+                    style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 10px;">
+                </ul>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button id="merge-run-btn"
+                        style="padding: 15px 40px; background: #d32f2f; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(211,47,47,0.2);">PDF
+                        합치기 및 다운로드</button>
+                    <button id="merge-reset-btn"
+                        style="padding: 15px 30px; background: #f5f5f5; color: #666; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">다시
+                        시작</button>
+                </div>
+            </div>
+        </div>
+        <div class="info-note"
+            style="background: #fff3e0; padding: 20px; border-radius: 12px; border-left: 4px solid #ff9800; margin-top: 40px;">
+            <h5 style="margin: 0 0 10px 0; color: #e65100; font-size: 1rem;">🛡️ 개인정보 보호 안내</h5>
+            <p style="margin: 0; font-size: 0.95rem; color: #555; line-height: 1.6;">모든 파일 처리는 사용자의 브라우저 내에서 직접 이루어지며,
+                서버로 전송되지 않습니다.</p>
+        </div>
+    </div>
+
+    <!-- Split Section -->
+    <div id="section-split" class="tool-section" style="display: none;">
+        <div class="web-tool-container"
+            style="background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee;">
+            <div class="upload-area" id="split-drop-zone"
+                style="border: 2px dashed #ddd; border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.3s; margin-bottom: 30px;">
+                <div style="font-size: 3.5rem; margin-bottom: 15px;">✂️</div>
+                <h4 style="margin: 0 0 10px 0; font-size: 1.3rem;">나눌 PDF 파일을 여기에 드래그하거나 클릭하세요</h4>
+                <p style="margin: 0; color: #888;">하나의 PDF 파일을 선택할 수 있습니다.</p>
+                <input type="file" id="split-pdf-input" accept="application/pdf" style="display: none;">
+            </div>
+
+            <div id="split-settings-container" style="display: none;">
+                <div
+                    style="background: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 30px; border: 1px solid #eee;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+                        <div style="font-size: 2rem;">📄</div>
+                        <div>
+                            <h4 id="target-file-name" style="margin: 0; font-size: 1.1rem; color: #333;">파일명.pdf</h4>
+                            <p id="target-file-info" style="margin: 5px 0 0 0; font-size: 0.9rem; color: #666;">총 0페이지
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-bottom: 25px;">
+                        <button id="mode-split" class="mode-btn active"
+                            style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font-weight: 600; cursor: pointer;">2개로
+                            나누기</button>
+                        <button id="mode-extract" class="mode-btn"
+                            style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font-weight: 600; cursor: pointer;">범위
+                            추출하기</button>
+                    </div>
+                    <div id="split-input-group">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">분할 지점 페이지 번호</label>
+                        <input type="number" id="split-point" min="1" value="1"
+                            style="width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                    </div>
+                    <div id="extract-input-group" style="display: none;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">추출할 페이지 범위</label>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="number" id="extract-start" min="1" value="1"
+                                style="width: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <span>~</span>
+                            <input type="number" id="extract-end" min="1" value="1"
+                                style="width: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button id="split-run-btn"
+                        style="padding: 15px 40px; background: #2e7d32; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s;">실행
+                        및 다운로드</button>
+                    <button id="split-reset-btn"
+                        style="padding: 15px 30px; background: #f5f5f5; color: #666; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">다른
+                        파일 선택</button>
+                </div>
+            </div>
+        </div>
+        <div class="info-note"
+            style="background: #e1f5fe; padding: 20px; border-radius: 12px; border-left: 4px solid #03a9f4; margin-top: 40px;">
+            <h5 style="margin: 0 0 10px 0; color: #01579b; font-size: 1rem;">💡 활용 팁</h5>
+            <p style="margin: 0; font-size: 0.95rem; color: #555; line-height: 1.6;">나누기 혹은 추출 기능을 통해 필요한 문서 조각을 손쉽게
+                만드세요.</p>
+        </div>
+    </div>
+
+    <!-- Footer: License & Reference -->
+    <div class="reference-section"
+        style="margin-top: 40px; padding: 20px; border-top: 1px solid #eee; color: #888; font-size: 0.85rem;">
+        <p style="margin: 0 0 10px 0;"><strong>사용된 오픈소스 라이브러리:</strong></p>
+        <ul style="margin: 0 0 15px 0; padding-left: 20px; line-height: 1.6;">
+            <li>pdf-lib (MIT License): <a href="https://github.com/Hopding/pdf-lib" target="_blank"
+                    style="color: #666;">https://github.com/Hopding/pdf-lib</a></li>
+            <li>pdf.js (Apache 2.0 License): <a href="https://github.com/mozilla/pdf.js" target="_blank"
+                    style="color: #666;">https://github.com/mozilla/pdf.js</a></li>
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script>
+    (function () {
+        // Tab elements
+        const tabMerge = document.getElementById('tab-merge');
+        const tabSplit = document.getElementById('tab-split');
+        const sectionMerge = document.getElementById('section-merge');
+        const sectionSplit = document.getElementById('section-split');
+
+        // Merge elements
+        const mergeDropZone = document.getElementById('merge-drop-zone');
+        const mergeInput = document.getElementById('merge-pdf-input');
+        const mergeListContainer = document.getElementById('merge-list-container');
+        const mergeFileList = document.getElementById('merge-file-list');
+        const mergeRunBtn = document.getElementById('merge-run-btn');
+        const mergeResetBtn = document.getElementById('merge-reset-btn');
+
+        // Split elements
+        const splitDropZone = document.getElementById('split-drop-zone');
+        const splitInput = document.getElementById('split-pdf-input');
+        const splitSettingsContainer = document.getElementById('split-settings-container');
+        const splitPointInput = document.getElementById('split-point');
+        const extractStartInput = document.getElementById('extract-start');
+        const extractEndInput = document.getElementById('extract-end');
+        const splitRunBtn = document.getElementById('split-run-btn');
+        const splitResetBtn = document.getElementById('split-reset-btn');
+        const modeSplitBtn = document.getElementById('mode-split');
+        const modeExtractBtn = document.getElementById('mode-extract');
+        const splitInputGroup = document.getElementById('split-input-group');
+        const extractInputGroup = document.getElementById('extract-input-group');
+
+        const fileNameDisplay = document.getElementById('target-file-name');
+        const fileInfoDisplay = document.getElementById('target-file-info');
+
+        let selectedMergeFiles = [];
+        let targetSplitFile = null;
+        let totalSplitPages = 0;
+        let splitMode = 'split';
+
+        // Tab Switching
+        tabMerge.addEventListener('click', () => {
+            tabMerge.classList.add('active');
+            tabSplit.classList.remove('active');
+            sectionMerge.style.display = 'block';
+            sectionSplit.style.display = 'none';
+        });
+
+        tabSplit.addEventListener('click', () => {
+            tabSplit.classList.add('active');
+            tabMerge.classList.remove('active');
+            sectionSplit.style.display = 'block';
+            sectionMerge.style.display = 'none';
+        });
+
+        // --- MERGE LOGIC ---
+        mergeDropZone.addEventListener('click', () => mergeInput.click());
+        mergeInput.addEventListener('change', (e) => handleMergeFiles(e.target.files));
+
+        mergeDropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            mergeDropZone.style.borderColor = '#d32f2f';
+            mergeDropZone.style.background = '#fff8f8';
+        });
+        mergeDropZone.addEventListener('dragleave', () => {
+            mergeDropZone.style.borderColor = '#ddd';
+            mergeDropZone.style.background = 'transparent';
+        });
+        mergeDropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            mergeDropZone.style.borderColor = '#ddd';
+            mergeDropZone.style.background = 'transparent';
+            handleMergeFiles(e.dataTransfer.files);
+        });
+
+        function handleMergeFiles(files) {
+            const newFiles = Array.from(files).filter(f => f.type === 'application/pdf');
+            if (newFiles.length === 0) return;
+            selectedMergeFiles = [...selectedMergeFiles, ...newFiles];
+            renderMergeList();
+        }
+
+        function renderMergeList() {
+            if (selectedMergeFiles.length > 0) {
+                mergeListContainer.style.display = 'block';
+                mergeDropZone.style.padding = '20px';
+                mergeDropZone.querySelector('h4').textContent = '파일 추가하기';
+            }
+            mergeFileList.innerHTML = '';
+            selectedMergeFiles.forEach((file, index) => {
+                const li = document.createElement('li');
+                li.style.cssText = 'display: flex; align-items: center; gap: 15px; padding: 12px 20px; background: #f8f9fa; border: 1px solid #eee; border-radius: 8px; cursor: move;';
+                li.draggable = true;
+                li.dataset.index = index;
+                li.innerHTML = `
+                    <span style="color: #adb5bd;">☰</span>
+                    <span style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</span>
+                    <button class="remove-m-btn" data-index="${index}" style="background: none; border: none; color: #ff5252; cursor: pointer;">✕</button>
+                `;
+                li.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', index);
+                    li.style.opacity = '0.5';
+                });
+                li.addEventListener('dragend', () => li.style.opacity = '1');
+                mergeFileList.appendChild(li);
+            });
+
+            document.querySelectorAll('.remove-m-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = parseInt(e.target.dataset.index);
+                    selectedMergeFiles.splice(idx, 1);
+                    renderMergeList();
+                    if (selectedMergeFiles.length === 0) resetMerge();
+                });
+            });
+        }
+
+        mergeFileList.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const draggingItem = mergeFileList.querySelector('[style*="opacity: 0.5"]');
+            const siblings = [...mergeFileList.querySelectorAll('li:not([style*="opacity: 0.5"])')];
+            const nextSibling = siblings.find(sibling => e.clientY <= sibling.getBoundingClientRect().top + sibling.getBoundingClientRect().height / 2);
+            mergeFileList.insertBefore(draggingItem, nextSibling);
+        });
+
+        mergeFileList.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const newOrder = [...mergeFileList.querySelectorAll('li')].map(li => parseInt(li.dataset.index));
+            selectedMergeFiles = newOrder.map(idx => selectedMergeFiles[idx]);
+            renderMergeList();
+        });
+
+        function resetMerge() {
+            selectedMergeFiles = [];
+            mergeFileList.innerHTML = '';
+            mergeListContainer.style.display = 'none';
+            mergeDropZone.style.padding = '40px';
+            mergeDropZone.querySelector('h4').textContent = '합칠 PDF 파일들을 여기에 드래그하거나 클릭하세요';
+            mergeInput.value = '';
+        }
+
+        mergeResetBtn.addEventListener('click', resetMerge);
+
+        mergeRunBtn.addEventListener('click', async () => {
+            if (selectedMergeFiles.length < 2) return alert('최소 2개 이상의 파일을 선택해주세요.');
+            mergeRunBtn.disabled = true;
+            mergeRunBtn.textContent = '처리 중...';
+            try {
+                const mergedPdf = await PDFLib.PDFDocument.create();
+                for (const file of selectedMergeFiles) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                    pages.forEach(p => mergedPdf.addPage(p));
+                }
+                const bytes = await mergedPdf.save();
+                downloadFile(bytes, `merged_${Date.now()}.pdf`);
+                alert('합치기가 완료되었습니다.');
+            } catch (e) {
+                alert('오류가 발생했습니다.');
+            } finally {
+                mergeRunBtn.disabled = false;
+                mergeRunBtn.textContent = 'PDF 합치기 및 다운로드';
+            }
+        });
+
+        // --- SPLIT LOGIC ---
+        modeSplitBtn.addEventListener('click', () => {
+            splitMode = 'split';
+            modeSplitBtn.classList.add('active');
+            modeExtractBtn.classList.remove('active');
+            splitInputGroup.style.display = 'block';
+            extractInputGroup.style.display = 'none';
+        });
+
+        modeExtractBtn.addEventListener('click', () => {
+            splitMode = 'extract';
+            modeExtractBtn.classList.add('active');
+            modeSplitBtn.classList.remove('active');
+            splitInputGroup.style.display = 'none';
+            extractInputGroup.style.display = 'block';
+        });
+
+        splitDropZone.addEventListener('click', () => splitInput.click());
+        splitInput.addEventListener('change', (e) => handleSplitFile(e.target.files[0]));
+
+        splitDropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            splitDropZone.style.borderColor = '#2e7d32';
+            splitDropZone.style.background = '#f1f8e9';
+        });
+        splitDropZone.addEventListener('dragleave', () => {
+            splitDropZone.style.borderColor = '#ddd';
+            splitDropZone.style.background = 'transparent';
+        });
+        splitDropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            splitDropZone.style.borderColor = '#ddd';
+            splitDropZone.style.background = 'transparent';
+            handleSplitFile(e.dataTransfer.files[0]);
+        });
+
+        async function handleSplitFile(file) {
+            if (!file || file.type !== 'application/pdf') return alert('PDF 파일을 선택해주세요.');
+            targetSplitFile = file;
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                totalSplitPages = pdfDoc.getPageCount();
+                fileNameDisplay.textContent = file.name;
+                fileInfoDisplay.textContent = `총 ${totalSplitPages}페이지 / ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+                splitPointInput.max = totalSplitPages - 1;
+                splitPointInput.value = Math.floor(totalSplitPages / 2) || 1;
+                extractStartInput.max = totalSplitPages;
+                extractEndInput.max = totalSplitPages;
+                extractStartInput.value = 1;
+                extractEndInput.value = totalSplitPages;
+                splitSettingsContainer.style.display = 'block';
+                splitDropZone.style.display = 'none';
+            } catch (e) {
+                alert('파일을 읽는 중 오류가 발생했습니다.');
+            }
+        }
+
+        splitResetBtn.addEventListener('click', () => {
+            targetSplitFile = null;
+            splitSettingsContainer.style.display = 'none';
+            splitDropZone.style.display = 'block';
+            splitInput.value = '';
+        });
+
+        splitRunBtn.addEventListener('click', async () => {
+            if (!targetSplitFile) return;
+            splitRunBtn.disabled = true;
+            splitRunBtn.textContent = '처리 중...';
+            try {
+                const arrayBuffer = await targetSplitFile.arrayBuffer();
+                const srcDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                if (splitMode === 'split') {
+                    const val = parseInt(splitPointInput.value);
+                    if (val < 1 || val >= totalSplitPages) throw new Error('범위가 올바르지 않습니다.');
+                    const doc1 = await PDFLib.PDFDocument.create();
+                    const p1 = await doc1.copyPages(srcDoc, Array.from({ length: val }, (_, i) => i));
+                    p1.forEach(p => doc1.addPage(p));
+                    const doc2 = await PDFLib.PDFDocument.create();
+                    const p2 = await doc2.copyPages(srcDoc, Array.from({ length: totalSplitPages - val }, (_, i) => i + val));
+                    p2.forEach(p => doc2.addPage(p));
+                    downloadFile(await doc1.save(), `${targetSplitFile.name.replace('.pdf', '')}_part1.pdf`);
+                    setTimeout(async () => downloadFile(await doc2.save(), `${targetSplitFile.name.replace('.pdf', '')}_part2.pdf`), 500);
+                } else {
+                    const start = parseInt(extractStartInput.value);
+                    const end = parseInt(extractEndInput.value);
+                    if (start < 1 || end > totalSplitPages || start > end) throw new Error('범위가 올바르지 않습니다.');
+                    const doc = await PDFLib.PDFDocument.create();
+                    const p = await doc.copyPages(srcDoc, Array.from({ length: end - start + 1 }, (_, i) => i + start - 1));
+                    p.forEach(pg => doc.addPage(pg));
+                    downloadFile(await doc.save(), `${targetSplitFile.name.replace('.pdf', '')}_extract_${start}-${end}.pdf`);
+                }
+                alert('작업이 완료되었습니다.');
+            } catch (e) {
+                alert(e.message || '오류가 발생했습니다.');
+            } finally {
+                splitRunBtn.disabled = false;
+                splitRunBtn.textContent = '실행 및 다운로드';
+            }
+        });
+
+        function downloadFile(bytes, name) {
+            const blob = new Blob([bytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = name;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    })();
+</script>
