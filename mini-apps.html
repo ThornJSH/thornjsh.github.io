@@ -14,7 +14,102 @@
     <div class="miniapps-grid"
         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px;">
 
-        <!-- Windows Clock Setting -->
+        <!-- 1. PDF Binder (Web) -->
+        <div class="miniapp-card"
+            style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
+            onclick="window.loadContent('PDF Binder(Web)'); window.updatePageTitle('PDF Binder(Web)');">
+            <div style="font-size: 3rem; margin-bottom: 15px;">📚</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">PDF Binder (Web)</h3>
+            <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
+                여러 PDF를 합치거나 원하는 페이지를 추출하는 통합 웹 도구입니다.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                <span
+                    style="background: #ffebee; color: #c62828; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">병합/분할</span>
+                <span
+                    style="background: #ffebee; color: #c62828; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">필수
+                    설치 없음</span>
+            </div>
+            <span style="color: #d32f2f; text-decoration: none; font-weight: 600;">실행하기 →</span>
+        </div>
+
+        <!-- 2. PDF 플립북 (Web) -->
+        <div class="miniapp-card"
+            style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
+            onclick="window.loadContent('PDF 플립북'); window.updatePageTitle('PDF 플립북');">
+            <div style="font-size: 3rem; margin-bottom: 15px;">📖</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">PDF 플립북</h3>
+            <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
+                정적인 PDF를 실제 책처럼 넘겨볼 수 있는 E-Book(HTML)으로 변환합니다.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                <span
+                    style="background: #fff3e0; color: #e65100; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">전자책</span>
+                <span
+                    style="background: #fff3e0; color: #e65100; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">HTML5</span>
+            </div>
+            <span style="color: #ff9800; text-decoration: none; font-weight: 600;">실행하기 →</span>
+        </div>
+
+        <!-- 3. PDF MultiTool -->
+        <div class="miniapp-card"
+            style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
+            onclick="window.loadContent('PDF MultiTool'); window.updatePageTitle('PDF MultiTool');">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🛠️</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">PDF MultiTool</h3>
+            <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
+                병합, 분할, 보안 설정 등 PDF 작업의 모든 것을 하나의 exe로 해결합니다.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                <span
+                    style="background: #f1f8e9; color: #2e7d32; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">Windows
+                    앱</span>
+                <span
+                    style="background: #f1f8e9; color: #2e7d32; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">오프라인</span>
+            </div>
+            <span style="color: #2e7d32; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
+        </div>
+
+        <!-- 4. 법령 조문 검색 -->
+        <div class="miniapp-card"
+            style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
+            onclick="window.loadContent('법령 조문(키워드) 검색'); window.updatePageTitle('법령 조문(키워드) 검색');">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🔍</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">법령 조문 검색</h3>
+            <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
+                국가법령정보센터 API를 활용하여 필요한 조문을 키워드로 검색하고 엑셀로 추출합니다.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                <span
+                    style="background: #e1f5fe; color: #0288d1; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">API
+                    연동</span>
+                <span
+                    style="background: #e1f5fe; color: #0288d1; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">엑셀
+                    저장</span>
+            </div>
+            <span style="color: #1976d2; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
+        </div>
+
+        <!-- 5. 엑셀 비밀번호 일괄변경 -->
+        <div class="miniapp-card"
+            style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
+            onclick="window.loadContent('엑셀 비밀번호 일괄변경'); window.updatePageTitle('엑셀 비밀번호 일괄변경');">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🔐</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">엑셀 암호 일괄변경</h3>
+            <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
+                여러 엑셀 파일의 비밀번호를 한 번에 설정하거나 변경하여 개인정보를 보호합니다.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                <span
+                    style="background: #f3e5f5; color: #7b1fa2; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">개인정보보호</span>
+                <span
+                    style="background: #f3e5f5; color: #7b1fa2; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">대량
+                    처리</span>
+            </div>
+            <span style="color: #9c27b0; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
+        </div>
+
+        <!-- 6. 윈도우 시계 설정 -->
         <div class="miniapp-card"
             style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
             onclick="window.loadContent('윈도우 시계 설정'); window.updatePageTitle('윈도우 시계 설정');">
@@ -25,91 +120,32 @@
             </p>
             <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
                 <span
-                    style="background: #e3f2fd; color: #1976d2; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">원클릭
-                    복원</span>
+                    style="background: #e3f2fd; color: #1976d2; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">UI
+                    커스텀</span>
                 <span
-                    style="background: #e3f2fd; color: #1976d2; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">간편
-                    실행</span>
+                    style="background: #e3f2fd; color: #1976d2; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">편리함</span>
             </div>
-            <span style="color: #4285f4; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
+            <span style="color: #2196f3; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
         </div>
 
-        <!-- Time-Based File Copy -->
+        <!-- 7. 시간조건 파일 복사 -->
         <div class="miniapp-card"
             style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
             onclick="window.loadContent('시간조건 파일 복사'); window.updatePageTitle('시간조건 파일 복사');">
-            <div style="font-size: 3rem; margin-bottom: 15px;">📅</div>
+            <div style="font-size: 3rem; margin-bottom: 15px;">📁</div>
             <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">시간조건 파일 복사</h3>
             <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
-                특정 시간 이후 수정된 파일만 선택적으로 복사하여 백업 작업을 자동화합니다.
+                특정 시간 이후 수정된 파일만 선택적으로 추출하여 원하는 곳에 복사합니다.
             </p>
             <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                <span
-                    style="background: #e8f5e9; color: #388e3c; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">시간
-                    필터링</span>
                 <span
                     style="background: #e8f5e9; color: #388e3c; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">자동
-                    검색</span>
+                    백업</span>
+                <span
+                    style="background: #e8f5e9; color: #388e3c; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">스마트
+                    선택</span>
             </div>
-            <span style="color: #34a853; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
-        </div>
-
-        <!-- Excel Password Change -->
-        <div class="miniapp-card"
-            style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
-            onclick="window.loadContent('엑셀 비밀번호 일괄변경'); window.updatePageTitle('엑셀 비밀번호 일괄변경');">
-            <div style="font-size: 3rem; margin-bottom: 15px;">🔐</div>
-            <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">엑셀 비밀번호 일괄변경</h3>
-            <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
-                여러 엑셀 파일의 비밀번호를 한 번에 설정하거나 변경하여 개인정보를 보호합니다.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                <span
-                    style="background: #f3e5f5; color: #7b1fa2; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">일괄
-                    처리</span>
-                <span
-                    style="background: #f3e5f5; color: #7b1fa2; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">보안
-                    강화</span>
-            </div>
-            <span style="color: #0f9d58; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
-        </div>
-
-        <!-- PDF MultiTool -->
-        <div class="miniapp-card"
-            style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
-            onclick="window.loadContent('PDF MultiTool'); window.updatePageTitle('PDF MultiTool');">
-            <div style="font-size: 3rem; margin-bottom: 15px;">📄</div>
-            <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">PDF MultiTool</h3>
-            <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
-                PDF 병합, 분할, 비밀번호 설정 등 PDF 작업의 모든 것을 하나의 도구로 해결합니다.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                <span
-                    style="background: #ffebee; color: #c62828; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">다기능</span>
-                <span
-                    style="background: #ffebee; color: #c62828; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">탭
-                    인터페이스</span>
-            </div>
-            <span style="color: #d32f2f; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
-        </div>
-
-        <!-- WLawSearch -->
-        <div class="miniapp-card"
-            style="background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
-            onclick="window.loadContent('법령 조문(키워드) 검색'); window.updatePageTitle('법령 조문(키워드) 검색');">
-            <div style="font-size: 3rem; margin-bottom: 15px;">🔍</div>
-            <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; color: #333;">법령 조문(키워드) 검색</h3>
-            <p style="margin: 0 0 20px 0; color: #666; line-height: 1.6;">
-                국가법령정보센터 API를 활용하여 필요한 법령 조문을 키워드로 검색하고 엑셀로 추출합니다.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                <span
-                    style="background: #e1f5fe; color: #0288d1; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">공공데이터</span>
-                <span
-                    style="background: #e1f5fe; color: #0288d1; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem;">엑셀
-                    추출</span>
-            </div>
-            <span style="color: #1976d2; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
+            <span style="color: #4caf50; text-decoration: none; font-weight: 600;">자세히 보기 →</span>
         </div>
 
     </div>

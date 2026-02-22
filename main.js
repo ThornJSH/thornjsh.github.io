@@ -122,7 +122,7 @@ export async function loadContent(pageName) {
     }
     // 사회복지사 도구들
     else if (pageName === 'PDF 플립북' || pageName === 'PDF Flipbook') {
-        await loadModule('page-body', '/pdf_flipbook.html');
+        await loadModule('page-body', '/miniapp-pdf-flipbook.html');
     } else if (pageName === '표 스타일 정리 도구' || pageName === 'Table Styler') {
         await loadModule('page-body', '/table_styler.html');
     } else if (pageName === 'GPS를 활용한 출퇴근관리' || pageName === 'GPS Attendance Management') {
@@ -160,7 +160,7 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/emotion-prediction.html');
     }
     // Mini Apps
-    else if (pageName === 'Mini App' || pageName === '미니 앱') {
+    else if (pageName === 'Mini Apps' || pageName === '미니 앱' || pageName === 'Mini App') {
         await loadModule('page-body', '/mini-apps.html');
     } else if (pageName === '윈도우 시계 설정' || pageName === 'Clock setting for Windows11') {
         await loadModule('page-body', '/miniapp-windows-clock.html');
@@ -170,10 +170,6 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/miniapp-excel-password.html');
     } else if (pageName === 'PDF MultiTool' || pageName === 'PDF MultiTool(Split/Merge/Protect)') {
         await loadModule('page-body', '/miniapp-pdf-tool.html');
-    } else if (pageName === 'PDF 합치기(Web)' || pageName === 'PDF Merge (Web)') {
-        await loadModule('page-body', '/miniapp-pdf-merge-web.html');
-    } else if (pageName === 'PDF 나누기(Web)' || pageName === 'PDF Split (Web)') {
-        await loadModule('page-body', '/miniapp-pdf-split-web.html');
     } else if (pageName === 'PDF Binder(Web)' || pageName === 'PDF Binder (Web)') {
         await loadModule('page-body', '/miniapp-pdf-binder-web.html');
     } else if (pageName === '법령 조문(키워드) 검색' || pageName === 'Legal Provision Search') {
