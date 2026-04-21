@@ -176,7 +176,7 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/miniapp-table-cleaner-web.html');
     } else if (pageName === '법령 조문(키워드) 검색' || pageName === 'Legal Provision Search') {
         await loadModule('page-body', '/miniapp-wlaw-search.html');
-    } else if (pageName === 'rHWP: 가벼운 HWP 문서 뷰어' || pageName === 'rHWP') {
+    } else if (pageName === 'HOP: 가벼운 HWP 문서 뷰어' || pageName === 'HOP' || pageName === 'HOP') {
         await loadModule('page-body', '/miniapp-rhwp.html');
     }
     // 통계다루기

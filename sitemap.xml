@@ -48,7 +48,7 @@
   <url><loc>https://thornjsh.github.io/%EB%B2%95%EB%A0%B9%20%EC%A1%B0%EB%AC%B8(%ED%82%A4%EC%9B%8C%EB%93%9C)%20%EA%B2%80%EC%83%89</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/PDF%20Binder(Web)</loc><priority>0.6</priority></url>
   <url><loc>https://thornjsh.github.io/PDF%20%ED%94%8C%EB%A6%BD%EB%B6%81</loc><priority>0.6</priority></url>
-  <url><loc>https://thornjsh.github.io/rHWP:%20%EA%B0%80%EB%B2%BC%EC%9A%B4%20HWP%20%EB%AC%B8%EC%84%9C%20%EB%B7%B0%EC%96%B4</loc><priority>0.6</priority></url>
+  <url><loc>https://thornjsh.github.io/HOP:%20%EA%B0%80%EB%B2%BC%EC%9A%B4%20HWP%20%EB%AC%B8%EC%84%9C%20%EB%B7%B0%EC%96%B4</loc><priority>0.6</priority></url>
 
   <url><loc>https://thornjsh.github.io/%ED%86%B5%EA%B3%84%EB%8B%A4%EB%A3%A8%EA%B8%B0</loc><priority>0.8</priority></url>
   <url><loc>https://thornjsh.github.io/%EA%B8%B0%EC%B4%88%20%ED%86%B5%EA%B3%84%20%EB%B6%84%EC%84%9D</loc><priority>0.6</priority></url>
@@ -104,7 +104,7 @@
   <url><loc>https://thornjsh.github.io/PDF%20Binder(Web)</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/PDF%20Flipbook</loc><priority>0.4</priority></url>
   <url><loc>https://thornjsh.github.io/Legal%20Provision%20Search</loc><priority>0.4</priority></url>
-  <url><loc>https://thornjsh.github.io/rHWP</loc><priority>0.4</priority></url>
+  <url><loc>https://thornjsh.github.io/HOP</loc><priority>0.4</priority></url>
 
   <url><loc>https://thornjsh.github.io/Statistics</loc><priority>0.5</priority></url>
   <url><loc>https://thornjsh.github.io/Basic%20Analysis</loc><priority>0.4</priority></url>
