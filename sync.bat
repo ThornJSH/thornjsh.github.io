@@ -2,6 +2,9 @@
 setlocal
 chcp 65001 > nul
 
+:: 1. 현재 폴더 위치 고정 (어디서 실행해도 작동하도록)
+cd /d "%~dp0"
+
 echo [깃허브 동기화 시작]
 echo.
 
@@ -16,10 +19,16 @@ echo 2. 로컬 파일 업데이트 중 (Pull)...
 if exist ".git\MERGE_HEAD" (
     git commit -m "Merge branch 'main' (Auto fixed by sync.bat)" 2>nul
 )
-
 git pull origin main
 if %errorlevel% neq 0 (
     echo [경고] Pull 실패. 충돌이 있는지 확인하세요.
+)
+
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo [오류] 동기화 중 문제가 발생했습니다. (네트워크 연결 혹은 충돌 확인)
+    pause
+    exit /b %ERRORLEVEL%
 )
 
 echo.

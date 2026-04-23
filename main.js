@@ -188,6 +188,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/stats-pre-post.html');
     } else if (pageName === 'IPA 분석(Excel)' || pageName === 'IPA Analysis') {
         await loadModule('page-body', '/stats-ipa.html');
+    } else if (pageName === '분석방법론 탐색기' || pageName === 'Methodology Explorer') {
+        await loadModule('page-body', '/stats-methodology.html');
     }
     // 이런 것도 가능해요
     else if (pageName === '이런 것도 가능해요' || pageName === 'Extras' || pageName.includes('가능해요')) {
