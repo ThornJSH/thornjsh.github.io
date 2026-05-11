@@ -4,9 +4,21 @@ async function loadModule(id, file) {
     try {
         const response = await fetch(file);
         if (!response.ok) throw new Error(`Failed to load ${file}`);
-        const data = await response.text();
+        let data = await response.text();
         const element = document.getElementById(id);
         if (!element) return;
+
+        // If the fetched file is a full standalone HTML page,
+        // extract only the content between CONTENT_START/CONTENT_END markers
+        if (data.includes('<!DOCTYPE html>') || data.includes('<!--CONTENT_START-->')) {
+            const startMarker = '<!--CONTENT_START-->';
+            const endMarker = '<!--CONTENT_END-->';
+            const startIdx = data.indexOf(startMarker);
+            const endIdx = data.indexOf(endMarker);
+            if (startIdx !== -1 && endIdx !== -1) {
+                data = data.substring(startIdx + startMarker.length, endIdx).trim();
+            }
+        }
 
         element.innerHTML = data;
 

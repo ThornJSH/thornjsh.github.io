@@ -5,3 +5,7 @@ run_server.bat
 package.json
 package-lock.json
 generate_backlinks.py
+convert_pages.cjs
+convert_pages.ps1
+convert_pages.js
+implementation_plan.md
