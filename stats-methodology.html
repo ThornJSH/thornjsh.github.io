@@ -1,0 +1,659 @@
+<div class="content-section">
+    <div class="intro-box" style="margin-bottom: 40px;">
+        <h2 style="font-size: 2.3rem; margin-bottom: 10px; color: #000;">사회과학 양적자료분석방법론 탐색기</h2>
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <p style="font-size: 1.1rem; color: #666; margin: 0;">논문 작성을 위한 실전 통계 분석 가이드</p>
+            <a href="https://docs.google.com/document/d/19XIw9DwBvTD3qn8Wmn0n7pkE-guyGMpmKztRVlJ9w-o/edit?usp=sharing"
+                target="_blank"
+                style="background-color: #4f46e5; color: white; padding: 6px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);">
+                <span>📖</span> 가이드 문서 읽기
+            </a>
+        </div>
+        <div style="margin-top: 15px; padding: 12px 16px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #8b5cf6; border-radius: 6px; font-size: 0.9rem; color: #475569; display: inline-flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.1rem;">✨</span> 
+            <span>이 탐색기 페이지와 연결된 가이드 문서는 방대한 통계 및 사회학 이론을 보다 쉽게 이해하고 활용할 수 있도록 <strong>AI의 도움을 받아 체계적으로 정리</strong>되었습니다.</span>
+        </div>
+    </div>
+
+    <style>
+        .method-tab {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .method-tab:hover {
+            color: #333;
+        }
+
+        .method-tab.active-tab {
+            color: #d97706;
+            border-bottom-color: #d97706;
+            font-weight: 600;
+        }
+
+        .method-content-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .method-content-box h4 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            color: #333;
+        }
+
+        .method-content-box ul {
+            padding-left: 20px;
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .method-content-box li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .method-content-box strong {
+            color: #b45309;
+        }
+
+        .method-content-box .np-strong {
+            color: #0f766e;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .method-tab {
+                padding: 10px 15px;
+                font-size: 0.95rem;
+            }
+        }
+
+        .special-card {
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background: #fff;
+        }
+
+        .special-header {
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .special-body {
+            padding: 20px;
+            flex-grow: 1;
+            border: 1px solid #eee;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .special-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 900px) {
+            .special-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .recommender-box {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #fff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .rec-select {
+            width: 100%;
+            padding: 12px;
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            color: #fff;
+            margin-top: 8px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .rec-select:focus {
+            border-color: #d97706;
+        }
+
+        .rec-label {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .rec-btn {
+            background: #d97706;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 27px;
+        }
+
+        .rec-btn:hover {
+            background: #b45309;
+        }
+
+        /* Modal for IPA */
+        .ipa-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .ipa-modal.active {
+            display: flex;
+        }
+
+        .ipa-modal-content {
+            background: #fff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .ipa-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+            background: none;
+            border: none;
+        }
+    </style>
+
+    <!-- 1. 목적별 분석 기법 분류 -->
+    <div
+        style="background: #fff; padding: 30px; border-radius: 16px; border: 1px solid #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 40px;">
+        <h3 style="font-size: 1.4rem; margin-top: 0; margin-bottom: 15px; color: #111;">1. 목적별 분석 기법 분류 (모수/비모수 포함)</h3>
+        <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">연구의 근본적인 목적(차이 검정, 관계 분석, 분류 등)에 따라 분석 기법을 매핑합니다.
+            탭을 클릭하여 중/고급 기법의 세부 내용을 확인하세요.</p>
+
+        <div
+            style="border-bottom: 1px solid #e2e8f0; margin-bottom: 25px; display: flex; overflow-x: auto; white-space: nowrap;">
+            <button onclick="switchMethodTab('difference')" id="mtab-difference" class="method-tab active-tab">집단 간 차이
+                검정</button>
+            <button onclick="switchMethodTab('relationship')" id="mtab-relationship" class="method-tab">영향/인과관계
+                분석</button>
+            <button onclick="switchMethodTab('advanced')" id="mtab-advanced" class="method-tab">분류 및 사회학 고급기법</button>
+        </div>
+
+        <!-- 차이 검정 -->
+        <div id="mcontent-difference" class="method-grid">
+            <div class="method-content-box">
+                <h4>모수 통계 (Parametric)</h4>
+                <ul>
+                    <li><strong>T-검정 (T-test):</strong> 두 집단 간 평균 차이 분석 (독립표본, 대응표본).</li>
+                    <li><strong>분산분석 (ANOVA):</strong> 세 집단 이상의 평균 차이 분석. (일원배치, 이원배치).</li>
+                    <li><strong>공분산분석 (ANCOVA):</strong> 통제변수를 고려한 집단 간 평균 차이 분석. 실험연구에서 많이 쓰입니다.</li>
+                </ul>
+            </div>
+            <div class="method-content-box" style="background: #fafaf9;">
+                <h4>비모수 통계 (Non-parametric)</h4>
+                <ul>
+                    <li><strong class="np-strong">Mann-Whitney U 검정:</strong> 독립표본 T-검정의 비모수 대안. 데이터가 정규성을 띠지 않거나 표본이 작을
+                        때.</li>
+                    <li><strong class="np-strong">Wilcoxon 부호순위 검정:</strong> 대응표본 T-검정의 대안.</li>
+                    <li><strong class="np-strong">Kruskal-Wallis 검정:</strong> 일원배치 분산분석(ANOVA)의 비모수 대안. 서열척도 데이터에 유용합니다.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 인과관계 -->
+        <div id="mcontent-relationship" class="method-grid" style="display: none;">
+            <div class="method-content-box">
+                <h4>중급: 회귀분석 계열</h4>
+                <ul>
+                    <li><strong>다중회귀분석 (Multiple Regression):</strong> 여러 독립변수가 연속형 종속변수에 미치는 영향.</li>
+                    <li><strong>로지스틱 회귀분석 (Logistic Regression):</strong> 종속변수가 범주형(예/아니오, 합격 등)일 때 발생 확률 예측. 자주 사용됨.
+                    </li>
+                    <li><strong>조절/매개효과 분석 (Process Macro):</strong> 변수 간의 복잡한 경로(어떻게, 어떤 조건에서 영향을 미치는지) 검증.</li>
+                </ul>
+            </div>
+            <div class="method-content-box">
+                <h4>고급: 시계열 및 종단연구</h4>
+                <ul>
+                    <li><strong>패널데이터 분석 (Panel Analysis):</strong> 동일한 대상을 시간에 따라 추적 조사한 데이터 분석 (고정효과, 임의효과).</li>
+                    <li><strong>생존분석 (Event History Analysis):</strong> 특정 사건(취업, 이직 등)이 발생할 때까지 걸리는 시간에 영향을 미치는 요인 분석.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 분류 및 고급 -->
+        <div id="mcontent-advanced" style="display: none;">
+            <div class="method-content-box">
+                <h4>사회학 특화 및 데이터 축소/분류 기법</h4>
+                <div class="method-grid">
+                    <div>
+                        <ul>
+                            <li><strong class="np-strong">탐색적/확인적 요인분석 (EFA/CFA):</strong> 수많은 설문 문항들을 몇 개의 핵심 변인으로 묶어주는
+                                차원 축소 기법. 측정도구 타당성 검증.</li>
+                            <li><strong class="np-strong">다층모형 (HLM, Multi-level Modeling):</strong> 개인이 속한 집단(예: 학교,
+                                지역)의 맥락적 효과를 동시에 분석. 사회학의 핵심 무기.</li>
+                        </ul>
+                    </div>
+                    <div style="position: relative; height: 250px; width: 100%;">
+                        <canvas id="sociologyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 특정 방법론 집중 해부 -->
+    <div
+        style="background: #fff; padding: 30px; border-radius: 16px; border: 1px solid #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 40px;">
+        <h3 style="font-size: 1.4rem; margin-top: 0; margin-bottom: 10px; color: #111;">2. 특정 방법론 집중 해부: 밀유(Milieu) 분석, LCA, IPA
+        </h3>
+        <p
+            style="color: #666; margin-bottom: 25px; line-height: 1.6; border-left: 4px solid #ffda00; padding-left: 12px;">
+            기타 다양한 기법/모형들에 대한 설명입니다. 논문에 어떻게 적용되는지 명확히 분류해 보았습니다.</p>
+
+        <div class="special-grid">
+            <!-- 밀유(Milieu) 분석 -->
+            <div class="special-card">
+                <div class="special-header" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
+                    밀유(Milieu) 분석
+                </div>
+                <div class="special-body" style="border-color: #bae6fd; display: flex; flex-direction: column;">
+                    <p style="font-size: 0.85rem; color: #888; margin-top: 0; margin-bottom: 10px; font-weight: bold;">
+                        분류: 사회학적 지형도 (군집/LCA 활용)</p>
+                    <p style="font-size: 0.95rem; color: #444; margin-bottom: 15px; line-height: 1.6; flex-grow: 1;">
+                        객관적 지위(상/하)와 주관적 가치관(전통/현대)을 결합하여 <strong>사람들의 라이프스타일을 입체적으로 분류</strong>하는 기법입니다.
+                    </p>
+                    <button onclick="document.getElementById('milieu-modal').classList.add('active'); renderMilieuChart();"
+                        style="background: #0ea5e9; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%;">
+                        밀유 매트릭스 시각화 보기
+                    </button>
+                </div>
+            </div>
+
+            <!-- LCA -->
+            <div class="special-card">
+                <div class="special-header" style="background: #f0fdfa; color: #0f766e; border: 1px solid #99f6e4;">
+                    LCA (잠재계층분석)
+                </div>
+                <div class="special-body" style="border-color: #99f6e4;">
+                    <p style="font-size: 0.85rem; color: #888; margin-top: 0; margin-bottom: 10px; font-weight: bold;">
+                        분류: 고급 분류 모형 (범주형 데이터)</p>
+                    <p style="font-size: 0.95rem; color: #444; margin-bottom: 15px; line-height: 1.6;">
+                        LCA는 응답자들의 답변 패턴을 바탕으로, 겉으로 보이지 않는 <strong>유사한 특성을 가진 하위 집단(잠재 계층)을 찾아내는 확률 기반 군집화
+                            기법</strong>입니다.
+                    </p>
+                    <div
+                        style="background: #f8f9fa; padding: 12px; border-radius: 6px; font-size: 0.85rem; color: #555;">
+                        <strong>사회학적 유용성:</strong> 복지 태도 문항을 분석하여 '적극적 지지층', '선별적 지지층' 등으로 군집화할 때 통계적 엄밀성이 매우 높습니다.
+                    </div>
+                </div>
+            </div>
+
+            <!-- IPA -->
+            <div class="special-card">
+                <div class="special-header" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe;">
+                    IPA (중요도-성취도 분석)
+                </div>
+                <div class="special-body" style="border-color: #c7d2fe; display: flex; flex-direction: column;">
+                    <p style="font-size: 0.85rem; color: #888; margin-top: 0; margin-bottom: 10px; font-weight: bold;">
+                        분류: 실무적 평가 분석 (기술통계/T-검정)</p>
+                    <p style="font-size: 0.95rem; color: #444; margin-bottom: 15px; line-height: 1.6; flex-grow: 1;">
+                        IPA는 특정 속성들의 '중요도'와 '만족도'를 짝지어 조사한 후, 이를 <strong>2차원 평면에 매핑하여 자원 배분의 우선순위를 도출</strong>하는 기법입니다.
+                    </p>
+                    <button onclick="document.getElementById('ipa-modal').classList.add('active'); renderIpaChart();"
+                        style="background: #4f46e5; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%;">
+                        IPA 매트릭스 시각화 보기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Milieu 모달 -->
+    <div id="milieu-modal" class="ipa-modal">
+        <div class="ipa-modal-content">
+            <button class="ipa-modal-close"
+                onclick="document.getElementById('milieu-modal').classList.remove('active')">&times;</button>
+            <h3 style="font-size: 1.4rem; margin-top: 0; margin-bottom: 10px;">사회적 지위 × 가치 지향 매트릭스</h3>
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">Sinus-Milieu Model을 기반으로 각 집단(점)을 클릭하여 특성을 확인하세요.</p>
+            <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #e0f2fe;">
+                <strong id="milieu-modal-title" style="color: #0369a1; display: block; margin-bottom: 5px;">원을 클릭해보세요</strong>
+                <span id="milieu-modal-desc" style="font-size: 0.9rem; color: #555;">차트 안의 각 원은 특정 가치관과 사회적 지위를 공유하는 사람들의 군집(Milieu)을 나타냅니다.</span>
+            </div>
+            <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="milieuChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- IPA 모달 -->
+    <div id="ipa-modal" class="ipa-modal">
+        <div class="ipa-modal-content">
+            <button class="ipa-modal-close"
+                onclick="document.getElementById('ipa-modal').classList.remove('active')">&times;</button>
+            <h3 style="font-size: 1.4rem; margin-top: 0; margin-bottom: 10px;">IPA (중요도-성취도) 매트릭스 예시</h3>
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">각 점은 평가지표를 의미하며, 평균값을 기준으로 4개의 사분면으로 나뉩니다.
+            </p>
+            <div style="position: relative; height: 400px; width: 100%;">
+                <canvas id="ipaChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 논문 통계 기법 추천기 -->
+    <div class="recommender-box">
+        <h2 style="font-size: 1.6rem; margin-top: 0; margin-bottom: 10px;">3. 논문 통계 기법 추천기</h2>
+        <p style="color: #94a3b8; margin-bottom: 25px; font-size: 1rem;">연구의 특성(변수의 척도, 집단의 수)을 선택하면 가장 적합한 분석 기법을 추천해
+            드립니다.</p>
+
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; align-items: start;">
+            <div>
+                <label class="rec-label">독립변수 (원인/집단)</label>
+                <select id="ivType" class="rec-select">
+                    <option value="cat2">범주형 (2개 집단, 예: 남/녀)</option>
+                    <option value="cat3">범주형 (3개 이상 집단, 예: 연령대)</option>
+                    <option value="cont">연속형 (수치, 예: 소득금액)</option>
+                    <option value="multi">다수의 연속형/범주형 변수</option>
+                </select>
+            </div>
+            <div>
+                <label class="rec-label">종속변수 (결과)</label>
+                <select id="dvType" class="rec-select">
+                    <option value="cont">연속형 (예: 만족도 점수, 임금)</option>
+                    <option value="cat2">범주형 (2개 범주, 예: 합격/불합격)</option>
+                    <option value="cat3">범주형 (3개 이상 범주)</option>
+                </select>
+            </div>
+            <div>
+                <label class="rec-label">통계적 가정 (정규성 등)</label>
+                <select id="assumpType" class="rec-select">
+                    <option value="para">가정 충족 (모수 통계 가능)</option>
+                    <option value="nonpara">가정 위배 (비모수 통계 필요)</option>
+                </select>
+            </div>
+            <div>
+                <button onclick="recommendMethod()" class="rec-btn">기법 추천받기</button>
+            </div>
+        </div>
+
+        <div id="recommendationResult"
+            style="margin-top: 30px; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); display: none;">
+            <span style="font-size: 0.85rem; color: #fbbf24; font-weight: bold; letter-spacing: 1px;">추천 분석 기법</span>
+            <h3 id="recTitle" style="font-size: 1.4rem; color: #fff; margin-top: 5px; margin-bottom: 10px;"></h3>
+            <p id="recDesc" style="color: #cbd5e1; margin: 0; line-height: 1.6; font-size: 1.05rem;"></p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // 탭 전환 기능
+    window.switchMethodTab = function (tabId) {
+        const tabs = ['difference', 'relationship', 'advanced'];
+        tabs.forEach(t => {
+            document.getElementById(`mcontent-${t}`).style.display = 'none';
+            document.getElementById(`mtab-${t}`).classList.remove('active-tab');
+        });
+        document.getElementById(`mcontent-${tabId}`).style.display = tabId === 'advanced' ? 'block' : 'grid';
+        document.getElementById(`mtab-${tabId}`).classList.add('active-tab');
+    };
+
+    // Chart.js 초기화 로직 (페이지 로드 후 실행)
+    setTimeout(() => {
+        if (document.getElementById('sociologyChart')) {
+            const ctxSoc = document.getElementById('sociologyChart').getContext('2d');
+            new Chart(ctxSoc, {
+                type: 'bar',
+                data: {
+                    labels: ['로지스틱 회귀분석', '다층모형(HLM)', '패널데이터 분석', '잠재계층분석(LCA)', '생존분석'],
+                    datasets: [{
+                        label: '사회학 학술지 등장 빈도 (예시 상대치)',
+                        data: [95, 80, 85, 60, 50],
+                        backgroundColor: 'rgba(217, 119, 6, 0.7)',
+                        borderColor: 'rgba(217, 119, 6, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) { return '활용 빈도: ' + context.parsed.x + '%'; }
+                            }
+                        }
+                    },
+                    scales: { x: { beginAtZero: true, max: 100 } }
+                }
+            });
+        }
+    }, 500);
+
+    // Milieu 차트 초기화
+    const milieuData = {
+        'Trad': { title: '전통적 가치 지향 (Traditionalist)', desc: '보수적 가치와 관습을 중시하며, 사회적 질서와 안정을 최우선으로 합니다. 농어촌 지역이나 고연령층에서 주로 발견됩니다.' },
+        'Modern': { title: '현대적 성과형 (Modern Mainstream)', desc: '물질적 성공과 지위를 중시하며, 소비를 통해 자신의 정체성을 표현합니다. 도시 중산층의 전형적인 모습입니다.' },
+        'Exp': { title: '경험 주도형 (Experimentalist)', desc: '자유로운 자기표현과 새로운 경험을 중시합니다. 탈물질주의적 가치관을 지닌 청년 세대와 예술적 소양을 갖춘 집단에서 나타납니다.' },
+        'Digit': { title: '디지털 노마드 (Digital Sovereigns)', desc: '기술적 숙련도가 높고 온라인 기반의 커뮤니티 활동을 중시합니다. 전통적인 직업관보다는 유연한 삶의 방식을 선호합니다.' }
+    };
+
+    let milieuChartInstance = null;
+    window.renderMilieuChart = function () {
+        if (milieuChartInstance) return;
+        
+        setTimeout(() => {
+            const ctxM = document.getElementById('milieuChart').getContext('2d');
+            milieuChartInstance = new Chart(ctxM, {
+                type: 'bubble',
+                data: {
+                    datasets: [
+                        { label: '전통주의', data: [{x: 20, y: 80, r: 25, id: 'Trad'}], backgroundColor: 'rgba(71, 85, 105, 0.6)' },
+                        { label: '현대성과', data: [{x: 50, y: 50, r: 35, id: 'Modern'}], backgroundColor: 'rgba(8, 145, 178, 0.6)' },
+                        { label: '경험주도', data: [{x: 85, y: 75, r: 30, id: 'Exp'}], backgroundColor: 'rgba(79, 70, 229, 0.6)' },
+                        { label: '디지털', data: [{x: 80, y: 30, r: 20, id: 'Digit'}], backgroundColor: 'rgba(236, 72, 153, 0.6)' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: (e, items) => {
+                        if (items.length > 0) {
+                            const id = items[0].datasetIndex;
+                            const key = ['Trad', 'Modern', 'Exp', 'Digit'][id];
+                            document.getElementById('milieu-modal-title').innerText = milieuData[key].title;
+                            document.getElementById('milieu-modal-desc').innerText = milieuData[key].desc;
+                        }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: '가치 지향 (전통적 → 현대적/탈물질적)', font: {weight: 'bold'} }, min: 0, max: 100, grid: { display: false } },
+                        y: { title: { display: true, text: '사회적 지위 (상층 → 하층)', font: {weight: 'bold'} }, min: 0, max: 100, reverse: true, grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: (ctx) => milieuData[ctx.raw.id].title } }
+                    }
+                }
+            });
+        }, 100);
+    };
+
+    // IPA 차트 초기화 (모달이 열릴 때 그려줌)
+    let ipaChartInstance = null;
+    window.renderIpaChart = function () {
+        if (ipaChartInstance) return; // 이미 그려졌으면 무시
+
+        setTimeout(() => {
+            const ctxIpa = document.getElementById('ipaChart').getContext('2d');
+            ipaChartInstance = new Chart(ctxIpa, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: '평가 지표',
+                        data: [
+                            { x: 4.5, y: 4.2, name: '정책 접근성' },
+                            { x: 4.8, y: 2.1, name: '예산 지원규모' },
+                            { x: 2.5, y: 4.0, name: '담당자 친절도' },
+                            { x: 2.1, y: 2.3, name: '홍보물 디자인' }
+                        ],
+                        backgroundColor: 'rgba(79, 70, 229, 0.8)',
+                        pointRadius: 8,
+                        pointHoverRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) {
+                                    return ctx.raw.name + ' (중요도: ' + ctx.raw.x + ', 성취도: ' + ctx.raw.y + ')';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: '중요도 (Importance)', font: { weight: 'bold' } },
+                            min: 1, max: 5,
+                            grid: { color: (ctx) => ctx.tick.value === 3 ? '#ef4444' : '#e2e8f0', lineWidth: (ctx) => ctx.tick.value === 3 ? 2 : 1 }
+                        },
+                        y: {
+                            title: { display: true, text: '성취도/만족도 (Performance)', font: { weight: 'bold' } },
+                            min: 1, max: 5,
+                            grid: { color: (ctx) => ctx.tick.value === 3 ? '#ef4444' : '#e2e8f0', lineWidth: (ctx) => ctx.tick.value === 3 ? 2 : 1 }
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'quadrantText',
+                    beforeDraw: function (chart) {
+                        const { ctx, chartArea: { left, top, right, bottom }, scales: { x, y } } = chart;
+                        const midX = x.getPixelForValue(3);
+                        const midY = y.getPixelForValue(3);
+                        ctx.save();
+                        ctx.font = 'bold 12px sans-serif';
+                        ctx.fillStyle = 'rgba(100, 116, 139, 0.6)';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('유지 및 강화 (Keep up)', midX + (right - midX) / 2, top + 20);
+                        ctx.fillText('집중 개선 (Concentrate)', midX + (right - midX) / 2, midY + (bottom - midY) / 2);
+                        ctx.fillText('과잉 노력 (Overkill)', left + (midX - left) / 2, top + 20);
+                        ctx.fillText('낮은 우선순위 (Low Priority)', left + (midX - left) / 2, midY + (bottom - midY) / 2);
+                        ctx.restore();
+                    }
+                }]
+            });
+        }, 100);
+    };
+
+    window.recommendMethod = function () {
+        const iv = document.getElementById('ivType').value;
+        const dv = document.getElementById('dvType').value;
+        const assump = document.getElementById('assumpType').value;
+
+        let title = "";
+        let desc = "";
+
+        if (dv === "cont") {
+            if (iv === "cat2") {
+                title = assump === "para" ? "독립표본 T-검정 (Independent T-test)" : "Mann-Whitney U 검정";
+                desc = "두 집단 간 연속형 변수의 평균(또는 중위수) 차이가 통계적으로 유의미한지 확인합니다.";
+            } else if (iv === "cat3") {
+                title = assump === "para" ? "일원배치 분산분석 (One-way ANOVA)" : "Kruskal-Wallis 검정";
+                desc = "세 개 이상 집단의 평균 차이를 분석합니다. 유의한 차이가 발견되면 사후검정(Post-hoc)을 추가로 실시해야 합니다.";
+            } else if (iv === "cont") {
+                title = "단순 회귀분석 / 피어슨 상관분석";
+                desc = "두 연속형 변수 간의 선형적 관계의 강도(상관분석)나 인과적 영향력(회귀분석)을 추정합니다.";
+            } else if (iv === "multi") {
+                title = "다중 회귀분석 (Multiple Linear Regression)";
+                desc = "여러 개의 독립변수가 하나의 연속형 종속변수에 미치는 영향을 동시에 분석하며, 각 변수의 상대적 기여도를 파악합니다.";
+            }
+        } else if (dv === "cat2") {
+            if (iv === "cat2" || iv === "cat3") {
+                title = "카이제곱 검정 (Chi-square test) 또는 교차분석";
+                desc = "두 범주형 변수 간에 독립성이 있는지(관계가 있는지) 확인합니다.";
+            } else {
+                title = "이항 로지스틱 회귀분석 (Binary Logistic Regression)";
+                desc = "사회학 논문에서 매우 자주 쓰입니다. 독립변수들이 특정 사건(예: 투표여부)이 발생할 확률에 미치는 영향을 오즈비(Odds Ratio)로 해석합니다.";
+            }
+        } else if (dv === "cat3") {
+            if (iv === "cat2" || iv === "cat3") {
+                title = "카이제곱 검정 (Chi-square test)";
+                desc = "범주형 변수 간의 연관성을 검정합니다.";
+            } else {
+                title = "다항 로지스틱 회귀분석 (Multinomial Logistic Regression)";
+                desc = "종속변수의 범주가 3개 이상일 때 기준 범주 대비 다른 범주에 속할 확률을 예측합니다.";
+            }
+        }
+
+        if (title === "") {
+            title = "복합 모형 검토 필요";
+            desc = "선택하신 조합은 구조방정식, 다층모형 등 보다 복잡한 다변량 분석이나 고급 통계 모형 설계가 필요할 수 있습니다. 연구 지도교수님과 상의하시길 권장합니다.";
+        }
+
+        document.getElementById('recTitle').innerText = title;
+        document.getElementById('recDesc').innerText = desc;
+        document.getElementById('recommendationResult').style.display = 'block';
+
+        // 애니메이션 효과
+        const el = document.getElementById('recommendationResult');
+        el.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 400, fill: 'forwards' });
+    }
+</script>
