@@ -113,6 +113,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/for-social-workers.html');
     } else if (pageName === 'With AI') {
         await loadModule('page-body', '/with-ai.html');
+    } else if (pageName === 'Care Insight' || pageName === '케어 인사이트' || pageName === 'Care Insight (사례관리)' || pageName === 'Care Insight (AI Case Manager)') {
+        await loadModule('page-body', '/care-insight.html');
     }
     // 가계도/생태도
     else if (pageName === '가계도 그리기' || pageName === 'Genogram' || pageName.includes('가계도 그리기')) {

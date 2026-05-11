@@ -55,9 +55,15 @@
         </div>
     </div>
 
-    <!-- 하위 메뉴 바로가기 (예시) -->
     <div class="tool-list-preview"
         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+        <div class="tool-card"
+            style="background: #eef6ff; padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; border: 2px solid #0066cc;"
+            onclick="loadContent('케어 인사이트'); updatePageTitle('케어 인사이트');">
+            <div style="font-size: 0.8rem; background: #0066cc; color: #fff; display: inline-block; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px;">HOT</div>
+            <h4 style="margin-bottom: 10px;">Care Insight (사례관리 AI)</h4>
+            <p style="font-size: 0.9rem; color: #444;">AI 기반 사례기록 요약 및 보고서 자동 생성 전문 도구</p>
+        </div>
         <div class="tool-card"
             style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center; cursor: pointer;"
             onclick="loadContent('가계도 그리기'); updatePageTitle('가계도 그리기');">
