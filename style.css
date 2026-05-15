@@ -109,6 +109,12 @@ body {
   color: #ffffff;
 }
 
+/* 2단 드롭다운 (서브 메뉴) */
+.sub-dropdown {
+  top: 0;
+  left: 100%;
+}
+
 /* 모바일 메뉴 토글 버튼 */
 .menu-toggle {
   display: none;

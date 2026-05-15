@@ -53,10 +53,20 @@ export function initMenu() {
       link.addEventListener('click', function (e) {
         const dropdownBox = this.nextElementSibling;
         const isDropdownLink = dropdownBox && dropdownBox.classList.contains('dropdown-content');
+        const isSubDropdownTrigger = isDropdownLink && dropdownBox.classList.contains('sub-dropdown');
 
         const href = this.getAttribute('href');
         if (href === '#' || href.startsWith('?page=')) {
           e.preventDefault();
+        }
+
+        // 서브 드롭다운 트리거(▶ 메뉴)인 경우 페이지 이동 없이 하위 메뉴만 토글
+        if (isSubDropdownTrigger) {
+          const currentDisplay = window.getComputedStyle(dropdownBox).display;
+          dropdownBox.style.display = (currentDisplay === 'none')
+            ? ((window.innerWidth <= 768) ? 'block' : 'flex')
+            : 'none';
+          return; // 페이지 이동 차단
         }
 
         // URL 업데이트 (History API) - Clean URL 방식 적용
@@ -69,7 +79,7 @@ export function initMenu() {
         window.loadContent(pageName);
 
         document.querySelectorAll('.dropdown-content').forEach(el => {
-          if (el !== dropdownBox) {
+          if (el !== dropdownBox && !el.contains(dropdownBox)) {
             el.style.display = 'none';
           }
         });

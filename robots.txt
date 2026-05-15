@@ -1,13 +1,4 @@
 User-agent: *
 Allow: /
 
-# Block utility/build files
-Disallow: /convert_pages.cjs
-Disallow: /convert_pages.ps1
-Disallow: /generate_backlinks.py
-Disallow: /node_modules/
-Disallow: /GAS/
-Disallow: /api/
-Disallow: /404.html
-
 Sitemap: https://thornjsh.github.io/sitemap.xml

@@ -4,21 +4,9 @@ async function loadModule(id, file) {
     try {
         const response = await fetch(file);
         if (!response.ok) throw new Error(`Failed to load ${file}`);
-        let data = await response.text();
+        const data = await response.text();
         const element = document.getElementById(id);
         if (!element) return;
-
-        // If the fetched file is a full standalone HTML page,
-        // extract only the content between CONTENT_START/CONTENT_END markers
-        if (data.includes('<!DOCTYPE html>') || data.includes('<!--CONTENT_START-->')) {
-            const startMarker = '<!--CONTENT_START-->';
-            const endMarker = '<!--CONTENT_END-->';
-            const startIdx = data.indexOf(startMarker);
-            const endIdx = data.indexOf(endMarker);
-            if (startIdx !== -1 && endIdx !== -1) {
-                data = data.substring(startIdx + startMarker.length, endIdx).trim();
-            }
-        }
 
         element.innerHTML = data;
 
@@ -166,6 +154,8 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/ai-in-slides.html');
     } else if (pageName === 'Gemini로 PPT 만들기' || pageName === 'Creating PPT with Gemini') {
         await loadModule('page-body', '/gemini-ppt.html');
+    } else if (pageName === '유용한 프롬프트' || pageName === 'Useful Prompts') {
+        await loadModule('page-body', '/useful-prompts.html');
     } else if (pageName === '후원 전략 컨설팅' || pageName === 'Sponsorship Consulting') {
         await loadModule('page-body', '/sponsorship-consulting.html');
     } else if (pageName === '챗봇, Chatbot' || pageName === 'AI Chatbot') {
@@ -192,6 +182,10 @@ export async function loadContent(pageName) {
         await loadModule('page-body', '/miniapp-wlaw-search.html');
     } else if (pageName === 'HOP: 가벼운 HWP 문서 뷰어' || pageName === 'HOP' || pageName === 'HOP') {
         await loadModule('page-body', '/miniapp-rhwp.html');
+    }
+    // 함께보기
+    else if (pageName === '함께보기' || pageName === 'Explore Together' || pageName === 'Explore Together Overview') {
+        await loadModule('page-body', '/explore-overview.html');
     }
     // 통계다루기
     else if (pageName === '통계다루기' || pageName === 'Statistics' || pageName === '통계다루기' || pageName === 'Statistics Overview') {
