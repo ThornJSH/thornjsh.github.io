@@ -137,6 +137,9 @@ export async function loadContent(pageName) {
     else if (pageName === '사회복지시설 공통업무 캘린더' || pageName === 'Common Work Calendar') {
         await loadModule('page-body', '/social-worker-calendar.html');
     }
+    else if (pageName === '민간복지 포털 구성(안)' || pageName === 'Private Welfare Portal') {
+        await loadModule('page-body', '/private-welfare-portal.html');
+    }
     // With AI 세부 항목
     else if (pageName === 'AI Prompt Pro') {
         await loadModule('page-body', '/ai-prompt-pro.html');
