@@ -93,8 +93,13 @@ body {
   min-width: 200px;
   border: 1px solid #333;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  display: none;
+  display: none !important;
   flex-direction: column;
+}
+
+/* JS가 토글하는 클래스 (모바일용) */
+.dropdown-content.dropdown-open {
+  display: flex !important;
 }
 
 .dropdown-content li a {
@@ -113,6 +118,13 @@ body {
 .sub-dropdown {
   top: 0;
   left: 100%;
+}
+
+/* 데스크탑: 마우스 호버 시 드롭다운 표시 */
+@media (min-width: 769px) {
+  .dropdown:hover > .dropdown-content {
+    display: flex !important;
+  }
 }
 
 /* 모바일 메뉴 토글 버튼 */

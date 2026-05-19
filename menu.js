@@ -1,15 +1,14 @@
 export function initMenu() {
-  function closeAllDropdowns() {
-    document.querySelectorAll('.dropdown-content').forEach(el => {
-      el.style.display = 'none';
-    });
-  }
-
-  closeAllDropdowns();
-
   const menuToggle = document.getElementById('mobile-menu-toggle');
   const navMenu = document.querySelector('.nav-menu');
 
+  function closeAllDropdowns() {
+    document.querySelectorAll('.dropdown-content').forEach(el => {
+      el.classList.remove('dropdown-open');
+    });
+  }
+
+  // 모바일 햄버거 메뉴 토글
   if (menuToggle && navMenu) {
     menuToggle.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -18,6 +17,7 @@ export function initMenu() {
     });
   }
 
+  // 한/영 언어 전환
   const menuKo = document.getElementById('menu-ko');
   const menuEn = document.getElementById('menu-en');
 
@@ -30,12 +30,6 @@ export function initMenu() {
         showMenu.style.display = (window.innerWidth <= 768) ? 'block' : 'flex';
         hideMenu.style.display = 'none';
         closeAllDropdowns();
-
-        const homeLink = showMenu.querySelector('li:first-child a');
-        if (homeLink) {
-          window.updatePageTitle(homeLink.textContent);
-          window.loadContent(homeLink.textContent);
-        }
       });
     }
   }
@@ -43,6 +37,7 @@ export function initMenu() {
   setupLangSwitch('lang-switch-btn', menuEn, menuKo);
   setupLangSwitch('lang-switch-btn-en', menuKo, menuEn);
 
+  // 메뉴 이벤트 바인딩
   function attachMenuEvents() {
     const allLinks = document.querySelectorAll('.nav-menu a:not(.lang-switch)');
 
@@ -54,48 +49,56 @@ export function initMenu() {
         const dropdownBox = this.nextElementSibling;
         const isDropdownLink = dropdownBox && dropdownBox.classList.contains('dropdown-content');
         const isSubDropdownTrigger = isDropdownLink && dropdownBox.classList.contains('sub-dropdown');
+        const isMobile = window.innerWidth <= 768;
 
         const href = this.getAttribute('href');
         if (href === '#' || href.startsWith('?page=')) {
           e.preventDefault();
         }
 
-        // 서브 드롭다운 트리거(▶ 메뉴)인 경우 페이지 이동 없이 하위 메뉴만 토글
+        // ── 서브 드롭다운 트리거(▶ 메뉴) ──
         if (isSubDropdownTrigger) {
-          const currentDisplay = window.getComputedStyle(dropdownBox).display;
-          dropdownBox.style.display = (currentDisplay === 'none')
-            ? ((window.innerWidth <= 768) ? 'block' : 'flex')
-            : 'none';
-          return; // 페이지 이동 차단
+          e.preventDefault();
+          if (isMobile) {
+            dropdownBox.classList.toggle('dropdown-open');
+          }
+          return;
         }
 
-        // URL 업데이트 (History API) - Clean URL 방식 적용
-        const pageName = this.textContent.trim();
-        const cleanUrl = pageName === '홈' || pageName === 'Home' ? '/' : `/${pageName}`;
-        window.history.pushState({ page: pageName }, '', cleanUrl);
-
-        // 제목 및 컨텐츠 업데이트
-        window.updatePageTitle(pageName);
-        window.loadContent(pageName);
-
-        document.querySelectorAll('.dropdown-content').forEach(el => {
-          if (el !== dropdownBox && !el.contains(dropdownBox)) {
-            el.style.display = 'none';
-          }
-        });
-
+        // ── 상위 드롭다운 메뉴(예: 스마트복지기술) 클릭 ──
         if (isDropdownLink) {
-          const currentDisplay = window.getComputedStyle(dropdownBox).display;
-          if (currentDisplay === 'none') {
-            dropdownBox.style.display = (window.innerWidth <= 768) ? 'block' : 'flex';
-          } else {
-            dropdownBox.style.display = 'none';
+          e.preventDefault();
+
+          if (isMobile) {
+            // 모바일: 다른 열린 드롭다운 닫기 + 현재 토글
+            document.querySelectorAll('.dropdown > .dropdown-content').forEach(el => {
+              if (el !== dropdownBox) {
+                el.classList.remove('dropdown-open');
+              }
+            });
+            dropdownBox.classList.toggle('dropdown-open');
           }
-        } else {
-          if (window.innerWidth <= 768) {
-            menuToggle.classList.remove('active');
-            navMenu.classList.remove('active');
+          // 데스크탑: CSS :hover가 드롭다운을 처리, JS는 콘텐츠만 로드
+
+          const pageName = this.textContent.trim();
+          if (window.loadContent) {
+            window.loadContent(pageName);
           }
+          return;
+        }
+
+        // ── 일반 하위 메뉴 링크(예: 스마트워크) 클릭 ──
+        e.preventDefault();
+        const pageName = this.textContent.trim();
+        if (window.loadContent) {
+          window.loadContent(pageName);
+        }
+
+        // 모바일: 메뉴 전체 닫기
+        if (isMobile) {
+          closeAllDropdowns();
+          if (menuToggle) menuToggle.classList.remove('active');
+          if (navMenu) navMenu.classList.remove('active');
         }
       });
     });
@@ -103,11 +106,14 @@ export function initMenu() {
 
   attachMenuEvents();
 
+  // 메뉴 외부 클릭 시 닫기
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.nav-menu') && (!menuToggle || !e.target.closest('.menu-toggle'))) {
       closeAllDropdowns();
-      if (menuToggle) menuToggle.classList.remove('active');
-      if (navMenu) navMenu.classList.remove('active');
+      if (window.innerWidth <= 768) {
+        if (menuToggle) menuToggle.classList.remove('active');
+        if (navMenu) navMenu.classList.remove('active');
+      }
     }
   });
 }

@@ -1,5 +1,150 @@
 import { initMenu } from './menu.js';
 
+// MPA 매핑 테이블 (한글 페이지명 -> 실제 .html 경로)
+const pageMap = {
+    '홈': '/',
+    'Home': '/',
+    '스마트복지기술': '/smart-welfare-tech.html',
+    'Smart Welfare Tech': '/smart-welfare-tech.html',
+    '구글 스프레드시트': '/smartwork-google-sheets.html',
+    'Google Sheets': '/smartwork-google-sheets.html',
+    'DX 스프레드 시트 예제': '/sheets-examples.html',
+    'DX Spreadsheet Examples': '/sheets-examples.html',
+    '스프레드 시트 예제': '/sheets-examples.html',
+    'Spreadsheet Examples': '/sheets-examples.html',
+    '스마트워크': '/smart-work.html',
+    'Smart Work': '/smart-work.html',
+    'DX Docs 매뉴얼': '/docs-manuals.html',
+    'DX Docs Manuals': '/docs-manuals.html',
+    'AI 활용 강좌': '/ai-courses.html',
+    'AI Courses': '/ai-courses.html',
+    '부산 스마트복지 실천기관': '/busan-smart-welfare-agencies.html',
+    'Practice Agencies': '/busan-smart-welfare-agencies.html',
+    'Busan Smart Welfare Agencies': '/busan-smart-welfare-agencies.html',
+    '사회복지사를 위한': '/for-social-workers.html',
+    '사회복지사를 위한 도구': '/for-social-workers.html',
+    'For Social Workers': '/for-social-workers.html',
+    'With AI': '/with-ai.html',
+    'Care Insight': '/care-insight.html',
+    '케어 인사이트': '/care-insight.html',
+    'Care Insight (사례관리)': '/care-insight.html',
+    'Care Insight (AI Case Manager)': '/care-insight.html',
+    '가계도 그리기': '/family_tree.html',
+    'Genogram': '/family_tree.html',
+    '생태도 그리기': '/ecomap.html',
+    'Ecomap': '/ecomap.html',
+    'PDF 플립북': '/miniapp-pdf-flipbook.html',
+    'PDF Flipbook': '/miniapp-pdf-flipbook.html',
+    '표 스타일 정리 도구': '/table_styler.html',
+    'Table Styler': '/table_styler.html',
+    'GPS를 활용한 출퇴근관리': '/gps-attendance.html',
+    'GPS 출퇴근관리': '/gps-attendance.html',
+    'GPS Attendance Management': '/gps-attendance.html',
+    '근태관리대장': '/attendance-app.html',
+    'Attendance Management': '/attendance-app.html',
+    '후원신청서': '/sponsorship_form.html',
+    'Sponsorship Form': '/sponsorship_form.html',
+    '사회복지시설 공통업무 캘린더': '/social-worker-calendar.html',
+    'Common Work Calendar': '/social-worker-calendar.html',
+    '민간복지 포털 구성(안)': '/private-welfare-portal.html',
+    'Private Welfare Portal': '/private-welfare-portal.html',
+    'AI Prompt Pro': '/ai-prompt-pro.html',
+    'SNS 홍보문 만들기': '/sns-promotion.html',
+    'SNS PR Creation': '/sns-promotion.html',
+    '문서 타당성 검토': '/doc-audit.html',
+    'Document Review': '/doc-audit.html',
+    '인권 지향적 글쓰기': '/human-rights-docs.html',
+    'Rights-Oriented Writing': '/human-rights-docs.html',
+    'Docs에서 AI 쓰기': '/ai-in-docs.html',
+    'AI in G.Docs': '/ai-in-docs.html',
+    'Sheet에서 AI 쓰기': '/ai-in-sheets.html',
+    'AI in G.SpreadSheets': '/ai-in-sheets.html',
+    'Slide에서 AI 쓰기': '/ai-in-slides.html',
+    'AI in G.Slides': '/ai-in-slides.html',
+    'Gemini로 PPT 만들기': '/gemini-ppt.html',
+    'Creating PPT with Gemini': '/gemini-ppt.html',
+    '유용한 프롬프트': '/useful-prompts.html',
+    'Useful Prompts': '/useful-prompts.html',
+    '후원 전략 컨설팅': '/sponsorship-consulting.html',
+    'Sponsorship Consulting': '/sponsorship-consulting.html',
+    '챗봇, Chatbot': '/ai-chatbot.html',
+    '챗봇 (Chatbot)': '/ai-chatbot.html',
+    'AI Chatbot': '/ai-chatbot.html',
+    'Ct 정서 예측 모델': '/emotion-prediction.html',
+    'Ct Emotion Model': '/emotion-prediction.html',
+    'Mini Apps': '/mini-apps.html',
+    '미니 앱': '/mini-apps.html',
+    'Mini App': '/mini-apps.html',
+    '윈도우 시계 설정': '/miniapp-windows-clock.html',
+    'Clock setting for Windows11': '/miniapp-windows-clock.html',
+    '시간조건 파일 복사': '/miniapp-file-copy.html',
+    'File Copy based on Time': '/miniapp-file-copy.html',
+    '엑셀 비밀번호 일괄변경': '/miniapp-excel-password.html',
+    'Excel Password Change in bulk': '/miniapp-excel-password.html',
+    'PDF MultiTool': '/miniapp-pdf-tool.html',
+    'PDF MultiTool(Split/Merge/Protect)': '/miniapp-pdf-tool.html',
+    'PDF Binder(Web)': '/miniapp-pdf-binder-web.html',
+    'PDF Binder (Web)': '/miniapp-pdf-binder-web.html',
+    'Table Styler Web': '/miniapp-table-cleaner-web.html',
+    '법령 조문(키워드) 검색': '/miniapp-wlaw-search.html',
+    '법령 조문 검색': '/miniapp-wlaw-search.html',
+    'Legal Provision Search': '/miniapp-wlaw-search.html',
+    'HOP: 가벼운 HWP 문서 뷰어': '/miniapp-rhwp.html',
+    'HOP - HWP 문서 뷰어': '/miniapp-rhwp.html',
+    'HOP': '/miniapp-rhwp.html',
+    '함께보기': '/explore-overview.html',
+    'Explore Together': '/explore-overview.html',
+    'Explore Together Overview': '/explore-overview.html',
+    '통계다루기': '/stats-overview.html',
+    'Statistics': '/stats-overview.html',
+    'Statistics Overview': '/stats-overview.html',
+    '기초 통계 분석': '/stats-basic.html',
+    'Basic Analysis': '/stats-basic.html',
+    '사전-사후 비교': '/stats-pre-post.html',
+    '사전-사후 비교 분석': '/stats-pre-post.html',
+    'Pre-Post comparison': '/stats-pre-post.html',
+    'IPA 분석(Excel)': '/stats-ipa.html',
+    'IPA 분석 (Excel)': '/stats-ipa.html',
+    'IPA Analysis': '/stats-ipa.html',
+    '분석방법론 탐색기': '/stats-methodology.html',
+    'Methodology Explorer': '/stats-methodology.html',
+    '이런 것도 가능해요': '/possibilities.html',
+    'Extras': '/possibilities.html',
+    '[게임] 아기하마 구하기': '/game-save-hippo.html',
+    '아기하마 구하기 게임': '/game-save-hippo.html',
+    '[Game] Save Hippo': '/game-save-hippo.html',
+    '크리에이티브 쇼케이스': '/possibilities-showcase.html',
+    'Creative Showcase': '/possibilities-showcase.html',
+    'FAQ': '/faq.html',
+    'FAQ - 자주 묻는 질문': '/faq.html',
+    '바이브 코딩(철학)': '/vibe-coding-philosophy.html',
+    '바이브 코딩 - 철학': '/vibe-coding-philosophy.html',
+    'Vibe Coding: Philosophy': '/vibe-coding-philosophy.html',
+    '바이브 코딩(활용팁)': '/vibe-coding-tips.html',
+    '바이브 코딩 - 활용팁': '/vibe-coding-tips.html',
+    '바이브 코딩(꿀팁)': '/vibe-coding-tips.html',
+    'Vibe Coding: Tips': '/vibe-coding-tips.html',
+    '열매똑똑 아이디어 HUB': '/idea-hub.html',
+    'Idea HUB': '/idea-hub.html',
+    '초기설정(권한 설정)': '/faq-permission.html',
+    '초기설정 - 권한 설정': '/faq-permission.html',
+    'Initial Setting': '/faq-permission.html',
+    '사본 만들기': '/faq-make-copy.html',
+    '사본 만들기 가이드': '/faq-make-copy.html',
+    'Make a Copy': '/faq-make-copy.html',
+    'API 키 만들기': '/faq-api-key.html',
+    'Create API Key': '/faq-api-key.html',
+    '구글 클라우드 설정': '/google-api-setup.html',
+    'Google Cloud Setup': '/google-api-setup.html',
+    'Q&A (질문과 답변)': '/qna.html',
+    'Q&A - 질문과 답변': '/qna.html',
+    'Q&A': '/qna.html',
+    '사이트맵': '/sitemap.html',
+    'Sitemap': '/sitemap.html',
+    '개인정보처리방침': '/privacy.html',
+    'Privacy Policy': '/privacy.html'
+};
+
 async function loadModule(id, file) {
     try {
         const response = await fetch(file);
@@ -10,19 +155,15 @@ async function loadModule(id, file) {
 
         element.innerHTML = data;
 
-        // 동적으로 삽입된 스크립트 실행 처리
         const scripts = element.querySelectorAll('script');
         scripts.forEach(oldScript => {
             const newScript = document.createElement('script');
-            // 원래 스크립트의 모든 속성 복사 (src 등)
             Array.from(oldScript.attributes).forEach(attr => {
                 newScript.setAttribute(attr.name, attr.value);
             });
-            // 인라인 스크립트 내용 복사
             if (oldScript.innerHTML) {
                 newScript.textContent = oldScript.innerHTML;
             }
-            // 기존 스크립트를 새 스크립트로 교체하여 실행 유도
             oldScript.parentNode.replaceChild(newScript, oldScript);
         });
 
@@ -33,233 +174,70 @@ async function loadModule(id, file) {
 }
 
 export function updatePageTitle(title) {
-    const titleElement = document.getElementById('dynamic-title');
-    if (titleElement) {
-        titleElement.textContent = title;
-    }
-    // 브라우저 탭 제목도 업데이트 (AdSense 크롤러 및 SEO)
-    const fullTitle = `${title} : Smart Welfare Tech`;
-    document.title = fullTitle;
-
-    // OG Title 및 Meta Description 동적 업데이트
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', fullTitle);
-
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitle) twitterTitle.setAttribute('content', fullTitle);
-
-    // 페이지 이름에 따라 설명문 최적화 (간단 예시)
-    const description = document.querySelector('meta[name="description"]');
-    if (description) {
-        let content = `Smart Welfare Tech - ${title}: 사회복지 현장을 위한 AI 및 디지털 전환 가이드`;
-        description.setAttribute('content', content);
-
-        const ogDesc = document.querySelector('meta[property="og:description"]');
-        if (ogDesc) ogDesc.setAttribute('content', content);
-    }
-
-    // Canonical 태그 업데이트
-    let canonical = document.getElementById('canonical-link');
-    if (!canonical) {
-        canonical = document.createElement('link');
-        canonical.id = 'canonical-link';
-        canonical.rel = 'canonical';
-        document.head.appendChild(canonical);
-    }
-
-    // 현재 URL 구성을 유지하되 파라미터를 정확히 반영
-    const currentUrl = new URL(window.location.href);
-    if (title === '홈' || title === 'Home') {
-        canonical.setAttribute('href', 'https://thornjsh.github.io/');
-    } else {
-        // 공백 처리 등을 고려하여 정확한 파라미터 URL 생성
-        const canonicalUrl = `https://thornjsh.github.io/?page=${encodeURIComponent(title)}`;
-        canonical.setAttribute('href', canonicalUrl);
-    }
+    // MPA에서는 각 HTML 파일에 title이 이미 설정되어 있으므로 동적 변경 최소화
 }
 
-// 페이지 이동 통합 함수
-export function navigateToPage(pageName) {
-    const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set('page', pageName);
-    window.history.pushState({ page: pageName }, '', currentUrl);
-    updatePageTitle(pageName);
-    loadContent(pageName);
+export async function navigateToPage(pageName) {
+    await loadContent(pageName);
 }
 
-// 컨텐츠 로드 함수 추가
 export async function loadContent(pageName) {
-    const pageBody = document.getElementById('page-body');
-    if (!pageBody) return;
-
-    // 홈 메뉴 처리
-    if (pageName === '홈' || pageName === 'Home') {
-        await loadModule('page-body', '/home.html');
-    } else if (pageName === '스마트복지기술' || pageName === 'Smart Welfare Tech') {
-        await loadModule('page-body', '/smart-welfare-tech.html');
-    } else if (pageName === '구글 스프레드시트' || pageName === 'Google Sheets') {
-        await loadModule('page-body', '/smartwork-google-sheets.html');
-    } else if (pageName === 'DX 스프레드 시트 예제' || pageName === 'DX Spreadsheet Examples' || pageName === '스프레드 시트 예제' || pageName === 'Spreadsheet Examples') {
-        await loadModule('page-body', '/sheets-examples.html');
-    } else if (pageName === '스마트워크' || pageName === 'Smart Work') {
-        await loadModule('page-body', '/smart-work.html');
-    } else if (pageName === 'DX Docs 매뉴얼' || pageName === 'DX Docs Manuals') {
-        await loadModule('page-body', '/docs-manuals.html');
-    } else if (pageName === 'AI 활용 강좌' || pageName === 'AI Courses') {
-        await loadModule('page-body', '/ai-courses.html');
-    } else if (pageName === '부산 스마트복지 실천기관' || pageName === 'Practice Agencies' || pageName === 'Busan Smart Welfare Agencies') {
-        await loadModule('page-body', '/busan-smart-welfare-agencies.html');
-    } else if (pageName === '사회복지사를 위한' || pageName === 'For Social Workers') {
-        await loadModule('page-body', '/for-social-workers.html');
-    } else if (pageName === 'With AI') {
-        await loadModule('page-body', '/with-ai.html');
-    } else if (pageName === 'Care Insight' || pageName === '케어 인사이트' || pageName === 'Care Insight (사례관리)' || pageName === 'Care Insight (AI Case Manager)') {
-        await loadModule('page-body', '/care-insight.html');
-    }
-    // 가계도/생태도
-    else if (pageName === '가계도 그리기' || pageName === 'Genogram' || pageName.includes('가계도 그리기')) {
-        await loadModule('page-body', '/family_tree.html');
-    } else if (pageName === '생태도 그리기' || pageName === 'Ecomap' || pageName.includes('생태도 그리기')) {
-        await loadModule('page-body', '/ecomap.html');
-    }
-    // 사회복지사 도구들
-    else if (pageName === 'PDF 플립북' || pageName === 'PDF Flipbook') {
-        await loadModule('page-body', '/miniapp-pdf-flipbook.html');
-    } else if (pageName === '표 스타일 정리 도구' || pageName === 'Table Styler') {
-        await loadModule('page-body', '/table_styler.html');
-    } else if (pageName === 'GPS를 활용한 출퇴근관리' || pageName === 'GPS Attendance Management') {
-        await loadModule('page-body', '/gps-attendance.html');
-    } else if (pageName === '근태관리대장' || pageName === 'Attendance Management') {
-        await loadModule('page-body', '/attendance-app.html');
-    } else if (pageName === '후원신청서' || pageName === 'Sponsorship Form') {
-        await loadModule('page-body', '/sponsorship_form.html');
-    }
-    else if (pageName === '사회복지시설 공통업무 캘린더' || pageName === 'Common Work Calendar') {
-        await loadModule('page-body', '/social-worker-calendar.html');
-    }
-    else if (pageName === '민간복지 포털 구성(안)' || pageName === 'Private Welfare Portal') {
-        await loadModule('page-body', '/private-welfare-portal.html');
-    }
-    // With AI 세부 항목
-    else if (pageName === 'AI Prompt Pro') {
-        await loadModule('page-body', '/ai-prompt-pro.html');
-    } else if (pageName === 'SNS 홍보문 만들기' || pageName === 'SNS PR Creation') {
-        await loadModule('page-body', '/sns-promotion.html');
-    } else if (pageName === '문서 타당성 검토' || pageName === 'Document Review') {
-        await loadModule('page-body', '/doc-audit.html');
-    } else if (pageName === '인권 지향적 글쓰기' || pageName === 'Rights-Oriented Writing') {
-        await loadModule('page-body', '/human-rights-docs.html');
-    } else if (pageName === 'Docs에서 AI 쓰기' || pageName === 'AI in G.Docs') {
-        await loadModule('page-body', '/ai-in-docs.html');
-    } else if (pageName === 'Sheet에서 AI 쓰기' || pageName === 'AI in G.SpreadSheets') {
-        await loadModule('page-body', '/ai-in-sheets.html');
-    } else if (pageName === 'Slide에서 AI 쓰기' || pageName === 'AI in G.Slides') {
-        await loadModule('page-body', '/ai-in-slides.html');
-    } else if (pageName === 'Gemini로 PPT 만들기' || pageName === 'Creating PPT with Gemini') {
-        await loadModule('page-body', '/gemini-ppt.html');
-    } else if (pageName === '유용한 프롬프트' || pageName === 'Useful Prompts') {
-        await loadModule('page-body', '/useful-prompts.html');
-    } else if (pageName === '후원 전략 컨설팅' || pageName === 'Sponsorship Consulting') {
-        await loadModule('page-body', '/sponsorship-consulting.html');
-    } else if (pageName === '챗봇, Chatbot' || pageName === 'AI Chatbot') {
-        await loadModule('page-body', '/ai-chatbot.html');
-    } else if (pageName === 'Ct 정서 예측 모델' || pageName === 'Ct Emotion Model') {
-        await loadModule('page-body', '/emotion-prediction.html');
-    }
-    // Mini Apps
-    else if (pageName === 'Mini Apps' || pageName === '미니 앱' || pageName === 'Mini App') {
-        await loadModule('page-body', '/mini-apps.html');
-    } else if (pageName === '윈도우 시계 설정' || pageName === 'Clock setting for Windows11') {
-        await loadModule('page-body', '/miniapp-windows-clock.html');
-    } else if (pageName === '시간조건 파일 복사' || pageName === 'File Copy based on Time') {
-        await loadModule('page-body', '/miniapp-file-copy.html');
-    } else if (pageName === '엑셀 비밀번호 일괄변경' || pageName === 'Excel Password Change in bulk') {
-        await loadModule('page-body', '/miniapp-excel-password.html');
-    } else if (pageName === 'PDF MultiTool' || pageName === 'PDF MultiTool(Split/Merge/Protect)') {
-        await loadModule('page-body', '/miniapp-pdf-tool.html');
-    } else if (pageName === 'PDF Binder(Web)' || pageName === 'PDF Binder (Web)') {
-        await loadModule('page-body', '/miniapp-pdf-binder-web.html');
-    } else if (pageName === 'Table Styler Web') {
-        await loadModule('page-body', '/miniapp-table-cleaner-web.html');
-    } else if (pageName === '법령 조문(키워드) 검색' || pageName === 'Legal Provision Search') {
-        await loadModule('page-body', '/miniapp-wlaw-search.html');
-    } else if (pageName === 'HOP: 가벼운 HWP 문서 뷰어' || pageName === 'HOP' || pageName === 'HOP') {
-        await loadModule('page-body', '/miniapp-rhwp.html');
-    }
-    // 함께보기
-    else if (pageName === '함께보기' || pageName === 'Explore Together' || pageName === 'Explore Together Overview') {
-        await loadModule('page-body', '/explore-overview.html');
-    }
-    // 통계다루기
-    else if (pageName === '통계다루기' || pageName === 'Statistics' || pageName === '통계다루기' || pageName === 'Statistics Overview') {
-        await loadModule('page-body', '/stats-overview.html');
-    } else if (pageName === '기초 통계 분석' || pageName === 'Basic Analysis') {
-        await loadModule('page-body', '/stats-basic.html');
-    } else if (pageName === '사전-사후 비교' || pageName === 'Pre-Post comparison' || pageName.includes('사전-사후 비교')) {
-        await loadModule('page-body', '/stats-pre-post.html');
-    } else if (pageName === 'IPA 분석(Excel)' || pageName === 'IPA Analysis') {
-        await loadModule('page-body', '/stats-ipa.html');
-    } else if (pageName === '분석방법론 탐색기' || pageName === 'Methodology Explorer') {
-        await loadModule('page-body', '/stats-methodology.html');
-    }
-    // 이런 것도 가능해요
-    else if (pageName === '이런 것도 가능해요' || pageName === 'Extras' || pageName.includes('가능해요')) {
-        await loadModule('page-body', '/possibilities.html');
-    }
-    else if (pageName === '[게임] 아기하마 구하기' || pageName === '[Game] Save Hippo' || pageName.includes('아기하마 구하기')) {
-        await loadModule('page-body', '/game-save-hippo.html');
-    } else if (pageName === '크리에이티브 쇼케이스' || pageName === 'Creative Showcase') {
-        await loadModule('page-body', '/possibilities-showcase.html');
-    }
-    // FAQ
-    else if (pageName === 'FAQ') {
-        await loadModule('page-body', '/faq.html');
-    }
-    // Vibe Coding
-    else if (pageName === '바이브 코딩(철학)' || pageName === 'Vibe Coding: Philosophy') {
-        await loadModule('page-body', '/vibe-coding-philosophy.html');
-    }
-    else if (pageName === '바이브 코딩(활용팁)' || pageName === '바이브 코딩(꿀팁)' || pageName === 'Vibe Coding: Tips') {
-        await loadModule('page-body', '/vibe-coding-tips.html');
-    }
-    else if (pageName === '열매똑똑 아이디어 HUB' || pageName === 'Idea HUB') {
-        await loadModule('page-body', '/idea-hub.html');
-        // 페이지 로딩 시 새 창으로 자동 이동 (브라우저 팝업 차단에 주의)
+    // 열매똑똑 아이디어 HUB 예외 처리 (새 창 열기)
+    if (pageName === '열매똑똑 아이디어 HUB' || pageName === 'Idea HUB') {
         window.open('https://script.google.com/macros/s/AKfycbyPLnlrTM2-0tNy-O9fQj5eoVNC9oytxkCDBzIy094CJyYJsdJ5S9XFsbqnT194tovJ/exec', '_blank');
-    }
-    else if (pageName === '초기설정(권한 설정)' || pageName === 'Initial Setting') {
-        await loadModule('page-body', '/faq-permission.html');
-    } else if (pageName === '사본 만들기' || pageName === 'Make a Copy') {
-        await loadModule('page-body', '/faq-make-copy.html');
-    } else if (pageName === 'API 키 만들기' || pageName === 'Create API Key') {
-        await loadModule('page-body', '/faq-api-key.html');
-    } else if (pageName === '구글 클라우드 설정' || pageName === 'Google Cloud Setup') {
-        await loadModule('page-body', '/google-api-setup.html');
-    } else if (pageName === 'Q&A (질문과 답변)' || pageName === 'Q&A') {
-        await loadModule('page-body', '/qna.html');
-    }
-    else if (pageName === '사이트맵' || pageName === 'Sitemap') {
-        await loadModule('page-body', '/sitemap.html');
-    }
-    else if (pageName === '개인정보처리방침' || pageName === 'Privacy Policy') {
-        await loadModule('page-body', '/privacy.html');
-    }
-    else {
-
-        // 다른 메뉴의 경우 임시 자리표시자
-        pageBody.innerHTML = `
-      <section class="content-placeholder">
-        <h2>${pageName}</h2>
-        <p>죄송합니다. '${pageName}'에 대한 콘텐츠를 준비 중입니다.</p>
-      </section>
-    `;
+        return;
     }
 
-    // [애드센스 최적화] 페이지 로드 후 광고 갱신
+    const targetUrl = pageMap[pageName] || '/';
     try {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-        // 첫 로드 시점에 라이브러리가 아직 안 왔을 수 있음
+        const response = await fetch(targetUrl);
+        if (!response.ok) throw new Error(`Failed to fetch ${targetUrl}`);
+        const html = await response.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+
+        const newBody = doc.getElementById('page-body');
+        const currentBody = document.getElementById('page-body');
+
+        if (newBody && currentBody) {
+            currentBody.innerHTML = newBody.innerHTML;
+
+            // 스크립트 재실행 처리
+            const scripts = currentBody.querySelectorAll('script');
+            scripts.forEach(oldScript => {
+                const newScript = document.createElement('script');
+                Array.from(oldScript.attributes).forEach(attr => {
+                    newScript.setAttribute(attr.name, attr.value);
+                });
+                if (oldScript.innerHTML) {
+                    newScript.textContent = oldScript.innerHTML;
+                }
+                oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
+
+            // 타이틀 및 URL 업데이트 (PJAX)
+            document.title = doc.title;
+            const dynamicTitle = document.getElementById('dynamic-title');
+            const newDynamicTitle = doc.getElementById('dynamic-title');
+            if (dynamicTitle && newDynamicTitle) {
+                dynamicTitle.textContent = newDynamicTitle.textContent;
+            }
+
+            window.history.pushState({ page: pageName }, doc.title, targetUrl);
+
+            // 애드센스 갱신
+            try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {}
+
+            // 스크롤 상단 이동
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            // 폴백: DOM 구조가 다를 경우 일반 이동
+            window.location.href = targetUrl;
+        }
+    } catch (error) {
+        console.error(`PJAX error for ${targetUrl}:`, error);
+        window.location.href = targetUrl;
     }
 }
 
@@ -276,38 +254,29 @@ async function init() {
 
     initMenu();
 
-    // 뒤로가기/앞으로가기 버튼 대응
-    window.addEventListener('popstate', (event) => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const pageParam = urlParams.get('page') || urlParams.get('p')?.substring(1) || '홈';
-        loadContent(pageParam);
-        updatePageTitle(pageParam);
-    });
-
-    // URL 파라미터 처리 (?page=... 또는 ?p=...)
+    // 기존 북마크나 외부 링크를 통해 파라미터 URL(?page=... 또는 ?p=...)로 접속한 경우 MPA 경로로 리다이렉트
     const urlParams = new URLSearchParams(window.location.search);
     let pageParam = urlParams.get('page');
     const pathParam = urlParams.get('p');
 
-    // 만약 404 리다이렉트로 들어온 경우 (?p=/page-name)
     if (pathParam) {
-        pageParam = pathParam.substring(1); // 맨 앞의 '/' 제거
-        // 주소를 깔끔하게 정리 (브라우저 주소창에서 ?p=... 제거)
-        window.history.replaceState(null, '', pathParam);
+        pageParam = decodeURIComponent(pathParam.substring(1));
     }
 
     if (pageParam) {
-        // 파라미터가 있으면 해당 페이지 로드
-        loadContent(pageParam);
-        updatePageTitle(pageParam);
-    } else {
-        // 파라미터가 없으면 기본값(홈) 로드 로직
-        const pageBody = document.getElementById('page-body');
-        const hasStaticHome = pageBody && pageBody.querySelector('.home-container');
-
-        if (!hasStaticHome) {
-            loadContent('홈');
+        const targetUrl = pageMap[pageParam];
+        if (targetUrl) {
+            window.location.replace(targetUrl);
+        } else {
+            window.location.replace('/');
         }
+    }
+
+    // [애드센스 최적화] 페이지 로드 후 광고 갱신
+    try {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+        // 첫 로드 시점에 라이브러리가 아직 안 왔을 수 있음
     }
 }
 

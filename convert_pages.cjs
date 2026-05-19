@@ -64,6 +64,9 @@ const pages = {
   'qna.html': ['Q&A - 질문과 답변', '서비스 이용 중 궁금한 점에 대한 질문과 답변 게시판입니다.'],
   'sitemap.html': ['사이트맵', 'Smart Welfare Tech의 전체 페이지 구조를 한눈에 볼 수 있는 사이트맵입니다.'],
   'privacy.html': ['개인정보처리방침', 'Smart Welfare Tech의 개인정보 수집, 이용, 보호에 관한 방침입니다.'],
+  'private-welfare-portal.html': ['민간복지 포털 구성(안)', '부산광역시 서구 내 민간 복지 서비스 통합 포털 구성 안내 및 프리뷰입니다.'],
+  'useful-prompts.html': ['유용한 프롬프트', '사회복지 실무에서 바로 활용할 수 있는 유용한 AI 프롬프트 모음입니다.'],
+  'explore-overview.html': ['함께보기', '사회복지 현장의 다양한 혁신 사례와 가능성을 함께 탐색하는 공간입니다.']
 };
 
 let convertedCount = 0;
@@ -80,11 +83,19 @@ for (const [filename, [title, description]] of Object.entries(pages)) {
 
   const content = fs.readFileSync(filePath, 'utf8');
   
-  // Skip if already converted
-  if (content.includes('<!DOCTYPE html>')) {
+  // Skip if already converted (has id="header")
+  if (content.includes('id="header"')) {
     console.log(`SKIP: ${filename} (already converted)`);
     skippedCount++;
     continue;
+  }
+
+  let cleanContent = content;
+  if (cleanContent.includes('<body')) {
+    const bodyMatch = cleanContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    if (bodyMatch) {
+      cleanContent = bodyMatch[1].trim();
+    }
   }
 
   const canonicalUrl = `${baseUrl}/${filename}`;
@@ -154,7 +165,7 @@ for (const [filename, [title, description]] of Object.entries(pages)) {
 
       <div class="container" id="page-body">
         <!--CONTENT_START-->
-${content}
+${cleanContent}
         <!--CONTENT_END-->
       </div>
 
