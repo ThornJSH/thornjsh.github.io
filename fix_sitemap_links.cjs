@@ -42,6 +42,7 @@ const mapping = {
     '기초 통계 분석': 'stats-basic.html',
     '사전-사후 비교': 'stats-pre-post.html',
     'IPA 분석(Excel)': 'stats-ipa.html',
+    'AI 통계 분석 에이전트': 'stats-agent.html',
     '초기설정(권한 설정)': 'faq-permission.html',
     '사본 만들기': 'faq-make-copy.html',
     'API 키 만들기': 'faq-api-key.html',

@@ -50,6 +50,7 @@ const pages = {
   'stats-pre-post.html': ['사전-사후 비교 분석', '프로그램 효과 측정을 위한 사전-사후 비교 분석 도구입니다.'],
   'stats-ipa.html': ['IPA 분석 (Excel)', 'Excel을 활용한 IPA(Importance-Performance Analysis) 분석 도구입니다.'],
   'stats-methodology.html': ['분석방법론 탐색기', '연구 목적에 맞는 통계 분석 방법론을 탐색하고 선택할 수 있는 가이드입니다.'],
+  'stats-agent.html': ['AI 통계 분석 에이전트', '사회과학 및 사회복지 연구자를 위한 지능형 통계 분석 에이전트입니다. 데이터 업로드부터 AI 해석, 논문 리포트 생성까지 원스톱으로 지원합니다.'],
   'possibilities.html': ['이런 것도 가능해요', 'AI와 기술로 가능한 다양한 창의적 활용 사례를 소개합니다.'],
   'game-save-hippo.html': ['아기하마 구하기 게임', '재미있는 미니 게임 - 아기하마 구하기! 사회복지사를 위한 힐링 게임입니다.'],
   'possibilities-showcase.html': ['크리에이티브 쇼케이스', 'AI와 기술을 활용한 창의적 프로젝트 쇼케이스입니다.'],
