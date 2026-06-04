@@ -154,6 +154,10 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://thornjsh.github.io/miniapp-mindmap-web.html</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://thornjsh.github.io/miniapp-table-cleaner-web.html</loc>
     <priority>0.6</priority>
   </url>

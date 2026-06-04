@@ -92,6 +92,8 @@ const pageMap = {
     'HOP: 가벼운 HWP 문서 뷰어': '/miniapp-rhwp.html',
     'HOP - HWP 문서 뷰어': '/miniapp-rhwp.html',
     'HOP': '/miniapp-rhwp.html',
+    '온라인 마인드맵': '/miniapp-mindmap-web.html',
+    'Online Mindmap': '/miniapp-mindmap-web.html',
     '함께보기': '/explore-overview.html',
     'Explore Together': '/explore-overview.html',
     'Explore Together Overview': '/explore-overview.html',
