@@ -29,6 +29,8 @@ const pageMap = {
     '케어 인사이트': '/care-insight.html',
     'Care Insight (사례관리)': '/care-insight.html',
     'Care Insight (AI Case Manager)': '/care-insight.html',
+    '한국어 문장 감성 분석기': '/senti-analysis.html',
+    'Korean Sentiment Analyzer': '/senti-analysis.html',
     '가계도 그리기': '/family_tree.html',
     'Genogram': '/family_tree.html',
     '생태도 그리기': '/ecomap.html',
