@@ -82,6 +82,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://thornjsh.github.io/senti-analysis.html</loc>
+    <lastmod>2026-06-24</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://thornjsh.github.io/miniapp-wlaw-search.html</loc>
     <lastmod>2026-06-20</lastmod>
     <priority>0.6</priority>
