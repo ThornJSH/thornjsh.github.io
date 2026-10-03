@@ -1,0 +1,1253 @@
+<script>
+    /**
+     * DOM 콘텐츠가 모두 로드된 후 스크립트를 실행합니다.
+     * 이는 HTML 요소들이 모두 준비되기 전에 스크립트가 접근하려는 오류를 방지합니다.
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 모달 로직: 첫 방문 시 개인정보 처리 안내 모달 표시 ---
+        const noticeModal = document.getElementById('notice-modal');
+        const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+        if (!sessionStorage.getItem('noticeConfirmed')) {
+            noticeModal.classList.remove('hidden');
+        }
+        function closeModal() {
+            sessionStorage.setItem('noticeConfirmed', 'true');
+            noticeModal.classList.add('hidden');
+        }
+        modalConfirmBtn.addEventListener('click', closeModal);
+        noticeModal.addEventListener('click', (e) => {
+            if (e.target === noticeModal) closeModal();
+        });
+
+        // --- 전역 변수 및 DOM 요소 캐싱 ---
+        const userEmail = document.getElementById('user-email-display').textContent;
+        let people = []; // 가계도의 모든 인물 데이터를 저장하는 배열
+        let historyStack = []; // 실행 취소(Undo) 기능을 위한 상태 저장 스택
+        let selectedPersonId = null; // 현재 선택된 인물의 ID
+        let currentTreeName = null; // 현재 작업 중인 가계도의 이름
+        let initialClient = null; // 가계도의 중심 인물
+
+        const svg = document.getElementById('family-tree-svg');
+        const svgContainer = document.getElementById('svg-container');
+        const loader = document.getElementById('loader');
+        const statusMessage = document.getElementById('status-message');
+        const treeNameInput = document.getElementById('tree-name-input');
+        const centerPersonSelect = document.getElementById('center-person-select');
+        const addPersonSection = document.getElementById('add-person-section');
+        
+        // 인물 정보 수정 관련 DOM 요소
+        const editPersonSection = document.getElementById('edit-person-section');
+        const editPersonNameInput = document.getElementById('edit-person-name-input');
+        const editPersonBirthYearInput = document.getElementById('edit-person-birthyear-input');
+        const editPersonGenderSelect = document.getElementById('edit-person-gender-select');
+        const editPersonNodeTypeSelect = document.getElementById('edit-person-nodetype-select');
+        const editSpouseRelationshipGroup = document.getElementById('edit-spouse-relationship-group');
+        const editSpouseRelationshipSelect = document.getElementById('edit-spouse-relationship-select');
+        const editDeceasedCheckbox = document.getElementById('edit-deceased-checkbox');
+        const updatePersonBtn = document.getElementById('update-person-btn');
+        const deletePersonBtn = document.getElementById('delete-person-btn');
+        
+        // 반응형 사이드바 관련 DOM 요소
+        const infoPanel = document.querySelector('.info-panel');
+        const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+        const sidebarIcon = document.getElementById('sidebar-icon');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        // 미니맵 관련 DOM 요소
+        const minimapContainer = document.getElementById('minimap-container');
+        const minimapSvg = document.getElementById('minimap-svg');
+        const minimapViewportBox = document.getElementById('minimap-viewport-box');
+        const minimapBody = document.getElementById('minimap-body');
+
+        // 뷰 컨트롤(줌/패닝/드래그) 관련 변수
+        const NODE_WIDTH = 80,
+            NODE_HEIGHT = 80,
+            SIBLING_SPACING = 30,
+            LEVEL_SPACING = 140;
+        let viewBox = { x: 0, y: 0, w: svgContainer.clientWidth, h: svgContainer.clientHeight };
+        let isDraggingNode = false;
+        let selectedElement = null; // 드래그 중인 노드
+        let isPanning = false;
+        let lastPoint = { x: 0, y: 0 };
+        let touchState = { isPinching: false, lastDist: 0, isDraggingNode: false, dragTarget: null };
+
+        // --- 초기화 ---
+        initViewBox(); // SVG 뷰박스 초기화
+        loadTreeList(); // 저장된 가계도 목록 불러오기
+
+        // --- 이벤트 리스너 등록 ---
+        // UI 버튼 클릭 이벤트
+        document.getElementById('start-new-tree-btn').addEventListener('click', startNewTree);
+        document.getElementById('add-person-btn').addEventListener('click', addPerson);
+        document.getElementById('save-tree-btn').addEventListener('click', saveCurrentTree);
+        document.getElementById('load-tree-btn').addEventListener('click', loadSelectedTree);
+        document.getElementById('delete-tree-btn').addEventListener('click', deleteSelectedTrees);
+        document.getElementById('reset-btn').addEventListener('click', resetCanvas);
+        document.getElementById('undo-btn').addEventListener('click', undoLastAction);
+        document.getElementById('save-jpg-btn').addEventListener('click', () => downloadImage('jpeg'));
+        document.getElementById('save-png-btn').addEventListener('click', () => downloadImage('png'));
+        
+        // 네비게이션 툴바 및 미니맵 버튼 이벤트
+        document.getElementById('zoom-in-btn').addEventListener('click', zoomIn);
+        document.getElementById('zoom-out-btn').addEventListener('click', zoomOut);
+        document.getElementById('zoom-reset-btn').addEventListener('click', resetZoom);
+        document.getElementById('zoom-fit-btn').addEventListener('click', fitToScreen);
+        document.getElementById('toggle-minimap-btn').addEventListener('click', toggleMinimap);
+        document.getElementById('close-minimap-btn').addEventListener('click', toggleMinimap);
+
+        updatePersonBtn.addEventListener('click', updateSelectedPerson);
+        deletePersonBtn.addEventListener('click', deleteSelectedPerson);
+        centerPersonSelect.addEventListener('change', updateRelationshipOptions);
+        
+        // 키보드 이벤트 (Delete 키로 노드 삭제)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Delete' && selectedPersonId) deleteSelectedPerson();
+        });
+        
+        // 반응형 사이드바 이벤트
+        toggleSidebarBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleSidebar(); });
+        sidebarOverlay.addEventListener('click', () => { if (infoPanel.classList.contains('visible')) toggleSidebar(); });
+
+        // 뷰 컨트롤 이벤트 (마우스, 터치, 휠, 리사이즈)
+        svg.addEventListener('mousedown', onMouseDown);
+        svg.addEventListener('mousemove', onMouseMove);
+        svg.addEventListener('mouseup', onMouseUp);
+        svg.addEventListener('mouseleave', onMouseUp);
+        svg.addEventListener('wheel', onWheel, { passive: false });
+        svg.addEventListener('touchstart', onTouchStart, { passive: false });
+        svg.addEventListener('touchmove', onTouchMove, { passive: false });
+        svg.addEventListener('touchend', onTouchEnd);
+        svg.addEventListener('touchcancel', onTouchEnd);
+        window.addEventListener('resize', initViewBox);
+        
+        /**
+         * 반응형 사이드바를 열고 닫습니다.
+         * 아이콘 모양과 오버레이 표시 여부도 함께 제어합니다.
+         */
+        function toggleSidebar() {
+            const isVisible = infoPanel.classList.toggle('visible');
+            sidebarIcon.classList.toggle('fa-bars', !isVisible);
+            sidebarIcon.classList.toggle('fa-times', isVisible);
+            sidebarOverlay.classList.toggle('hidden', !isVisible);
+        }
+
+        /**
+         * 새 가계도 그리기를 시작합니다.
+         * 모든 상태를 초기화하고, 입력된 정보로 중심인물을 생성합니다.
+         */
+        function startNewTree() {
+            const name = document.getElementById('client-name-input').value.trim();
+            const birthYear = document.getElementById('client-birthyear-input').value;
+            const gender = document.getElementById('client-gender-select').value;
+            const tName = treeNameInput.value.trim();
+            if (!tName || !name) {
+                alert('가계도 이름과 중심인물 이름은 필수입니다.');
+                return;
+            }
+            resetState();
+            currentTreeName = tName;
+            updateStatus(`새 가계도 "${currentTreeName}" 작업을 시작합니다.`);
+            
+            // 뷰포트의 정중앙에 첫 노드를 생성합니다.
+            const initialX = viewBox.x + viewBox.w / 2;
+            const initialY = viewBox.y + viewBox.h / 2;
+            
+            const person = {
+                id: 'p' + Date.now(), name, birthYear, gender, isDeceased: false,
+                nodeType: 'person', x: initialX, y: initialY,
+            };
+            initialClient = person;
+            people.push(person);
+            saveStateForUndo();
+            addPersonSection.classList.remove('hidden');
+            updateCenterPersonSelect();
+            drawTree();
+        }
+
+        // --- 뷰 컨트롤(줌/패닝/드래그) 이벤트 핸들러 ---
+
+        function onMouseDown(e) {
+            e.preventDefault();
+            const targetNode = e.target.closest('.person-node');
+            
+            if (e.shiftKey || e.button === 2) { // Shift 또는 우클릭: 패닝
+                isPanning = true;
+                lastPoint = getEventPoint(e);
+            } else if (targetNode) { // 노드 클릭: 드래그
+                isDraggingNode = true;
+                selectedElement = targetNode;
+                selectPerson(selectedElement.dataset.id);
+                lastPoint = getSVGPoint(e.clientX, e.clientY);
+            } else { // 캔버스 배경 클릭: 선택 해제
+                selectPerson(null);
+            }
+        }
+
+        function onMouseMove(e) {
+            e.preventDefault();
+            if (isPanning) {
+                const currentPoint = getEventPoint(e);
+                const dx = (lastPoint.x - currentPoint.x) * (viewBox.w / svg.clientWidth);
+                const dy = (lastPoint.y - currentPoint.y) * (viewBox.h / svg.clientHeight);
+                viewBox.x += dx;
+                viewBox.y += dy;
+                updateViewBox();
+                lastPoint = currentPoint;
+            } else if (isDraggingNode) {
+                const currentPoint = getSVGPoint(e.clientX, e.clientY);
+                const dx = currentPoint.x - lastPoint.x;
+                const dy = currentPoint.y - lastPoint.y;
+                moveNode(selectedElement.dataset.id, dx, dy);
+                lastPoint = currentPoint;
+                drawTree();
+            }
+        }
+
+        function onMouseUp(e) {
+            if (isDraggingNode) saveStateForUndo();
+            isPanning = false;
+            isDraggingNode = false;
+            selectedElement = null;
+        }
+
+        function onWheel(e) { // 마우스 휠로 줌
+            e.preventDefault();
+            const zoomFactor = e.deltaY < 0 ? 0.9 : 1.1;
+            const mousePoint = getSVGPoint(e.clientX, e.clientY);
+            zoom(zoomFactor, mousePoint);
+        }
+
+        function onTouchStart(e) {
+            e.preventDefault();
+            const touches = e.touches;
+            
+            if (touches.length === 1) { // 한 손가락: 드래그 또는 패닝
+                const targetNode = e.target.closest('.person-node');
+                if (targetNode) {
+                    touchState.isDraggingNode = true;
+                    touchState.dragTarget = targetNode;
+                    selectPerson(targetNode.dataset.id);
+                } else {
+                    isPanning = true;
+                }
+                lastPoint = getEventPoint(touches[0]);
+            } else if (touches.length >= 2) { // 두 손가락: 핀치 줌
+                touchState.isPinching = true;
+                touchState.lastDist = getTouchDistance(touches);
+                isPanning = false;
+                touchState.isDraggingNode = false;
+            }
+        }
+
+        function onTouchMove(e) {
+            e.preventDefault();
+            const touches = e.touches;
+
+            if (touchState.isPinching && touches.length >= 2) {
+                const newDist = getTouchDistance(touches);
+                if (touchState.lastDist === 0) { touchState.lastDist = newDist; return; }
+                const zoomFactor = touchState.lastDist / newDist;
+                const touchCenter = getTouchCenter(touches);
+                const centerSVGPoint = getSVGPoint(touchCenter.x, touchCenter.y);
+                zoom(zoomFactor, centerSVGPoint);
+                touchState.lastDist = newDist;
+
+            } else if (touchState.isDraggingNode && touches.length === 1) {
+                const currentPoint = getSVGPoint(touches[0].clientX, touches[0].clientY);
+                const lastSVGPoint = getSVGPoint(lastPoint.x, lastPoint.y);
+                const dx = currentPoint.x - lastSVGPoint.x;
+                const dy = currentPoint.y - lastSVGPoint.y;
+                moveNode(touchState.dragTarget.dataset.id, dx, dy);
+                drawTree();
+                lastPoint = getEventPoint(touches[0]);
+
+            } else if (isPanning && touches.length === 1) {
+                const currentPoint = getEventPoint(touches[0]);
+                const dx = (lastPoint.x - currentPoint.x) * (viewBox.w / svg.clientWidth);
+                const dy = (lastPoint.y - currentPoint.y) * (viewBox.h / svg.clientHeight);
+                viewBox.x += dx;
+                viewBox.y += dy;
+                updateViewBox();
+                lastPoint = currentPoint;
+            }
+        }
+
+        function onTouchEnd(e) {
+            if (touchState.isDraggingNode) saveStateForUndo();
+            isPanning = false;
+            touchState.isPinching = false;
+            touchState.isDraggingNode = false;
+            touchState.dragTarget = null;
+        }
+
+        // --- 뷰 컨트롤 헬퍼 함수 ---
+
+        function initViewBox() {
+            viewBox = { x: 0, y: 0, w: svgContainer.clientWidth, h: svgContainer.clientHeight };
+            updateViewBox();
+        }
+        function updateViewBox() {
+            svg.setAttribute('viewBox', `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+            updateMinimap();
+        }
+        function zoom(factor, center) {
+            const newW = viewBox.w * factor;
+            const newH = viewBox.h * factor;
+            viewBox.x = center.x - (center.x - viewBox.x) * factor;
+            viewBox.y = center.y - (center.y - viewBox.y) * factor;
+            viewBox.w = newW;
+            viewBox.h = newH;
+            updateViewBox();
+        }
+        function moveNode(nodeId, dx, dy) {
+            const person = findPersonById(nodeId);
+            if (!person) return;
+            person.x += dx;
+            person.y += dy;
+            // 다태아 그룹인 경우 함께 이동
+            if (person.multipleBirthGroupId) {
+                people.forEach(p => {
+                    if (p.multipleBirthGroupId === person.multipleBirthGroupId && p.id !== person.id) {
+                        p.x += dx;
+                        p.y += dy;
+                    }
+                });
+            }
+        }
+        function getEventPoint(e) { return { x: e.clientX, y: e.clientY }; }
+        function getSVGPoint(clientX, clientY) {
+            const pt = svg.createSVGPoint();
+            pt.x = clientX;
+            pt.y = clientY;
+            return pt.matrixTransform(svg.getScreenCTM().inverse());
+        }
+        function getTouchDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+        function getTouchCenter(touches) {
+            return {
+                x: (touches[0].clientX + touches[1].clientX) / 2,
+                y: (touches[0].clientY + touches[1].clientY) / 2
+            };
+        }
+
+        // ===================================================================
+        // --- 가계도 데이터 처리 및 렌더링 함수 ---
+        // ===================================================================
+
+        /**
+         * 사이드바 폼에서 입력받은 정보로 새 인물을 생성하고 관계를 설정합니다.
+         */
+        function addPerson() {
+            const centerPersonId = centerPersonSelect.value;
+            const name = document.getElementById('person-name-input').value.trim();
+            const birthYear = document.getElementById('person-birthyear-input').value;
+            const gender = document.getElementById('person-gender-select').value;
+            const relationshipType = document.getElementById('relationship-select').value;
+            const isDeceased = document.getElementById('deceased-checkbox').checked;
+
+            if (!centerPersonId || !name) {
+                alert('기준 인물과 이름은 필수입니다.');
+                return;
+            }
+            saveStateForUndo();
+            const centerPerson = findPersonById(centerPersonId);
+            const newPerson = {
+                id: 'p' + Date.now(), name, birthYear, isDeceased, x: centerPerson.x, y: centerPerson.y,
+                nodeType: relationshipType === 'petChild' ? 'pet' : 'person',
+                gender: relationshipType === 'petChild' ? 'pet' : gender,
+            };
+
+            // 관계 유형에 따라 새 인물의 위치와 관계 ID를 설정합니다.
+            switch (relationshipType) {
+                case 'spouse': case 'cohabitant': case 'divorce': case 'separation':
+                    newPerson.spouseId = centerPerson.id;
+                    centerPerson.spouseId = newPerson.id;
+                    centerPerson.relationshipType = relationshipType;
+                    newPerson.relationshipType = relationshipType;
+                    newPerson.x += NODE_WIDTH + SIBLING_SPACING;
+                    newPerson.y = centerPerson.y;
+                    break;
+                case 'parent':
+                    const otherParent = findPersonById(centerPerson.parentId);
+                    if (otherParent) { // 기준 인물에게 이미 부모가 한 명 있는 경우, 그 부모의 배우자로 추가
+                        newPerson.spouseId = otherParent.id;
+                        otherParent.spouseId = newPerson.id;
+                        newPerson.relationshipType = 'spouse';
+                        otherParent.relationshipType = 'spouse';
+                        newPerson.x = otherParent.x + NODE_WIDTH + SIBLING_SPACING;
+                        newPerson.y = otherParent.y;
+                    } else { // 첫 부모로 추가
+                        centerPerson.parentId = newPerson.id;
+                        newPerson.x = centerPerson.x;
+                        newPerson.y = centerPerson.y - LEVEL_SPACING;
+                    }
+                    break;
+                case 'child': case 'adoptedChild': case 'petChild':
+                    newPerson.parentId = centerPerson.id;
+                    newPerson.relationshipType = relationshipType;
+                    newPerson.y = centerPerson.y + LEVEL_SPACING;
+                    const children = people.filter(p => p.parentId === centerPerson.id || (findPersonById(p.parentId) && findPersonById(p.parentId).spouseId === centerPerson.id));
+                    if (children.length > 0) { // 이미 자녀가 있으면 마지막 자녀 옆에 배치
+                        const lastChild = children.sort((a, b) => a.x - b.x)[children.length - 1];
+                        newPerson.x = lastChild.x + NODE_WIDTH + SIBLING_SPACING;
+                    } else { // 첫 자녀이면 부모(들)의 중앙 아래에 배치
+                        const parent = findPersonById(centerPerson.id);
+                        const spouse = findPersonById(parent.spouseId);
+                        newPerson.x = spouse ? (parent.x + spouse.x) / 2 : parent.x;
+                    }
+                    break;
+                case 'sibling':
+                    newPerson.parentId = centerPerson.parentId;
+                    newPerson.y = centerPerson.y;
+                    newPerson.x = centerPerson.x + NODE_WIDTH + SIBLING_SPACING;
+                    break;
+                case 'fraternalMultipleBirth':
+                case 'identicalMultipleBirth':
+                    if (!centerPerson.parentId) {
+                        alert('다태아를 추가하려면, 부모가 있는 다른 형제를 기준 인물로 선택해야 합니다.');
+                        return;
+                    }
+                    newPerson.parentId = centerPerson.parentId;
+                    
+                    const groupId = centerPerson.multipleBirthGroupId || ('mb' + Date.now());
+                    newPerson.multipleBirthGroupId = groupId;
+                    centerPerson.multipleBirthGroupId = groupId;
+                    
+                    if (relationshipType === 'identicalMultipleBirth') {
+                        centerPerson.nextIdenticalSiblingId = newPerson.id;
+                    }
+                    
+                    const groupMembers = people.filter(p => p.multipleBirthGroupId === groupId);
+                    const lastMemberInGroup = groupMembers.length > 0 ? groupMembers.sort((a, b) => a.x - b.x)[groupMembers.length - 1] : centerPerson;
+                    newPerson.x = lastMemberInGroup.x + NODE_WIDTH + SIBLING_SPACING;
+                    newPerson.y = centerPerson.y;
+                    break;
+            }
+            people.push(newPerson);
+            autoLayout();
+            drawTree();
+            updateCenterPersonSelect();
+            document.getElementById('person-name-input').value = '';
+            document.getElementById('person-birthyear-input').value = '';
+            document.getElementById('deceased-checkbox').checked = false;
+        }
+
+        /**
+         * 현재 선택된 인물을 가계도에서 삭제합니다.
+         */
+        function deleteSelectedPerson() {
+            if (!selectedPersonId) return;
+            if (initialClient && selectedPersonId === initialClient.id) {
+                alert('중심인물은 삭제할 수 없습니다.');
+                return;
+            }
+            saveStateForUndo();
+            
+            // 삭제되는 노드를 참조하는 다른 노드들의 ID를 정리합니다.
+            people.forEach(p => {
+                if (p.nextIdenticalSiblingId === selectedPersonId) p.nextIdenticalSiblingId = null;
+                if (p.parentId === selectedPersonId) p.parentId = null;
+                if (p.spouseId === selectedPersonId) p.spouseId = null;
+            });
+
+            // `people` 배열에서 해당 인물을 제거합니다.
+            people = people.filter(p => p.id !== selectedPersonId);
+
+            selectPerson(null);
+            autoLayout();
+            drawTree();
+            updateCenterPersonSelect();
+            updateStatus('선택한 인물을 삭제했습니다.');
+        }
+
+        /**
+         * `people` 배열의 데이터를 기반으로 전체 가계도를 SVG에 그립니다.
+         */
+        /**
+         * `people` 배열의 데이터를 기반으로 전체 가계도를 SVG에 그립니다.
+         */
+        function drawTree() {
+            svg.innerHTML = ''; // 기존 그림 모두 삭제
+            drawRelationshipLines(); // 관계선 먼저 그리기
+            people.forEach(p => drawPersonNode(p)); // 각 인물 노드 그리기
+            // 선택된 노드가 있으면 'selected' 클래스를 추가하여 하이라이트
+            if (selectedPersonId) {
+                const node = svg.querySelector(`[data-id="${selectedPersonId}"]`);
+                if (node) node.classList.add('selected');
+            }
+            updateMinimap();
+        }
+
+        /**
+         * 한 명의 인물에 대한 SVG 노드를 생성하고 화면에 추가합니다.
+         * @param {object} person - 그릴 인물 데이터 객체
+         */
+        function drawPersonNode(person) {
+            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            group.setAttribute('class', 'person-node');
+            group.setAttribute('transform', `translate(${person.x || 0}, ${person.y || 0})`);
+            group.setAttribute('data-id', person.id);
+            
+            // 성별 또는 타입에 따라 다른 모양(사각형, 원, 마름모)을 그립니다.
+            let shape;
+            if (person.nodeType === 'pet') {
+                shape = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                const size = NODE_WIDTH / 2;
+                shape.setAttribute('d', `M 0 ${-size} L ${size} 0 L 0 ${size} L ${-size} 0 Z`);
+            } else if (person.gender === 'male') {
+                shape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                shape.setAttribute('x', -NODE_WIDTH / 2); shape.setAttribute('y', -NODE_HEIGHT / 2);
+                shape.setAttribute('width', NODE_WIDTH); shape.setAttribute('height', NODE_HEIGHT);
+                shape.setAttribute('rx', 5);
+            } else {
+                shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                shape.setAttribute('cx', 0); shape.setAttribute('cy', 0);
+                shape.setAttribute('r', NODE_HEIGHT / 2);
+            }
+            shape.setAttribute('class', 'person-shape');
+            group.appendChild(shape);
+
+            // 사망한 경우 X 표시를 추가합니다 (도형별 기하학적 치수 정밀 맞춤).
+            if (person.isDeceased) {
+                const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                let xOffset, yOffset;
+                if (person.nodeType === 'pet') {
+                    // 마름모 (|x| + |y| = 40) 내부 교점 (20, 20)
+                    xOffset = (NODE_WIDTH / 2) * 0.5;
+                    yOffset = (NODE_HEIGHT / 2) * 0.5;
+                } else if (person.gender === 'male') {
+                    // 사각형 모서리 정밀 연결 (-38, -38) ~ (38, 38)
+                    xOffset = (NODE_WIDTH / 2) - 2;
+                    yOffset = (NODE_HEIGHT / 2) - 2;
+                } else {
+                    // 원 둘레 45도 접점: r * cos(45°) ≈ 40 * 0.7071 = 28.28
+                    xOffset = (NODE_HEIGHT / 2) * 0.7071;
+                    yOffset = (NODE_HEIGHT / 2) * 0.7071;
+                }
+                line1.setAttribute('x1', -xOffset); line1.setAttribute('y1', -yOffset);
+                line1.setAttribute('x2', xOffset); line1.setAttribute('y2', yOffset);
+                line2.setAttribute('x1', xOffset); line2.setAttribute('y1', -yOffset);
+                line2.setAttribute('x2', -xOffset); line2.setAttribute('y2', yOffset);
+                [line1, line2].forEach(l => {
+                    l.setAttribute('class', 'deceased-marker');
+                    group.appendChild(l);
+                });
+            }
+
+            // 이름과 출생연도 텍스트를 추가합니다.
+            const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            nameText.setAttribute('class', 'person-name');
+            nameText.setAttribute('y', -5);
+            nameText.textContent = person.name;
+            group.appendChild(nameText);
+            if (person.nodeType !== 'pet' && person.birthYear) {
+                const birthYearText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                birthYearText.setAttribute('class', 'person-birthyear');
+                birthYearText.setAttribute('y', 15);
+                birthYearText.textContent = `(${person.birthYear})`;
+                group.appendChild(birthYearText);
+            }
+            svg.appendChild(group);
+        }
+        
+        /**
+         * 인물들 간의 관계를 나타내는 선들을 그립니다.
+         */
+        function drawRelationshipLines() {
+            const drawnSpouses = new Set();
+            const childrenByParent = groupChildrenByParent();
+            
+            // 배우자 및 일란성 쌍둥이 연결선 그리기
+            people.forEach(p => {
+                if (p.spouseId && !drawnSpouses.has(p.id)) {
+                    const spouse = findPersonById(p.spouseId);
+                    if (spouse) {
+                        drawSpouseLine(p, spouse);
+                        drawnSpouses.add(p.id);
+                        drawnSpouses.add(spouse.id);
+                    }
+                }
+                if (p.nextIdenticalSiblingId) {
+                    const nextSibling = findPersonById(p.nextIdenticalSiblingId);
+                    if(nextSibling) createLine(p.x + NODE_WIDTH/2, p.y, nextSibling.x - NODE_WIDTH/2, nextSibling.y);
+                }
+            });
+
+            // 부모-자녀 관계선 그리기
+            for (const parentId in childrenByParent) {
+                const siblings = childrenByParent[parentId].sort((a, b) => a.x - b.x);
+                if (siblings.length === 0) continue;
+                const parent = findPersonById(parentId);
+                if (!parent) continue;
+                const parentSpouse = findPersonById(parent.spouseId);
+                let startX, startY;
+                if (parentSpouse) {
+                    startX = (parent.x + parentSpouse.x) / 2;
+                    startY = parent.y + (NODE_HEIGHT / 2) + 20;
+                } else {
+                    startX = parent.x;
+                    startY = parent.y + NODE_HEIGHT / 2;
+                }
+                const siblingBarY = siblings[0].y - (NODE_HEIGHT / 2) - 45;
+
+                // 자녀가 한 명일 경우 바로 연결
+                if (siblings.length === 1) {
+                    const child = siblings[0];
+                    createLine(startX, startY, startX, child.y - NODE_HEIGHT/2, child.relationshipType);
+                    continue; 
+                }
+                
+                // 자녀가 여러 명일 경우 형제 라인을 통해 연결
+                createLine(startX, startY, startX, siblingBarY);
+                
+                const siblingGroups = [];
+                const processed = new Set();
+                siblings.forEach(s => {
+                    if (processed.has(s.id)) return;
+                    if (s.multipleBirthGroupId) {
+                        const group = siblings.filter(p => p.multipleBirthGroupId === s.multipleBirthGroupId);
+                        siblingGroups.push(group);
+                        group.forEach(member => processed.add(member.id));
+                    } else {
+                        siblingGroups.push([s]);
+                        processed.add(s.id);
+                    }
+                });
+
+                for (let i = 0; i < siblingGroups.length - 1; i++) {
+                    const currentGroup = siblingGroups[i];
+                    const nextGroup = siblingGroups[i+1];
+                    const startPointX = (currentGroup[0].x + currentGroup[currentGroup.length-1].x) / 2;
+                    const endPointX = (nextGroup[0].x + nextGroup[nextGroup.length-1].x) / 2;
+                    createLine(startPointX, siblingBarY, endPointX, siblingBarY);
+                }
+                
+                siblingGroups.forEach(group => {
+                    const connectionPointX = (group[0].x + group[group.length-1].x) / 2;
+                    const topConnectionY = group[0].y - NODE_HEIGHT / 2;
+                    const V_SHAPE_DEPTH = 1;
+                    const vPointY = siblingBarY + V_SHAPE_DEPTH; 
+                    
+                    createLine(connectionPointX, siblingBarY, connectionPointX, vPointY);
+                    
+                    group.forEach(member => {
+                        createLine(connectionPointX, vPointY, member.x, topConnectionY, member.relationshipType);
+                    });
+                });
+            }
+        }
+
+        function createLine(x1, y1, x2, y2, type = false) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+            line.setAttribute('class', 'relationship-line');
+            if (type === true || type === 'cohabitant') line.classList.add('cohabitant');
+            else if (type === 'adopted' || type === 'adoptedChild') line.classList.add('adopted');
+            svg.insertBefore(line, svg.firstChild);
+        }
+
+        function drawSpouseLine(p1, p2) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const marriageLineY = p1.y + (NODE_HEIGHT / 2) + 20;
+            const pathData = `M ${p1.x} ${p1.y + NODE_HEIGHT / 2} L ${p1.x} ${marriageLineY} L ${p2.x} ${marriageLineY} L ${p2.x} ${p2.y + NODE_HEIGHT / 2}`;
+            line.setAttribute('d', pathData);
+            line.setAttribute('class', 'relationship-line');
+            const relType = p1.relationshipType || p2.relationshipType;
+            if (relType === 'cohabitant') line.classList.add('cohabitant');
+            svg.insertBefore(line, svg.firstChild);
+            if (relType === 'divorce' || relType === 'separation') drawMarriageMarker(relType, p1, p2, marriageLineY);
+        }
+        
+        function drawMarriageMarker(type, p1, p2, y) {
+            const midX = (p1.x + p2.x) / 2;
+            const markerHeight = 14;
+            const halfHeight = markerHeight / 2;
+            if (type === 'separation') { // 별거: 사선 1개
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', midX - 4); line.setAttribute('y1', y + halfHeight);
+                line.setAttribute('x2', midX + 4); line.setAttribute('y2', y - halfHeight);
+                line.setAttribute('class', 'relationship-line');
+                line.style.strokeWidth = '2';
+                svg.insertBefore(line, svg.firstChild);
+            } else if (type === 'divorce') { // 이혼: 사선 2개
+                const spacing = 4;
+                const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line1.setAttribute('x1', midX - spacing - 4); line1.setAttribute('y1', y + halfHeight);
+                line1.setAttribute('x2', midX - spacing + 4); line1.setAttribute('y2', y - halfHeight);
+                line2.setAttribute('x1', midX + spacing - 4); line2.setAttribute('y1', y + halfHeight);
+                line2.setAttribute('x2', midX + spacing + 4); line2.setAttribute('y2', y - halfHeight);
+                [line1, line2].forEach(l => {
+                    l.setAttribute('class', 'relationship-line');
+                    l.style.strokeWidth = '2';
+                    svg.insertBefore(l, svg.firstChild);
+                });
+            }
+        }
+
+        function groupChildrenByParent() {
+            const groups = {};
+            people.forEach(p => {
+                if (p.parentId) {
+                    const parent = findPersonById(p.parentId);
+                    if (parent) {
+                        // 부부가 있을 때, ID가 더 작은 쪽을 대표 부모로 하여 자녀들을 그룹화
+                        const mainParentId = (parent.spouseId && parent.spouseId < parent.id) ? parent.spouseId : parent.id;
+                         if (!groups[mainParentId]) groups[mainParentId] = [];
+                        groups[mainParentId].push(p);
+                    }
+                }
+            });
+            return groups;
+        }
+
+        /**
+         * 가계도 노드들을 계층(세대)별, 부모-자녀/배우자 관계에 따라 깔끔하게 자동 정렬합니다.
+         */
+        function autoLayout() {
+            if (people.length === 0) return;
+
+            // 1. 세대(Level) 계산
+            const levels = {};
+            const visited = new Set();
+            const roots = people.filter(p => !p.parentId);
+            
+            function assignLevel(personId, level) {
+                if (visited.has(personId)) return;
+                visited.add(personId);
+                levels[personId] = Math.max(levels[personId] || 0, level);
+                const person = findPersonById(personId);
+                if (!person) return;
+
+                if (person.spouseId) {
+                    levels[person.spouseId] = levels[personId];
+                }
+
+                const children = people.filter(p => p.parentId === personId || (person.spouseId && p.parentId === person.spouseId));
+                children.forEach(child => assignLevel(child.id, levels[personId] + 1));
+            }
+
+            roots.forEach(r => assignLevel(r.id, 0));
+            people.forEach(p => { if (levels[p.id] === undefined) assignLevel(p.id, 0); });
+
+            // 2. 세대별 그룹화 및 좌표 배치
+            const levelGroups = {};
+            people.forEach(p => {
+                const lvl = levels[p.id] || 0;
+                if (!levelGroups[lvl]) levelGroups[lvl] = [];
+                levelGroups[lvl].push(p);
+            });
+
+            const startY = viewBox.y + 100;
+            const sortedLevels = Object.keys(levelGroups).map(Number).sort((a, b) => a - b);
+
+            sortedLevels.forEach(lvl => {
+                const group = levelGroups[lvl];
+                const placedInLevel = new Set();
+                let currentX = viewBox.x + 100;
+                const levelY = startY + lvl * LEVEL_SPACING;
+
+                group.forEach(person => {
+                    if (placedInLevel.has(person.id)) return;
+
+                    person.y = levelY;
+                    person.x = currentX;
+                    placedInLevel.add(person.id);
+
+                    if (person.spouseId) {
+                        const spouse = findPersonById(person.spouseId);
+                        if (spouse && !placedInLevel.has(spouse.id)) {
+                            spouse.y = levelY;
+                            spouse.x = currentX + NODE_WIDTH + SIBLING_SPACING;
+                            placedInLevel.add(spouse.id);
+                            currentX = spouse.x + NODE_WIDTH + SIBLING_SPACING * 2;
+                            return;
+                        }
+                    }
+                    currentX += NODE_WIDTH + SIBLING_SPACING * 2;
+                });
+            });
+
+            // 3. 자녀 위치를 부모의 중앙 아래로 조정
+            const childrenByParent = groupChildrenByParent();
+            for (const parentId in childrenByParent) {
+                const children = childrenByParent[parentId].sort((a, b) => a.x - b.x);
+                const parent = findPersonById(parentId);
+                if (!parent) continue;
+                const parentSpouse = findPersonById(parent.spouseId);
+                const parentCenterX = parentSpouse ? (parent.x + parentSpouse.x) / 2 : parent.x;
+
+                if (children.length > 0) {
+                    const childrenTotalWidth = (children.length - 1) * (NODE_WIDTH + SIBLING_SPACING);
+                    let startChildX = parentCenterX - childrenTotalWidth / 2;
+                    children.forEach((child, i) => {
+                        child.x = startChildX + i * (NODE_WIDTH + SIBLING_SPACING);
+                        if (child.spouseId) {
+                            const cSpouse = findPersonById(child.spouseId);
+                            if (cSpouse) cSpouse.x = child.x + NODE_WIDTH + SIBLING_SPACING;
+                        }
+                    });
+                }
+            }
+
+            drawTree();
+        }
+        
+        // --- UI 및 상태 관리 함수 ---
+
+        function selectPerson(id) {
+            selectedPersonId = id;
+            document.querySelectorAll('.person-node').forEach(node => node.classList.remove('selected'));
+            if (id) {
+                const node = svg.querySelector(`[data-id="${id}"]`);
+                if (node) node.classList.add('selected');
+                const person = findPersonById(id);
+                if (person) {
+                    updateStatus(`선택됨: ${person.name} (${person.birthYear || ''})`);
+                    // 인물 수정 폼 채우기 및 표시
+                    editPersonNameInput.value = person.name || '';
+                    editPersonBirthYearInput.value = person.birthYear || '';
+                    editPersonGenderSelect.value = person.gender === 'pet' ? 'male' : (person.gender || 'male');
+                    editPersonNodeTypeSelect.value = person.nodeType || 'person';
+                    editDeceasedCheckbox.checked = !!person.isDeceased;
+
+                    if (person.spouseId) {
+                        editSpouseRelationshipGroup.classList.remove('hidden');
+                        const spouse = findPersonById(person.spouseId);
+                        const currentRel = person.relationshipType || (spouse && spouse.relationshipType) || 'spouse';
+                        editSpouseRelationshipSelect.value = currentRel;
+                    } else {
+                        editSpouseRelationshipGroup.classList.add('hidden');
+                    }
+
+                    editPersonSection.classList.remove('hidden');
+                }
+            } else {
+                updateStatus('선택 해제됨.');
+                if (editPersonSection) editPersonSection.classList.add('hidden');
+            }
+        }
+
+        /**
+         * 선택된 인물의 정보를 수정합니다.
+         */
+        function updateSelectedPerson() {
+            if (!selectedPersonId) return;
+            const person = findPersonById(selectedPersonId);
+            if (!person) return;
+
+            const name = editPersonNameInput.value.trim();
+            const birthYear = editPersonBirthYearInput.value;
+            const gender = editPersonGenderSelect.value;
+            const nodeType = editPersonNodeTypeSelect.value;
+            const isDeceased = editDeceasedCheckbox.checked;
+
+            if (!name) {
+                alert('이름은 필수입니다.');
+                return;
+            }
+
+            saveStateForUndo();
+            person.name = name;
+            person.birthYear = birthYear;
+            person.nodeType = nodeType;
+            person.gender = nodeType === 'pet' ? 'pet' : gender;
+            person.isDeceased = isDeceased;
+
+            if (person.spouseId) {
+                const newSpouseRel = editSpouseRelationshipSelect.value;
+                person.relationshipType = newSpouseRel;
+                const spouse = findPersonById(person.spouseId);
+                if (spouse) spouse.relationshipType = newSpouseRel;
+            }
+
+            drawTree();
+            updateCenterPersonSelect();
+            updateStatus(`"${person.name}" 인물 정보를 수정했습니다.`);
+        }
+
+        function updateCenterPersonSelect() {
+            const currentSelection = centerPersonSelect.value;
+            centerPersonSelect.innerHTML = '';
+            people.forEach(p => {
+                if(p.nodeType === 'person'){
+                    const option = document.createElement('option');
+                    option.value = p.id;
+                    option.textContent = p.name;
+                    centerPersonSelect.appendChild(option);
+                }
+            });
+            if (findPersonById(currentSelection)) {
+                centerPersonSelect.value = currentSelection;
+            } else if (selectedPersonId && findPersonById(selectedPersonId)) {
+                centerPersonSelect.value = selectedPersonId;
+            }
+        }
+
+        function updateRelationshipOptions() {}
+
+        function undoLastAction() {
+            if (historyStack.length > 1) {
+                historyStack.pop();
+                const lastState = historyStack[historyStack.length - 1];
+                people = JSON.parse(lastState);
+                drawTree();
+                updateCenterPersonSelect();
+                updateStatus('마지막 작업을 취소했습니다.');
+            } else {
+                updateStatus('더 이상 취소할 작업이 없습니다.');
+            }
+        }
+
+        function resetCanvas() {
+            if (confirm('정말로 현재 가계도를 모두 지우시겠습니까? 저장되지 않은 변경사항은 사라집니다.')) {
+                resetState();
+                drawTree();
+                addPersonSection.classList.add('hidden');
+                treeNameInput.value = '';
+                document.getElementById('client-name-input').value = '';
+                document.getElementById('client-birthyear-input').value = '';
+                updateStatus('캔버스가 초기화되었습니다.');
+            }
+        }
+
+        // --- 서버 통신 함수 ---
+
+        function saveCurrentTree() {
+            if (!currentTreeName) {
+                alert('저장할 가계도의 이름이 없습니다. 새로 시작하거나 기존 가계도를 불러오세요.');
+                return;
+            }
+            if (people.length === 0) {
+                alert('저장할 내용이 없습니다.');
+                return;
+            }
+            showLoader(true, '저장 중...');
+            google.script.run
+                .withSuccessHandler(res => {
+                    showLoader(false);
+                    alert(res);
+                    loadTreeList();
+                })
+                .withFailureHandler(handleError)
+                .saveFamilyTree(currentTreeName, people, userEmail);
+        }
+
+        function loadSelectedTree() {
+            const selected = document.querySelector('#tree-list-container input[type="radio"]:checked');
+            if (!selected) {
+                alert('불러올 가계도를 목록에서 선택해주세요.');
+                return;
+            }
+            const treeNameToLoad = selected.dataset.treename;
+            showLoader(true, '불러오는 중...');
+            google.script.run
+                .withSuccessHandler(data => {
+                    resetState();
+                    people = data;
+                    currentTreeName = treeNameToLoad;
+                    treeNameInput.value = currentTreeName;
+                    if (people.length > 0) {
+                        initialClient = people.find(p => !p.parentId && !p.spouseId) || people[0];
+                    }
+                    saveStateForUndo();
+                    addPersonSection.classList.remove('hidden');
+                    updateCenterPersonSelect();
+                    drawTree();
+                    showLoader(false);
+                    updateStatus(`"${currentTreeName}" 가계도를 불러왔습니다.`);
+                })
+                .withFailureHandler(handleError)
+                .getFamilyTreeData(treeNameToLoad, userEmail);
+        }
+
+        function loadTreeList() {
+            showLoader(true, '목록을 불러오는 중...');
+            google.script.run
+                .withSuccessHandler(updateTreeListUI)
+                .withFailureHandler(handleError)
+                .getFamilyTreeList(userEmail);
+        }
+        
+        function updateTreeListUI(treeNames) {
+            const container = document.getElementById('tree-list-container');
+            container.innerHTML = '';
+            if (!treeNames || treeNames.length === 0) {
+                container.innerHTML = '<p>저장된 가계도가 없습니다.</p>';
+            } else {
+                treeNames.forEach(name => {
+                    const item = document.createElement('div');
+                    item.className = 'tree-list-item';
+                    item.innerHTML = `<input type="radio" name="saved-tree" data-treename="${name}"> <label>${name}</label>`;
+                    container.appendChild(item);
+                });
+            }
+            showLoader(false);
+        }
+
+        function deleteSelectedTrees() {
+            const selected = document.querySelector('#tree-list-container input[type="radio"]:checked');
+            if (!selected) {
+                alert('삭제할 가계도를 목록에서 선택해주세요.');
+                return;
+            }
+            const treeNameToDelete = selected.dataset.treename;
+            if (confirm(`"${treeNameToDelete}" 가계도를 정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`)) {
+                showLoader(true, '삭제 중...');
+                google.script.run
+                    .withSuccessHandler(res => {
+                        showLoader(false);
+                        alert(res);
+                        loadTreeList();
+                    })
+                    .withFailureHandler(handleError)
+                    .deleteFamilyTrees([treeNameToDelete], userEmail);
+            }
+        }
+        
+        // --- 뷰포트 확대/축소 및 네비게이션 툴바 핸들러 ---
+        function zoomIn() {
+            const center = { x: viewBox.x + viewBox.w / 2, y: viewBox.y + viewBox.h / 2 };
+            zoom(0.85, center);
+        }
+
+        function zoomOut() {
+            const center = { x: viewBox.x + viewBox.w / 2, y: viewBox.y + viewBox.h / 2 };
+            zoom(1.18, center);
+        }
+
+        function resetZoom() {
+            viewBox.w = svgContainer.clientWidth;
+            viewBox.h = svgContainer.clientHeight;
+            updateViewBox();
+        }
+
+        function fitToScreen() {
+            if (people.length === 0) {
+                initViewBox();
+                return;
+            }
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            people.forEach(p => {
+                minX = Math.min(minX, p.x - NODE_WIDTH);
+                minY = Math.min(minY, p.y - NODE_HEIGHT);
+                maxX = Math.max(maxX, p.x + NODE_WIDTH);
+                maxY = Math.max(maxY, p.y + NODE_HEIGHT);
+            });
+            const padding = 80;
+            const contentW = Math.max(300, maxX - minX + padding * 2);
+            const contentH = Math.max(300, maxY - minY + padding * 2);
+            
+            viewBox.x = minX - padding;
+            viewBox.y = minY - padding;
+            viewBox.w = contentW;
+            viewBox.h = contentH;
+            updateViewBox();
+        }
+
+        // --- 미니맵 (Minimap) 로직 ---
+        function toggleMinimap() {
+            if (!minimapContainer) return;
+            minimapContainer.classList.toggle('hidden');
+            if (!minimapContainer.classList.contains('hidden')) {
+                updateMinimap();
+            }
+        }
+
+        function updateMinimap() {
+            if (!minimapContainer || minimapContainer.classList.contains('hidden') || !minimapSvg) return;
+
+            minimapSvg.innerHTML = '';
+
+            if (people.length === 0) {
+                if (minimapViewportBox) minimapViewportBox.style.display = 'none';
+                return;
+            }
+            if (minimapViewportBox) minimapViewportBox.style.display = 'block';
+
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            people.forEach(p => {
+                minX = Math.min(minX, p.x - NODE_WIDTH);
+                minY = Math.min(minY, p.y - NODE_HEIGHT);
+                maxX = Math.max(maxX, p.x + NODE_WIDTH);
+                maxY = Math.max(maxY, p.y + NODE_HEIGHT);
+            });
+
+            minX = Math.min(minX, viewBox.x);
+            minY = Math.min(minY, viewBox.y);
+            maxX = Math.max(maxX, viewBox.x + viewBox.w);
+            maxY = Math.max(maxY, viewBox.y + viewBox.h);
+
+            const padding = 40;
+            const totalW = (maxX - minX) + padding * 2;
+            const totalH = (maxY - minY) + padding * 2;
+            const boundX = minX - padding;
+            const boundY = minY - padding;
+
+            minimapSvg.setAttribute('viewBox', `${boundX} ${boundY} ${totalW} ${totalH}`);
+
+            // 관계선 복사
+            svg.querySelectorAll('.relationship-line').forEach(line => {
+                minimapSvg.appendChild(line.cloneNode(true));
+            });
+
+            // 노드 단순점/사각형 복사
+            people.forEach(p => {
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('x', p.x - 15);
+                rect.setAttribute('y', p.y - 15);
+                rect.setAttribute('width', 30);
+                rect.setAttribute('height', 30);
+                rect.setAttribute('rx', p.gender === 'female' ? 15 : 4);
+                rect.setAttribute('fill', p.gender === 'male' ? '#4A90E2' : (p.gender === 'female' ? '#E91E63' : '#4CAF50'));
+                rect.setAttribute('opacity', '0.85');
+                minimapSvg.appendChild(rect);
+            });
+
+            // 미니맵 뷰포트 사각형 업데이트
+            const minimapRect = minimapBody.getBoundingClientRect();
+            if (minimapRect.width === 0 || minimapRect.height === 0) return;
+
+            const scaleX = minimapRect.width / totalW;
+            const scaleY = minimapRect.height / totalH;
+
+            const vpLeft = (viewBox.x - boundX) * scaleX;
+            const vpTop = (viewBox.y - boundY) * scaleY;
+            const vpWidth = viewBox.w * scaleX;
+            const vpHeight = viewBox.h * scaleY;
+
+            if (minimapViewportBox) {
+                minimapViewportBox.style.left = `${Math.max(0, vpLeft)}px`;
+                minimapViewportBox.style.top = `${Math.max(0, vpTop)}px`;
+                minimapViewportBox.style.width = `${Math.min(minimapRect.width, Math.max(10, vpWidth))}px`;
+                minimapViewportBox.style.height = `${Math.min(minimapRect.height, Math.max(10, vpHeight))}px`;
+            }
+        }
+
+        if (minimapBody) {
+            minimapBody.addEventListener('click', (e) => {
+                if (people.length === 0) return;
+                let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                people.forEach(p => {
+                    minX = Math.min(minX, p.x - NODE_WIDTH);
+                    minY = Math.min(minY, p.y - NODE_HEIGHT);
+                    maxX = Math.max(maxX, p.x + NODE_WIDTH);
+                    maxY = Math.max(maxY, p.y + NODE_HEIGHT);
+                });
+                const padding = 40;
+                const boundX = minX - padding;
+                const boundY = minY - padding;
+                const totalW = (maxX - minX) + padding * 2;
+                const totalH = (maxY - minY) + padding * 2;
+
+                const rect = minimapBody.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const clickY = e.clientY - rect.top;
+
+                const targetSvgX = boundX + (clickX / rect.width) * totalW;
+                const targetSvgY = boundY + (clickY / rect.height) * totalH;
+
+                viewBox.x = targetSvgX - viewBox.w / 2;
+                viewBox.y = targetSvgY - viewBox.h / 2;
+                updateViewBox();
+            });
+        }
+
+        // --- 유틸리티 함수 ---
+        
+        function downloadImage(format) {
+            if (people.length === 0) {
+                alert('저장할 내용이 없습니다.');
+                return;
+            }
+            // 이미지로 변환할 때 적용할 최소한의 스타일
+            const cssStyles = `
+                .person-node { cursor: move; } .person-shape { fill: #FFFFFF; stroke: #4A4A4A; stroke-width: 2; }
+                .person-name { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 500; text-anchor: middle; }
+                .person-birthyear { font-family: 'Noto Sans KR', sans-serif; font-size: 12px; text-anchor: middle; }
+                .deceased-marker { stroke: #D0021B; stroke-width: 2; }
+                .relationship-line { fill: none; stroke: #4A4A4A; stroke-width: 1.5; }
+                .relationship-line.cohabitant { stroke-dasharray: 5, 5; }`;
+            const svgClone = svg.cloneNode(true);
+            const styleElement = document.createElementNS("http://www.w3.org/2000/svg", "style");
+            styleElement.textContent = cssStyles;
+            svgClone.insertBefore(styleElement, svgClone.firstChild);
+            
+            const padding = 20;
+            // 모든 노드를 포함하는 영역(bounding box)을 계산하여 이미지 크기 결정
+            if (people.length > 0) {
+                let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                people.forEach(p => {
+                    minX = Math.min(minX, p.x - NODE_WIDTH);
+                    minY = Math.min(minY, p.y - NODE_HEIGHT);
+                    maxX = Math.max(maxX, p.x + NODE_WIDTH);
+                    maxY = Math.max(maxY, p.y + NODE_HEIGHT);
+                });
+                
+                const contentWidth = maxX - minX;
+                const contentHeight = maxY - minY;
+
+                svgClone.setAttribute('width', contentWidth + padding * 2);
+                svgClone.setAttribute('height', contentHeight + padding * 2);
+                svgClone.setAttribute('viewBox', `${minX - padding} ${minY - padding} ${contentWidth + padding * 2} ${contentHeight + padding * 2}`);
+            }
+
+            // SVG를 데이터 URL로 변환 후 이미지로 다운로드
+            const svgString = new XMLSerializer().serializeToString(svgClone);
+            const dataUrl = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(unescape(encodeURIComponent(svgString)));
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = svgClone.width.baseVal.value; 
+                canvas.height = svgClone.height.baseVal.value;
+                const ctx = canvas.getContext('2d');
+                if (format === 'jpeg') {
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+                ctx.drawImage(img, 0, 0);
+                const finalImage = canvas.toDataURL(`image/${format}`, 1.0);
+                const link = document.createElement('a');
+                link.download = `${currentTreeName || 'family-tree'}.${format}`;
+                link.href = finalImage;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+            img.onerror = (e) => {
+                console.error("이미지 로딩 실패:", e);
+                alert("이미지 생성에 실패했습니다. 콘솔을 확인해주세요.");
+            };
+            img.src = dataUrl;
+        }
+
+        function findPersonById(id) { return people.find(p => p.id === id); }
+        function resetState() {
+            people = []; historyStack = []; selectedPersonId = null;
+            currentTreeName = null; initialClient = null;
+            if (editPersonSection) editPersonSection.classList.add('hidden');
+            initViewBox();
+        }
+        function saveStateForUndo() {
+            historyStack.push(JSON.stringify(people));
+            if (historyStack.length > 20) {
+                historyStack.shift();
+            }
+        }
+        function showLoader(show, message = '') {
+            loader.classList.toggle('hidden', !show);
+            if (show) updateStatus(message);
+        }
+        function updateStatus(message) { statusMessage.textContent = message; }
+        function handleError(error) {
+            showLoader(false);
+            alert('오류가 발생했습니다: ' + error.message);
+            console.error(error);
+        }
+    });
+</script>
