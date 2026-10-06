@@ -1,0 +1,8 @@
+# Ignore all files by default
+**/*
+
+# Allow specific Apps Script files
+!appsscript.json
+!*.gs
+!*.js
+!*.html

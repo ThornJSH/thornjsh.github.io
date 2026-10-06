@@ -1,0 +1,366 @@
+<style>
+    /**
+     * ===================================================================
+     * 내장된 외부 라이브러리 (Font Awesome, Google Fonts)
+     * ===================================================================
+     * 외부 CSS 링크 대신 스타일에 직접 내장하여 로딩 속도를 개선하고,
+     * 구글 앱스 스크립트의 Caja 보안 환경과의 충돌을 피합니다.
+     */
+    /* Font Awesome 6.4.0 (Solid, Regular 아이콘) */
+    :host,:root{--fa-style-family-classic:"Font Awesome 6 Free";--fa-font-regular:normal 400 1em/1 "Font Awesome 6 Free"}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:block;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.ttf) format("truetype")}.fa-regular,.far{font-weight:400}:host,:root{--fa-style-family-classic:"Font Awesome 6 Free";--fa-font-solid:normal 900 1em/1 "Font Awesome 6 Free"}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:block;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2) format("woff2"),url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.ttf) format("truetype")}.fa,.fa-brands,.fa-classic,.fa-regular,.fa-solid,.fab,.far,.fas{font-family:"Font Awesome 6 Free"}.fa-solid,.fas{font-weight:900}
+    /* Font Awesome Icon Glyph Definitions */
+    .fa-plus::before { content: "\f067"; }
+    .fa-minus::before { content: "\f068"; }
+    .fa-eye::before { content: "\f06e"; }
+    .fa-map-marked-alt::before { content: "\f5a0"; }
+    .fa-save::before { content: "\f0c7"; }
+    .fa-undo::before { content: "\f0e2"; }
+    .fa-eraser::before { content: "\f12d"; }
+    .fa-file-image::before { content: "\f1c5"; }
+    .fa-bars::before { content: "\f0c9"; }
+    .fa-times::before { content: "\f00d"; }
+    .fa-folder-open::before { content: "\f07c"; }
+    .fa-trash-alt::before { content: "\f2ed"; }
+    .fa-user-plus::before { content: "\f234"; }
+    .fa-check::before { content: "\f00c"; }
+    .fa-play::before { content: "\f04b"; }
+    .fa-compress-arrows-alt::before { content: "\f78c"; }
+    .fa-expand-arrows-alt::before { content: "\f31e"; }
+    /* Google Fonts (Noto Sans KR) */
+    @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/notosanskr/v27/PbykFmztBJaA1zBFsA-b_A_p_m8_6JxK20vW.woff2) format('woff2');unicode-range: U+1100-11FF, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF;}
+    @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;font-display: swap;src: url(https://fonts.gstatic.com/s/notosanskr/v27/PbykFmztBJaA1zBFsA-b_A_p_m8_6JxK20vW.woff2) format('woff2');unicode-range: U+1100-11FF, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF;}
+    @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/notosanskr/v27/PbykFmztBJaA1zBFsA-b_A_p_m8_6JxK20vW.woff2) format('woff2');unicode-range: U+1100-11FF, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF;}
+
+    /**
+     * ===================================================================
+     * 애플리케이션 기본 스타일
+     * ===================================================================
+     */
+
+    /* CSS 변수를 사용하여 색상, 폰트 등 디자인 시스템을 중앙에서 관리합니다. */
+    :root {
+        --primary-color: #4A90E2;
+        --secondary-color: #50E3C2;
+        --background-color: #F4F7F9;
+        --panel-bg-color: #FFFFFF;
+        --text-color: #4A4A4A;
+        --border-color: #E0E6ED;
+        --danger-color: #D0021B;
+        --font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    /* 전역 스타일 초기화 및 기본 설정 */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body, html {
+        height: 100%;
+        font-family: var(--font-family);
+        background-color: var(--background-color);
+        color: var(--text-color);
+        font-size: 14px;
+        overflow: hidden; /* 페이지 스크롤 방지 */
+    }
+
+    /* 앱 레이아웃 (PC 기준) */
+    .app-container {
+        display: flex;
+        height: 100vh;
+    }
+    .info-panel {
+        width: 320px;
+        flex-shrink: 0; /* 창 크기가 줄어도 패널 너비 유지 */
+        background-color: var(--panel-bg-color);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    .panel-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .panel-header h1 {
+        font-size: 22px;
+        color: var(--primary-color);
+    }
+    .form-section, .tree-list-section {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+
+    /* 폼 요소 (input, select, button) 스타일 */
+    .input-group { margin-bottom: 12px; }
+    .input-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+    .input-group input, .input-group select {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    .input-group input:focus, .input-group select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+    .checkbox-group { display: flex; align-items: center; margin-top: 10px; }
+    .checkbox-group input { margin-right: 8px; }
+    .btn-primary, .btn-secondary, .btn-danger {
+        width: 100%; padding: 10px; border: none; border-radius: 4px;
+        font-size: 15px; font-weight: 500; cursor: pointer;
+        transition: background-color 0.2s; margin-top: 5px;
+    }
+    .btn-primary { background-color: var(--primary-color); color: white; }
+    .btn-primary:hover { background-color: #357ABD; }
+    .btn-secondary { background-color: #777; color: white; }
+    .btn-secondary:hover { background-color: #666; }
+    .btn-danger { background-color: var(--danger-color); color: white; }
+    .btn-danger:hover { background-color: #b00217; }
+    #edit-person-section {
+        background-color: #F0F7FF;
+        border-left: 4px solid var(--primary-color);
+    }
+    .button-group { display: flex; gap: 8px; margin-top: 10px; }
+    .button-group button { flex: 1; margin-top: 0; }
+
+    /* 저장된 가계도 목록 스타일 */
+    #tree-list-container {
+        border: 1px solid var(--border-color); border-radius: 4px; padding: 10px;
+        height: 150px; overflow-y: auto; margin-bottom: 10px;
+    }
+    .tree-list-item { display: flex; align-items: center; padding: 5px; cursor: pointer; border-radius: 3px; }
+    .tree-list-item:hover { background-color: #f0f0f0; }
+    .tree-list-item input[type="radio"] { margin-right: 10px; }
+    .list-controls { display: flex; gap: 10px; }
+
+    /* 메인 캔버스 영역 스타일 */
+    .canvas-area {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative; /* 오버레이의 기준점 */
+    }
+    .canvas-controls {
+        padding: 10px; background-color: var(--panel-bg-color);
+        border-bottom: 1px solid var(--border-color);
+        display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .control-group { display: flex; align-items: center; gap: 8px; }
+    .canvas-controls button {
+        background: none; border: 1px solid var(--border-color);
+        border-radius: 4px; padding: 8px 12px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: background-color 0.2s, color 0.2s;
+    }
+    .canvas-controls button:hover {
+        background-color: var(--primary-color);
+        color: white; border-color: var(--primary-color);
+    }
+    .canvas-controls button i { margin-right: 5px; }
+
+    #svg-container {
+        flex-grow: 1; overflow: hidden; position: relative;
+        background-image: linear-gradient(rgba(0,0,0,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.08) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
+    #family-tree-svg { width: 100%; height: 100%; cursor: grab; }
+    #family-tree-svg:active { cursor: grabbing; }
+
+    /* SVG 내부 요소 (가계도 노드, 선) 스타일 */
+    .person-node { cursor: move; }
+    .person-node:hover .person-shape { stroke-width: 3; }
+    .person-node.selected .person-shape { stroke: var(--primary-color); stroke-width: 3; }
+    .person-shape { fill: var(--panel-bg-color); stroke: var(--text-color); stroke-width: 2; }
+    .person-name { font-size: 14px; font-weight: 500; text-anchor: middle; pointer-events: none; user-select: none; }
+    .person-birthyear { font-size: 12px; text-anchor: middle; pointer-events: none; user-select: none; }
+    .deceased-marker { stroke: var(--danger-color); stroke-width: 2; }
+    .relationship-line { fill: none; stroke: var(--text-color); stroke-width: 1.5; }
+    .relationship-line.cohabitant, .relationship-line.adopted { stroke-dasharray: 5, 5; }
+
+    /* 네비게이션 툴바 & 미니맵 스타일 */
+    .nav-toolbar {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 5px 8px;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        border: 1px solid var(--border-color);
+    }
+    .nav-btn {
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: transparent;
+        color: var(--text-color);
+        border-radius: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+    .nav-btn.nav-text-btn {
+        width: auto;
+        padding: 0 8px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+    .nav-btn svg {
+        display: block;
+        flex-shrink: 0;
+    }
+    .nav-btn:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+    .nav-btn:hover svg {
+        stroke: white;
+    }
+    .minimap-container {
+        position: absolute;
+        bottom: 68px;
+        right: 20px;
+        width: 200px;
+        height: 140px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+        overflow: hidden;
+        z-index: 99;
+        display: flex;
+        flex-direction: column;
+    }
+    .minimap-header {
+        padding: 4px 8px;
+        background: var(--background-color);
+        font-size: 11px;
+        font-weight: bold;
+        color: var(--text-color);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .minimap-body {
+        position: relative;
+        flex-grow: 1;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    #minimap-svg {
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+    .minimap-viewport-box {
+        position: absolute;
+        border: 2px solid var(--primary-color);
+        background-color: rgba(74, 144, 226, 0.15);
+        pointer-events: none;
+        border-radius: 3px;
+        transition: all 0.05s ease-out;
+    }
+
+    /* 하단 상태 표시줄 및 푸터 */
+    .status-bar { padding: 5px 10px; background-color: #333; color: white; font-size: 12px; }
+    .fixed-footer {
+        position: fixed; bottom: 5px; right: 10px; font-size: 11px; color: #666;
+        background-color: rgba(255, 255, 255, 0.7); padding: 2px 5px;
+        border-radius: 3px; z-index: 1000;
+    }
+    .fixed-footer a { color: var(--primary-color); text-decoration: none; }
+
+    /* 로더 및 모달 */
+    #loader, .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        display: flex; justify-content: center; align-items: center;
+        background-color: rgba(0, 0, 0, 0.6); z-index: 10001;
+    }
+    .spinner {
+        border: 6px solid #f3f3f3; border-top: 6px solid var(--primary-color);
+        border-radius: 50%; width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .modal-content {
+        background-color: white; padding: 30px 40px; border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center;
+        max-width: 500px; width: 90%;
+    }
+    .modal-content h3 { font-size: 20px; color: var(--primary-color); margin-bottom: 20px; }
+    .modal-content p { font-size: 15px; line-height: 1.7; margin-bottom: 25px; color: #555; }
+    #modal-confirm-btn { width: auto; padding: 10px 40px; }
+    .hidden { display: none !important; }
+
+    /**
+     * ===================================================================
+     * 반응형 스타일 (모바일 & 태블릿)
+     * ===================================================================
+     */
+
+    /* 기본적으로 햄버거 버튼은 PC에서 숨김 */
+    #toggle-sidebar-btn { display: none; }
+
+    /* 화면 너비가 768px 이하일 때 적용될 스타일 */
+    @media (max-width: 768px) {
+        /* 사이드바를 화면 위에 떠 있는 형태로 변경 */
+        .info-panel {
+            position: fixed; top: 0; left: 0; width: 300px; height: 100%;
+            z-index: 2000;
+            transform: translateX(-100%); /* 기본적으로 화면 밖으로 이동 */
+            transition: transform 0.3s ease-in-out;
+        }
+        /* .visible 클래스가 추가되면 사이드바가 화면 안으로 들어옴 */
+        .info-panel.visible {
+            transform: translateX(0);
+            box-shadow: 4px 0px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 햄버거 버튼을 활성화 */
+        #toggle-sidebar-btn {
+            display: flex;
+            background-color: var(--primary-color);
+            color: white; border: none;
+        }
+        #toggle-sidebar-btn:hover { background-color: #357ABD; }
+        #toggle-sidebar-btn .btn-text { margin-left: 6px; } /* 아이콘과 텍스트 간격 */
+        
+        /* 캔버스 영역을 덮는 오버레이 */
+        .sidebar-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1999; /* 사이드바(2000) 바로 아래 */
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
+        .sidebar-overlay:not(.hidden) { opacity: 1; }
+
+        /* PC에서는 버튼 아이콘만 보이고, 모바일에서는 텍스트도 보이게 설정 */
+        .canvas-controls button i { margin-right: 0; }
+        .canvas-controls button .btn-text { display: none; }
+        #toggle-sidebar-btn i { margin-right: 5px; }
+        #toggle-sidebar-btn .btn-text { display: inline; }
+    }
+</style>
