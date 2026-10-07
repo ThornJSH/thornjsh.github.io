@@ -25,16 +25,8 @@ const pageMap = {
     '사회복지사를 위한 도구': '/for-social-workers.html',
     'For Social Workers': '/for-social-workers.html',
     'With AI': '/with-ai.html',
-    'AI 사례관리 입력 도우미': '/ai-case-helper_v1.html',
-    'AI Case Input Helper': '/ai-case-helper_v1.html',
-    'AI 사례관리 어시스턴트': '/ai-case-helper_v1.html',
-    'AI 사례관리 어시스턴트 (v1)': '/ai-case-helper_v1.html',
-    'AI Case Helper': '/ai-case-helper_v1.html',
-    'AI Case Helper (v1)': '/ai-case-helper_v1.html',
-    'Care Insight': '/ai-case-helper_v1.html',
-    '케어 인사이트': '/ai-case-helper_v1.html',
-    'Care Insight (사례관리)': '/ai-case-helper_v1.html',
-    'Care Insight (AI Case Manager)': '/ai-case-helper_v1.html',
+    'AI 사례관리 입력 도우미': '/ai-case-helper.html',
+    'AI Case Helper': '/ai-case-helper.html',
     '한국어 문장 감성 분석기': '/senti-analysis.html',
     'Korean Sentiment Analyzer': '/senti-analysis.html',
     '가계도 그리기': '/family_tree.html',
@@ -242,7 +234,7 @@ export async function loadContent(pageName) {
             // 애드센스 갱신
             try {
                 (adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (e) {}
+            } catch (e) { }
 
             // 스크롤 상단 이동
             window.scrollTo({ top: 0, behavior: 'smooth' });

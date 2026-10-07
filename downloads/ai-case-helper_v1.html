@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 사례관리 입력 도우미 (사례정보 최소화)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Noto Sans KR", Arial, sans-serif;
+    background: #f4f6f9;
+    color: #2c3e50;
+    line-height: 1.6;
+  }
+  header {
+    background: #1a252f;
+    color: white;
+    /* 화면이 넓어져도 제목이 본문(최대 1050px) 왼쪽 선과 맞도록 좌우 여백을 계산 */
+    padding: 24px max(20px, calc((100% - 1050px) / 2 + 16px));
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  header h1 { margin: 0 0 6px; font-size: 24px; font-weight: 700; }
+  header p { margin: 0; opacity: .85; font-size: 14px; }
+
+  .container {
+    max-width: 1050px;
+    margin: 24px auto;
+    padding: 0 16px 50px;
+  }
+
+  .notice-card {
+    background: #eef6fc;
+    border-left: 5px solid #3498db;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  .notice-card strong { color: #2980b9; }
+  .notice-card ul { margin: 8px 0 0; padding-left: 20px; }
+  .notice-card li { margin-bottom: 2px; }
+
+  .section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  }
+
+  .section h2 {
+    margin: 0 0 16px;
+    font-size: 18px;
+    color: #2c3e50;
+    border-left: 4px solid #34495e;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .purpose-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .purpose-card {
+    position: relative;
+    display: block;
+    border: 2px solid #ecf0f1;
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fafbfc;
+  }
+
+  .purpose-card:hover {
+    border-color: #bdc3c7;
+    background: #ffffff;
+  }
+
+  .purpose-card.selected {
+    border-color: #27ae60;
+    background: #f0fdf4;
+    box-shadow: 0 0 0 1px #27ae60;
+  }
+
+  /* 키보드 접근이 가능하도록 display:none 대신 시각적으로만 숨김 */
+  .purpose-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  .purpose-card:focus-within {
+    outline: 3px solid rgba(52, 152, 219, 0.45);
+    outline-offset: 2px;
+  }
+
+  .purpose-card .title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c3e50;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .purpose-card.selected .title { color: #1e8449; }
+
+  .purpose-card .desc {
+    font-size: 12px;
+    color: #6b7785;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #34495e;
+  }
+
+  .hint {
+    color: #6b7785;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font: inherit;
+    background: white;
+    transition: border-color 0.2s;
+  }
+
+  textarea {
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+  }
+
+  .privacy-info {
+    background: #f8f9fa;
+    border: 1px dashed #bdc3c7;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #6b7785;
+    font-size: 12px;
+    margin-top: 12px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  button {
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s;
+  }
+
+  button:focus-visible {
+    outline: 3px solid rgba(52, 152, 219, 0.45);
+    outline-offset: 2px;
+  }
+
+  .btn-primary { background: #2c3e50; color: white; }
+  .btn-secondary { background: #e0e0e0; color: #333; }
+  .btn-sample { background: #16a085; color: white; padding: 8px 14px; font-size: 14px; }
+  .btn-copy { background: #27ae60; color: white; font-size: 15px; }
+  .btn-generate { background: #2980b9; color: white; }
+  .generate-hint { font-size: 13px; color: #2471a3; font-weight: 500; margin-top: 10px; }
+
+  button:hover { opacity: 0.9; }
+
+  #resultSection { display: none; }
+
+  .result-box {
+    background: #1e272e;
+    color: #f1f2f6;
+    border-radius: 8px;
+    padding: 18px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.7;
+    min-height: 220px;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  .checklist {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .check {
+    padding: 10px 14px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .check.ok { background: #e8f8f5; color: #117a65; border: 1px solid #a3e4d7; }
+  .check.warn { background: #fef9e7; color: #8a6d0b; border: 1px solid #f9e79f; }
+  .check.danger { background: #fadbd8; color: #78281f; border: 1px solid #f5b7b1; }
+
+  .small-text {
+    font-size: 12px;
+    color: #6b7785;
+    margin-top: 10px;
+  }
+
+  .copy-status {
+    font-size: 13px;
+    font-weight: 500;
+    color: #117a65;
+  }
+
+  .tag-badge {
+    background: #34495e;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: normal;
+  }
+
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: 1fr; }
+    .field.full { grid-column: auto; }
+    .purpose-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <h1>AI 사례관리 입력 도우미</h1>
+  <p>목적별 정보 최소화 원칙(Data Minimization) 기반 AI 프롬프트 생성기</p>
+</header>
+
+<div class="container">
+
+  <div class="notice-card">
+    <strong>🔒 사례정보 최소화(Data Minimization) 핵심 원칙</strong><br>
+    AI에게 무엇을 요청할지(목적) 먼저 선택하면, 해당 목적에 필요한 입력란만 활성화됩니다.
+    입력한 이름·상세주소는 AI 전달본에서 제외되고, 사례 내용 속에 같은 이름·주소가 있으면 자동으로 치환되며,
+    주민등록번호·전화번호 형태는 자동으로 마스킹됩니다.
+    <ul>
+      <li>질병·건강 정보는 개인정보보호법상 <b>민감정보</b>에 해당할 수 있습니다. 꼭 필요한 범위만 입력해 주세요.</li>
+      <li>외부 AI 서비스에 사례 정보를 입력할 수 있는지는 <b>기관의 정보보호 지침</b>을 먼저 확인해 주세요.</li>
+      <li>가족·이웃 등 제3자 이름, 기관명, 희귀 질환명 등은 자동으로 걸러지지 않으니 직접 확인해 주세요.</li>
+    </ul>
+  </div>
+
+  <form id="caseForm" novalidate>
+
+    <!-- STEP 1: AI 요청 목적 선택 -->
+    <div class="section">
+      <h2>
+        <span>1단계. AI에게 요청할 목적 선택</span>
+        <button type="button" class="btn-sample" id="sampleBtn">📋 가상 사례 채우기</button>
+      </h2>
+
+      <div class="purpose-grid">
+
+        <label class="purpose-card selected">
+          <input type="radio" name="purpose" value="A" checked>
+          <div class="title">A. 상담내용 구조화 AI</div>
+          <div class="desc">자유 상담록을 입력받아 사실/욕구/문제/위험/강점/자원/추가확인사항으로 분류합니다.</div>
+        </label>
+
+        <label class="purpose-card">
+          <input type="radio" name="purpose" value="B">
+          <div class="title">B. 사례 사정 지원 AI</div>
+          <div class="desc">사례 정보를 바탕으로 욕구·위험·강점을 종합 분석하고 누락된 사정 항목을 제시합니다.</div>
+        </label>
+
+        <label class="purpose-card">
+          <input type="radio" name="purpose" value="C">
+          <div class="title">C. 목표설정 지원 AI</div>
+          <div class="desc">당사자 욕구와 상황을 입력받아 당사자 중심의 적절한 목표와 검토 사항을 제안합니다.</div>
+        </label>
+
+        <label class="purpose-card">
+          <input type="radio" name="purpose" value="D">
+          <div class="title">D. 개입계획 지원 AI</div>
+          <div class="desc">설정된 목표를 기반으로 개인·가족·기관·지역사회 차원의 개입 전략을 도출합니다.</div>
+        </label>
+
+        <label class="purpose-card">
+          <input type="radio" name="purpose" value="E">
+          <div class="title">E. 사례기록 지원 AI</div>
+          <div class="desc">실제 수행된 상담/개입 내용을 확인된 사실(Fact) 중심으로 정리하여 기록 초안을 만듭니다.</div>
+        </label>
+
+        <label class="purpose-card">
+          <input type="radio" name="purpose" value="F">
+          <div class="title">F. 모니터링·평가 지원 AI</div>
+          <div class="desc">초기 상태와 최근 변화를 비교하여 변화, 미변화, 악화, 추가확인 사항을 분석합니다.</div>
+        </label>
+
+      </div>
+    </div>
+
+    <!-- STEP 2: 기본 비식별 정보 (공통) -->
+    <div class="section">
+      <h2>2단계. 최소 기본정보 <span class="tag-badge">공통 비식별</span></h2>
+      <div class="grid">
+
+        <div class="field">
+          <label for="name">이름 <span class="hint">※ AI 전달본에서 제외, 사례 내용 속 같은 이름은 [당사자]로 치환</span></label>
+          <input id="name" type="text" placeholder="예: 김순자" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="gender">성별</label>
+          <select id="gender">
+            <option value="">선택 안함</option>
+            <option>여성</option>
+            <option>남성</option>
+            <option>기타</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="age">연령 <span class="hint">※ AI 전달 시 연령대(예: 70대)로 자동 변환</span></label>
+          <input id="age" type="number" min="0" max="120" placeholder="예: 78">
+        </div>
+
+        <div class="field">
+          <label for="region">거주지역 <span class="hint">시·군·구 단위</span></label>
+          <input id="region" type="text" placeholder="예: 부산진구" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="address">상세주소 <span class="hint">※ AI 전달본에서 제외, 사례 내용 속 같은 주소는 [주소]로 치환</span></label>
+          <input id="address" type="text" placeholder="입력하지 않는 것을 권장합니다" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="household">가구형태</label>
+          <select id="household">
+            <option value="">선택 안함</option>
+            <option>독거</option>
+            <option>배우자와 동거</option>
+            <option>자녀와 동거</option>
+            <option>기타 가족과 동거</option>
+            <option>기타</option>
+          </select>
+        </div>
+
+      </div>
+      <div class="privacy-info">
+        * 이 페이지는 입력 내용을 외부 서버로 전송하지 않고 브라우저 안에서만 처리합니다.
+        다만 복사한 프롬프트를 ChatGPT·Gemini 등에 붙여넣은 이후에는 해당 서비스의 정책이 적용됩니다.
+      </div>
+    </div>
+
+    <!-- STEP 3: 목적별 동적 입력 필드 -->
+    <div class="section">
+      <h2>3단계. 목적에 맞는 사례 정보 입력</h2>
+
+      <div id="fields_A" class="dynamic-group">
+        <div class="field full">
+          <label for="rawRecord">상담 기록 / 자유 서술 원문 <span class="hint">※ 상담록 내용을 자유롭게 작성 또는 붙여넣기하세요</span></label>
+          <textarea id="rawRecord" style="min-height: 180px;" placeholder="예: 오늘 어르신 댁에 방문함. 무릎 통증이 심해져서 동네 슈퍼나 병원에 가는 것도 힘들다고 하심. 혼자 지내시다 보니 적적해서 복지관 노래교실에 다시 나가고 싶어 하심. 딸이 일주일에 한 번 찾아오긴 하지만 다들 바쁘다고 하심. 계단 오르내릴 때 낙상 위험이 있어 보임."></textarea>
+        </div>
+      </div>
+
+      <div id="fields_B" class="dynamic-group" style="display:none;">
+        <div class="grid">
+          <div class="field full">
+            <label for="b_facts">확인된 주요 사실 및 현황</label>
+            <textarea id="b_facts" placeholder="예: 70대 독거 여성. 퇴행성 관절염으로 보행 불편. 엘리베이터 없는 빌라 3층 거주."></textarea>
+          </div>
+          <div class="field">
+            <label for="b_needs">당사자 표출 욕구</label>
+            <textarea id="b_needs" placeholder="예: 무릎 통증 완화, 외출 및 복지관 프로그램 재참여 희망"></textarea>
+          </div>
+          <div class="field">
+            <label for="b_strengths">강점 및 가용 자원</label>
+            <textarea id="b_strengths" placeholder="예: 건강 회복 의지 높음, 주 1회 딸 방문, 과거 노래교실 적극 참여"></textarea>
+          </div>
+          <div class="field full">
+            <label for="b_risks">우려 및 위험 요인</label>
+            <textarea id="b_risks" placeholder="예: 계단 이동 중 낙상 위험, 외출 감소로 인한 고립감 및 우울 위험"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div id="fields_C" class="dynamic-group" style="display:none;">
+        <div class="grid">
+          <div class="field full">
+            <label for="c_needs">당사자의 욕구 및 원하는 변화</label>
+            <textarea id="c_needs" placeholder="예: 혼자 병원 다니기가 힘들어 도움을 받고 싶음. 다시 복지관 친구들을 만나고 싶음."></textarea>
+          </div>
+          <div class="field full">
+            <label for="c_situation">현재 사례 상황 핵심</label>
+            <textarea id="c_situation" placeholder="예: 무릎 관절염으로 장시간 보행 어려움, 노후 빌라 3층 거주로 외출 차단됨. 경제적 여유 부족."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div id="fields_D" class="dynamic-group" style="display:none;">
+        <div class="grid">
+          <div class="field full">
+            <label for="d_goals">설정된 사례 관리 목표</label>
+            <textarea id="d_goals" placeholder="예: 1. 안전한 병원 이용 및 건강관리 지원 / 2. 지역사회 여가 프로그램 참여를 통한 사회적 관계망 회복"></textarea>
+          </div>
+          <div class="field full">
+            <label for="d_context">사례 상황 및 활용 가능 자원</label>
+            <textarea id="d_context" placeholder="예: 복지관 노인맞춤돌봄, 동지역사회보장협의체 이동지원 자원, 보건소 방문간호, 인근 복지관 노래교실"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div id="fields_E" class="dynamic-group" style="display:none;">
+        <div class="field full">
+          <label for="e_activity">수행된 상담 및 개입 내용 (Fact 중심)</label>
+          <textarea id="e_activity" style="min-height: 160px;" placeholder="예: 10/12 가정방문 진행. 당사자 무릎 통증 호소 확인. 보건소 방문건강관리 서비스 연계 신청 접수함. 동 협의체 주거환경개선(안전손잡이) 사업 신청서 작성 완료."></textarea>
+        </div>
+      </div>
+
+      <div id="fields_F" class="dynamic-group" style="display:none;">
+        <div class="grid">
+          <div class="field">
+            <label for="f_initial">개입 초기 상태</label>
+            <textarea id="f_initial" placeholder="예: 무릎 통증으로 외출 불가, 외부 교류 완전 단절, 우울감 호소."></textarea>
+          </div>
+          <div class="field">
+            <label for="f_current">최근 변화 및 현재 상태</label>
+            <textarea id="f_current" placeholder="예: 보건소 방문간호 연계로 약물 복용 지도 실시 중. 이동지원서비스 활용하여 주 1회 복지관 출석 시작함. 표정이 밝아지고 우울감 감소함."></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="btn-generate" id="generateBtn">AI 전달용 최적화 사례 데이터 생성</button>
+      <button type="reset" class="btn-secondary" id="resetBtn">전체 초기화</button>
+    </div>
+    <div class="generate-hint">※ 목적을 바꾸거나 입력을 고친 뒤에는 위 파란 버튼을 다시 눌러야 해당 목적의 프롬프트가 만들어집니다.</div>
+
+  </form>
+
+  <!-- STEP 4: 결과 및 비식별 체크리스트 -->
+  <div class="section" id="resultSection">
+    <h2>4단계. AI 전달용 최적화 데이터 &amp; 검증 결과</h2>
+
+    <div id="checklist" class="checklist" aria-live="polite"></div>
+
+    <div style="margin-top: 16px;">
+      <label>AI 전달용 최종 프롬프트 (복사하여 ChatGPT / Gemini 등에 입력하세요):</label>
+      <div id="resultBox" class="result-box"></div>
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="btn-copy" id="copyBtn">📋 AI 프롬프트 전체 복사하기</button>
+      <span id="copyStatus" class="copy-status" role="status"></span>
+    </div>
+
+    <div class="small-text">
+      ※ 복사하기 전 남아 있는 식별 정보(제3자 이름, 특정 기관명, 정밀한 날짜·장소, 희귀 질환명 등)가 없는지 다시 한 번 눈으로 최종 확인하세요.
+    </div>
+  </div>
+
+</div>
+
+<script>
+let currentPurpose = 'A';
+
+/* ===== 목적별 입력 필드 정의 (block: true → 제목 아래 본문 형태) ===== */
+const CASE_FIELDS = {
+  A: [{ id: "rawRecord", label: "상담 원문 및 서술", block: true }],
+  B: [
+    { id: "b_facts", label: "주요 사실/현황" },
+    { id: "b_needs", label: "당사자 욕구" },
+    { id: "b_strengths", label: "강점/자원" },
+    { id: "b_risks", label: "우려/위험요인" }
+  ],
+  C: [
+    { id: "c_needs", label: "당사자 욕구" },
+    { id: "c_situation", label: "현재 사례 상황" }
+  ],
+  D: [
+    { id: "d_goals", label: "설정된 목표" },
+    { id: "d_context", label: "상황 및 가용자원" }
+  ],
+  E: [{ id: "e_activity", label: "수행된 개입/상담 내용", block: true }],
+  F: [
+    { id: "f_initial", label: "초기 상태" },
+    { id: "f_current", label: "최근 변화/현재 상태" }
+  ]
+};
+
+/* ===== 비식별화 패턴 ===== */
+const RRN_RE = /(?<!\d)\d{6}[-.\s]?[1-8]\d{6}(?!\d)/g;
+const PHONE_RE = /(?<!\d)(01[016789][-.\s]?\d{3,4}[-.\s]?\d{4}|0(?:2|[3-6][1-5]|70)[-.\s]?\d{3,4}[-.\s]?\d{4})(?!\d)/g;
+
+const SURNAMES = "김이박최정강조윤장임한오서신권황안송류전홍고문양손배백허유남심노하곽성차주우구민";
+const NAME_STOPWORDS = ["우리","이분","그분","고령","남성","주민","노인","장애","유족","신규","국민","이용","전체","일부","하나","주변","오늘"];
+
+let maskStats = { name: 0, address: 0, phone: 0, rrn: 0 };
+
+function resetStats() {
+  maskStats = { name: 0, address: 0, phone: 0, rrn: 0 };
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : "";
+}
+
+/* ===== 목적 선택 ===== */
+function selectPurpose(purpose) {
+  currentPurpose = purpose;
+
+  document.querySelectorAll('.purpose-card').forEach(card => {
+    const radio = card.querySelector('input[type="radio"]');
+    const isTarget = radio.value === purpose;
+    radio.checked = isTarget;
+    card.classList.toggle('selected', isTarget);
+  });
+
+  document.querySelectorAll('.dynamic-group').forEach(el => {
+    el.style.display = 'none';
+  });
+  const targetGroup = document.getElementById("fields_" + purpose);
+  if (targetGroup) targetGroup.style.display = 'block';
+}
+
+/* ===== 연령대 변환 ===== */
+function ageBand(age) {
+  if (age === "" || age === null || age === undefined) return "";
+  const n = Number(age);
+  if (isNaN(n) || n < 0 || n > 120) return "";
+  if (n >= 100) return "100세 이상";
+  if (n < 10) return "10세 미만";
+  return `${Math.floor(n / 10) * 10}대`;
+}
+
+/* ===== 비식별화 ===== */
+function escapeRegExp(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function replaceAllCounting(text, needle, replacement, statKey) {
+  if (!needle || !text.includes(needle)) return text;
+  const parts = text.split(needle);
+  maskStats[statKey] += parts.length - 1;
+  return parts.join(replacement);
+}
+
+function nameNeedles() {
+  const name = val("name").replace(/\s+/g, "");
+  if (name.length < 2) return [];
+  const list = [name];
+  if (name.length >= 3) list.push(name.slice(1)); // 성을 뺀 이름 (예: 박정순 → 정순)
+  return list;
+}
+
+function addressNeedles() {
+  const address = val("address");
+  if (!address) return [];
+  const list = [address];
+  address.split(/[\s,()]+/).forEach(tok => {
+    if (tok.length >= 3 && /(동|로|길|리|읍|면|가)$/.test(tok)) list.push(tok);
+    else if (/\d+(-\d+)?번지/.test(tok) || /\d+번길/.test(tok)) list.push(tok);
+  });
+  return Array.from(new Set(list)).sort((a, b) => b.length - a.length);
+}
+
+function anonymize(text) {
+  let out = text;
+
+  out = out.replace(RRN_RE, () => { maskStats.rrn++; return "[주민번호]"; });
+  out = out.replace(PHONE_RE, () => { maskStats.phone++; return "[전화번호]"; });
+
+  nameNeedles().forEach(n => { out = replaceAllCounting(out, n, "[당사자]", "name"); });
+  addressNeedles().forEach(a => { out = replaceAllCounting(out, a, "[주소]", "address"); });
+
+  return out;
+}
+
+/* ===== 프롬프트 지시문 ===== */
+function getPurposePrompt(purpose) {
+  switch(purpose) {
+    case 'A':
+      return `[AI 지시문: 상담내용 구조화]
+당신은 전문 사회복지 사례관리자입니다. 아래 전달된 비식별화된 상담 기록을 읽고, 다음 항목으로 구분하여 정밀하게 구조화해 주세요:
+1. 확인된 사실 (Fact)
+2. 당사자 욕구 (Need)
+3. 주요 문제 및 어려움 (Problem)
+4. 위험 요인 (Risk)
+5. 강점 (Strength)
+6. 가용 자원 (Resource)
+7. 추가 확인 필요사항 (Unknowns)`;
+
+    case 'B':
+      return `[AI 지시문: 사례 사정 지원]
+당신은 전문 사회복지 사례관리자입니다. 아래 제공된 사례 정보를 바탕으로 다음을 수행해 주세요:
+1. 욕구-문제-위험-강점-자원의 상호 연관성 심층 분석
+2. 현재 정보에서 누락되었거나 깊이 있는 사정을 위해 추가로 탐색해야 할 사정 질문 및 항목 제안`;
+
+    case 'C':
+      return `[AI 지시문: 목표설정 지원]
+당신은 전문 사회복지 사례관리자입니다. 제공된 당사자의 욕구와 현재 상황을 바탕으로:
+1. 당사자 중심의 단기 및 중장기 사례관리 목표(SMART 원칙)를 제안해 주세요.
+2. 각 목표의 적절성과 주의해야 할 검토 사항을 함께 제시해 주세요.`;
+
+    case 'D':
+      return `[AI 지시문: 개입계획 지원]
+당신은 전문 사회복지 사례관리자입니다. 아래 목표와 사례 맥락을 바탕으로 다각적 개입 계획을 수립해 주세요:
+1. 개인 차원 개입 전략
+2. 가족 차원 개입 전략
+3. 기관 및 복지 자원 연계 전략
+4. 지역사회 자원 및 인프라 활용 전략`;
+
+    case 'E':
+      return `[AI 지시문: 사례기록 작성 지원]
+당신은 전문 사회복지 사례관리자입니다. 아래 수행된 개입 내용을 바탕으로 사회복지 현장에서 즉시 사용할 수 있는 공통 사례기록 초안을 작성해 주세요.
+※ 지레짐작이나 추측을 배제하고 오직 '확인된 사실(Fact)'과 '수행된 행위' 중심으로 객관적이고 명확하게 기록해 주세요.`;
+
+    case 'F':
+      return `[AI 지시문: 모니터링 및 평가 지원]
+당신은 전문 사회복지 사례관리자입니다. 사례의 '초기 상태'와 '최근 변화'를 대조 분석하여 다음을 정리해 주세요:
+1. 긍정적 변화 사항 (Improvement)
+2. 미변화 또는 유지 사항 (No Change)
+3. 악화되거나 우려되는 사항 (Deterioration)
+4. 차기 모니터링 시 추가 확인이 필요한 사항`;
+
+    default:
+      return `[AI 지시문: 사회복지 사례 분석]
+아래 비식별화된 사례 정보를 바탕으로 종합적인 사례 평가 및 조언을 제공해 주세요.`;
+  }
+}
+
+/* ===== 프롬프트 생성 ===== */
+function generateAIInput() {
+  const fields = CASE_FIELDS[currentPurpose] || [];
+
+  if (!fields.some(f => val(f.id))) {
+    alert("3단계의 사례 정보를 입력해 주세요.");
+    const first = document.getElementById(fields[0].id);
+    if (first) first.focus();
+    return;
+  }
+
+  resetStats();
+
+  const lines = [];
+  lines.push(getPurposePrompt(currentPurpose));
+  lines.push("");
+  lines.push("---");
+  lines.push("■ 최소 기본정보 (비식별 처리됨)");
+
+  const gender = val("gender");
+  const band = ageBand(val("age"));
+  const region = val("region");
+  const household = val("household");
+
+  const basicInfo = [];
+  if (band) basicInfo.push(band);
+  if (gender) basicInfo.push(gender);
+  if (region) basicInfo.push(`${region} 거주`);
+  if (household) basicInfo.push(`${household} 가구`);
+
+  lines.push(basicInfo.length ? basicInfo.join(", ") + "." : "기본 인적사항 미입력.");
+
+  lines.push("");
+  lines.push("■ 사례 정보");
+
+  const maskedTexts = [];
+  fields.forEach(f => {
+    const text = anonymize(val(f.id));
+    if (!text) return;
+    maskedTexts.push(text);
+    if (f.block) lines.push(`[${f.label}]\n${text}`);
+    else lines.push(`- ${f.label}: ${text}`);
+  });
+
+  document.getElementById("resultBox").textContent = lines.join("\n");
+  document.getElementById("resultSection").style.display = "block";
+  document.getElementById("copyStatus").textContent = "";
+
+  makeChecklist(maskedTexts);
+  document.getElementById("resultSection").scrollIntoView({ behavior: "smooth" });
+}
+
+/* ===== 검증 체크리스트 ===== */
+function findNameLike(texts) {
+  const re = new RegExp("(?<![가-힣])([" + SURNAMES + "][가-힣]{1,2})\\s?(?:씨|어르신|할머니|할아버지)(?![가-힣])", "g");
+  const found = new Set();
+  texts.forEach(t => {
+    for (const m of t.matchAll(re)) {
+      if (!NAME_STOPWORDS.includes(m[1])) found.add(m[1]);
+    }
+  });
+  return Array.from(found).slice(0, 5);
+}
+
+function makeChecklist(maskedTexts) {
+  const checks = [];
+
+  // 이름
+  if (val("name")) {
+    if (maskStats.name > 0) {
+      checks.push({ cls: "ok", text: `✓ 입력하신 이름은 AI 전달본에서 제외되었고, 사례 내용 속 ${maskStats.name}곳을 [당사자]로 치환했습니다.` });
+    } else {
+      checks.push({ cls: "ok", text: "✓ 입력하신 이름은 AI 전달본에 포함되지 않았습니다. (사례 내용에서 같은 이름은 발견되지 않음)" });
+    }
+  } else {
+    checks.push({ cls: "warn", text: "⚠ 이름을 입력하지 않으면 사례 내용 속 이름을 자동으로 치환할 수 없습니다. 본문에 이름이 있는지 직접 확인해 주세요." });
+  }
+
+  // 상세주소
+  if (val("address")) {
+    if (maskStats.address > 0) {
+      checks.push({ cls: "ok", text: `✓ 입력하신 상세주소는 AI 전달본에서 제외되었고, 사례 내용 속 ${maskStats.address}곳을 [주소]로 치환했습니다.` });
+    } else {
+      checks.push({ cls: "ok", text: "✓ 입력하신 상세주소는 AI 전달본에 포함되지 않았습니다. (사례 내용에서 같은 주소는 발견되지 않음)" });
+    }
+  } else {
+    checks.push({ cls: "ok", text: "✓ 상세주소가 입력되지 않았습니다." });
+  }
+
+  // 주민번호 / 전화번호
+  if (maskStats.rrn > 0) {
+    checks.push({ cls: "danger", text: `🚨 주민등록번호 형태의 숫자 ${maskStats.rrn}건을 [주민번호]로 마스킹했습니다. 원문에서도 삭제해 주세요.` });
+  }
+  if (maskStats.phone > 0) {
+    checks.push({ cls: "warn", text: `⚠ 전화번호 패턴 ${maskStats.phone}건을 [전화번호]로 마스킹했습니다.` });
+  }
+  if (maskStats.rrn === 0 && maskStats.phone === 0) {
+    checks.push({ cls: "ok", text: "✓ 주민등록번호 및 전화번호 패턴이 발견되지 않았습니다." });
+  }
+
+  // 이름으로 보이는 표현
+  const nameLike = findNameLike(maskedTexts);
+  if (nameLike.length) {
+    checks.push({ cls: "warn", text: "⚠ 이름으로 보이는 표현이 남아 있을 수 있습니다: " + nameLike.join(", ") + " (직접 확인해 주세요)" });
+  }
+
+  // 자동 처리 한계 안내
+  checks.push({ cls: "warn", text: "⚠ 제3자(가족·이웃) 이름, 기관명, 질환명, 구체적 날짜·장소는 자동으로 걸러지지 않습니다. 복사 전 직접 확인해 주세요." });
+
+  checks.push({ cls: "ok", text: "✓ 선택된 목적 [ " + currentPurpose + " ]에 해당하는 입력란의 내용만 프롬프트에 포함되었습니다." });
+
+  const box = document.getElementById("checklist");
+  box.textContent = "";
+  checks.forEach(c => {
+    const div = document.createElement("div");
+    div.className = "check " + c.cls;
+    div.textContent = c.text; // innerHTML 사용 안 함 (입력값이 HTML로 해석되지 않도록)
+    box.appendChild(div);
+  });
+}
+
+/* ===== 가상 사례 ===== */
+const SAMPLE = {
+  name: "박정순",
+  gender: "여성",
+  age: "78",
+  region: "부산진구",
+  address: "전포동 456번지 3층",
+  household: "독거",
+  rawRecord: "박정순 어르신 댁 방문상담 진행함. 퇴행성 관절염으로 무릎 통증이 심해 외부 출입을 거의 못하고 계심. 동네 슈퍼 가기도 힘들다고 호소. 혼자 지내다 보니 심적 고립감이 크며 예전에 다니던 복지관 노래교실을 다시 다니는 것이 소원이라고 함. 딸 1명이 근처에 살며 주 1회 식사를 챙겨주나 일 때문에 자주 오지 못함. 엘리베이터가 없는 3층 빌라라 계단 이동 시 낙상 위험이 매우 커 보임.",
+  b_facts: "78세 독거 여성, 퇴행성 관절염 진단, 엘리베이터 없는 빌라 3층 거주.",
+  b_needs: "무릎 통증 완화, 병원 방문 시 이동 도움, 복지관 여가 프로그램 재참여.",
+  b_strengths: "건강 회복 의지 강함, 주 1회 딸 방문, 과거 노래교실 우수 참여자.",
+  b_risks: "계단 낙상 위험, 사회적 고립감으로 인한 경미한 우울 증세.",
+  c_needs: "안전하게 병원에 다니고 싶고, 복지관에서 다시 사람들을 만나 외로움을 해소하고 싶음.",
+  c_situation: "보행 장애 및 거주지 주거환경(계단) 제약으로 고립된 70대 독거 어르신.",
+  d_goals: "1. 안전한 이동권 확보 및 병원 이용 연계 / 2. 복지관 여가 프로그램 참여를 통한 사회적 관계망 회복",
+  d_context: "노인맞춤돌봄서비스, 동지역사회보장협의체 이동지원, 보건소 방문간호 연계 가능.",
+  e_activity: "10월 12일 14:00 박정순 어르신 가정방문 실시. 무릎 통증 및 보행 어려움 확인. 보건소 방문건강관리 서비스 연계 신청서 작성 지원함. 동 협의체 안전손잡이 설치 사업 연계함.",
+  f_initial: "무릎 관절염으로 외출 불가, 사회적 고립 심각, 우울감 호소.",
+  f_current: "보건소 방문간호 연계완료. 주 1회 이동지원 활용하여 복지관 노래교실 출석 시작함. 표정이 밝아지고 우울감 감소함."
+};
+
+function loadSampleData() {
+  if (hasInput() && !confirm("입력된 내용이 있습니다. 가상 사례로 덮어쓸까요?")) return;
+
+  Object.keys(SAMPLE).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = SAMPLE[id];
+  });
+
+  generateAIInput();
+}
+
+/* ===== 복사 ===== */
+async function copyResult() {
+  const text = document.getElementById("resultBox").textContent;
+  const status = document.getElementById("copyStatus");
+  let ok = false;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      ok = true;
+    }
+  } catch (e) { /* 아래 대체 방식 시도 */ }
+
+  if (!ok) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+  }
+
+  status.textContent = ok
+    ? "✓ 복사되었습니다. ChatGPT나 Gemini에 붙여넣어 사용하세요."
+    : "자동 복사에 실패했습니다. 결과 상자의 내용을 직접 드래그하여 복사해 주세요.";
+}
+
+/* ===== 초기화 ===== */
+function resetResult() {
+  document.getElementById("resultSection").style.display = "none";
+  document.getElementById("resultBox").textContent = "";
+  document.getElementById("checklist").textContent = "";
+  document.getElementById("copyStatus").textContent = "";
+}
+
+/* 라디오·버튼을 제외하고, 실제로 내용이 입력되어 있는지 확인 */
+function hasInput() {
+  const form = document.getElementById("caseForm");
+  return Array.from(form.elements).some(el => {
+    if (["radio", "button", "reset", "submit"].includes(el.type)) return false;
+    return el.value && el.value.trim() !== "";
+  });
+}
+
+/* ===== 이벤트 연결 ===== */
+document.querySelectorAll('input[name="purpose"]').forEach(radio => {
+  radio.addEventListener("change", () => selectPurpose(radio.value));
+});
+
+document.getElementById("sampleBtn").addEventListener("click", loadSampleData);
+document.getElementById("generateBtn").addEventListener("click", generateAIInput);
+document.getElementById("copyBtn").addEventListener("click", copyResult);
+
+// 입력 중 Enter로 폼이 제출되어 페이지가 새로고침되는 것을 방지
+document.getElementById("caseForm").addEventListener("submit", e => e.preventDefault());
+
+document.getElementById("resetBtn").addEventListener("click", e => {
+  if (hasInput() && !confirm("입력한 내용을 모두 지울까요?")) e.preventDefault();
+});
+
+document.getElementById("caseForm").addEventListener("reset", () => {
+  setTimeout(() => {
+    selectPurpose('A');
+    resetResult();
+  }, 0);
+});
+
+window.addEventListener("beforeunload", (e) => {
+  if (hasInput()) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+});
+</script>
+</body>
+</html>
