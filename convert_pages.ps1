@@ -127,8 +127,6 @@ foreach ($filename in $pages.Keys) {
   </script>
 
   <link rel="stylesheet" href="/style.css">
-  <meta name="google-adsense-account" content="ca-pub-3084207140786791">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3084207140786791" crossorigin="anonymous"></script>
 </head>
 <body>
   <div id="header"></div>
@@ -143,10 +141,6 @@ foreach ($filename in $pages.Keys) {
 
   <main class="main-content">
     <div class="layout-wrapper">
-      <aside class="ad-sidebar left-ad">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3084207140786791" data-ad-slot="LEFT_AD_SLOT" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </aside>
 
       <div class="container" id="page-body">
         <!--CONTENT_START-->
@@ -154,10 +148,6 @@ $content
         <!--CONTENT_END-->
       </div>
 
-      <aside class="ad-sidebar right-ad">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3084207140786791" data-ad-slot="RIGHT_AD_SLOT" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </aside>
     </div>
   </main>
 

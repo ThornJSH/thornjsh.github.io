@@ -231,10 +231,6 @@ export async function loadContent(pageName) {
 
             window.history.pushState({ page: pageName }, doc.title, targetUrl);
 
-            // 애드센스 갱신
-            try {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (e) { }
 
             // 스크롤 상단 이동
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -277,13 +273,6 @@ async function init() {
         } else {
             window.location.replace('/');
         }
-    }
-
-    // [애드센스 최적화] 페이지 로드 후 광고 갱신
-    try {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-        // 첫 로드 시점에 라이브러리가 아직 안 왔을 수 있음
     }
 }
 

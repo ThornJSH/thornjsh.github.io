@@ -427,7 +427,6 @@
                     break;
             }
             people.push(newPerson);
-            autoLayout();
             drawTree();
             updateCenterPersonSelect();
             document.getElementById('person-name-input').value = '';
@@ -457,7 +456,6 @@
             people = people.filter(p => p.id !== selectedPersonId);
 
             selectPerson(null);
-            autoLayout();
             drawTree();
             updateCenterPersonSelect();
             updateStatus('선택한 인물을 삭제했습니다.');
@@ -705,99 +703,6 @@
             });
             return groups;
         }
-
-        /**
-         * 가계도 노드들을 계층(세대)별, 부모-자녀/배우자 관계에 따라 깔끔하게 자동 정렬합니다.
-         */
-        function autoLayout() {
-            if (people.length === 0) return;
-
-            // 1. 세대(Level) 계산
-            const levels = {};
-            const visited = new Set();
-            const roots = people.filter(p => !p.parentId);
-            
-            function assignLevel(personId, level) {
-                if (visited.has(personId)) return;
-                visited.add(personId);
-                levels[personId] = Math.max(levels[personId] || 0, level);
-                const person = findPersonById(personId);
-                if (!person) return;
-
-                if (person.spouseId) {
-                    levels[person.spouseId] = levels[personId];
-                }
-
-                const children = people.filter(p => p.parentId === personId || (person.spouseId && p.parentId === person.spouseId));
-                children.forEach(child => assignLevel(child.id, levels[personId] + 1));
-            }
-
-            roots.forEach(r => assignLevel(r.id, 0));
-            people.forEach(p => { if (levels[p.id] === undefined) assignLevel(p.id, 0); });
-
-            // 2. 세대별 그룹화 및 좌표 배치
-            const levelGroups = {};
-            people.forEach(p => {
-                const lvl = levels[p.id] || 0;
-                if (!levelGroups[lvl]) levelGroups[lvl] = [];
-                levelGroups[lvl].push(p);
-            });
-
-            const startY = viewBox.y + 100;
-            const sortedLevels = Object.keys(levelGroups).map(Number).sort((a, b) => a - b);
-
-            sortedLevels.forEach(lvl => {
-                const group = levelGroups[lvl];
-                const placedInLevel = new Set();
-                let currentX = viewBox.x + 100;
-                const levelY = startY + lvl * LEVEL_SPACING;
-
-                group.forEach(person => {
-                    if (placedInLevel.has(person.id)) return;
-
-                    person.y = levelY;
-                    person.x = currentX;
-                    placedInLevel.add(person.id);
-
-                    if (person.spouseId) {
-                        const spouse = findPersonById(person.spouseId);
-                        if (spouse && !placedInLevel.has(spouse.id)) {
-                            spouse.y = levelY;
-                            spouse.x = currentX + NODE_WIDTH + SIBLING_SPACING;
-                            placedInLevel.add(spouse.id);
-                            currentX = spouse.x + NODE_WIDTH + SIBLING_SPACING * 2;
-                            return;
-                        }
-                    }
-                    currentX += NODE_WIDTH + SIBLING_SPACING * 2;
-                });
-            });
-
-            // 3. 자녀 위치를 부모의 중앙 아래로 조정
-            const childrenByParent = groupChildrenByParent();
-            for (const parentId in childrenByParent) {
-                const children = childrenByParent[parentId].sort((a, b) => a.x - b.x);
-                const parent = findPersonById(parentId);
-                if (!parent) continue;
-                const parentSpouse = findPersonById(parent.spouseId);
-                const parentCenterX = parentSpouse ? (parent.x + parentSpouse.x) / 2 : parent.x;
-
-                if (children.length > 0) {
-                    const childrenTotalWidth = (children.length - 1) * (NODE_WIDTH + SIBLING_SPACING);
-                    let startChildX = parentCenterX - childrenTotalWidth / 2;
-                    children.forEach((child, i) => {
-                        child.x = startChildX + i * (NODE_WIDTH + SIBLING_SPACING);
-                        if (child.spouseId) {
-                            const cSpouse = findPersonById(child.spouseId);
-                            if (cSpouse) cSpouse.x = child.x + NODE_WIDTH + SIBLING_SPACING;
-                        }
-                    });
-                }
-            }
-
-            drawTree();
-        }
-        
         // --- UI 및 상태 관리 함수 ---
 
         function selectPerson(id) {
