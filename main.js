@@ -154,7 +154,8 @@ const pageMap = {
 
 async function loadModule(id, file) {
     try {
-        const response = await fetch(file);
+        const cacheBuster = file.includes('?') ? `&_=${Date.now()}` : `?_=${Date.now()}`;
+        const response = await fetch(file + cacheBuster);
         if (!response.ok) throw new Error(`Failed to load ${file}`);
         const data = await response.text();
         const element = document.getElementById(id);
