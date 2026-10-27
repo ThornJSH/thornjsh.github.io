@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stat4SW v1.0 : Smart Welfare Tech</title>
+  <meta name="description" content="사회복지 실무자와 연구자를 위한 구글 스프레드시트 기반 전문 통계 패키지 Stat4SW v1.0입니다. 구글 시트에서 변수 척도 자동분류, 대응표본 t-검정, 효과크기 산출, APA 학술 보고서 표 내보내기까지 완벽 지원합니다.">
+  <link rel="canonical" href="https://thornjsh.github.io/stats-stat4sw.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://thornjsh.github.io/stats-stat4sw.html">
+  <meta property="og:title" content="Stat4SW v1.0 : Smart Welfare Tech">
+  <meta property="og:description"
+    content="사회복지 실무자와 연구자를 위한 구글 스프레드시트 기반 전문 통계 패키지 Stat4SW v1.0입니다. 별도 설치 없이 구글 시트 상단 메뉴에서 즉시 전문 통계 대화상자를 실행하세요.">
+  <meta property="og:image" content="https://thornjsh.github.io/images/stat4sw_capture.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stat4SW v1.0 : Smart Welfare Tech">
+  <meta name="twitter:description"
+    content="사회복지 실무자와 연구자를 위한 구글 스프레드시트 기반 전문 통계 패키지 Stat4SW v1.0입니다.">
+  <meta name="twitter:image" content="https://thornjsh.github.io/images/stat4sw_capture.png">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Stat4SW v1.0",
+    "url": "https://thornjsh.github.io/stats-stat4sw.html",
+    "description": "사회복지 실무자와 연구자를 위한 구글 스프레드시트 기반 전문 통계 패키지 Stat4SW v1.0입니다. 별도 프로그램 설치 없이 링크 복사 한 번으로 손쉽게 활용하세요.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Smart Welfare Tech",
+      "url": "https://thornjsh.github.io/"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .feature-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 25px 0;
+    }
+    .stat-feature-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      transition: all 0.25s ease;
+    }
+    .stat-feature-card:hover {
+      transform: translateY(-4px);
+      border-color: #059669;
+      box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.12);
+    }
+    .stat-feature-card .icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    .stat-feature-card h4 {
+      margin: 0 0 8px 0;
+      font-size: 1.05rem;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .stat-feature-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #334155;
+      line-height: 1.6;
+    }
+    .copy-card {
+      background: #ffffff;
+      border: 2px solid #10b981;
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 35px;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.12);
+    }
+    .ui-panel-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 22px;
+      margin: 25px 0;
+    }
+    .ui-panel-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+    .ui-panel-item:last-child {
+      margin-bottom: 0;
+    }
+    .ui-panel-tag {
+      flex-shrink: 0;
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: white;
+    }
+    .tag-purple { background-color: #8b5cf6; }
+    .tag-blue { background-color: #2563eb; }
+    .tag-green { background-color: #059669; }
+  </style>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <section class="page-header">
+    <div class="overlay"></div>
+    <div class="header-content">
+      <h1 id="dynamic-title">Stat4SW v1.0</h1>
+      <div class="title-underline"></div>
+    </div>
+  </section>
+
+  <main class="main-content">
+    <div class="layout-wrapper">
+
+      <div class="container" id="page-body">
+        <!--CONTENT_START-->
+        <div class="content-section">
+          <div class="responsive-intro-grid">
+            <!-- 좌측: 설명 및 버튼 -->
+            <div class="intro-text">
+              <h2>Stat4SW v1.0</h2>
+              <p class="tagline">"구글 스프레드시트 기반의 쉽고 강력한 대화형 통계 패키지"</p>
+              <p class="description">
+                <strong>Stat4SW(Statistics for Social Workers) v1.0</strong>은 사회복지 현장 실무자와 연구자가 별도의 복잡한 프로그램 설치 없이, 
+                구글 스프레드시트 내에서 전문적인 통계 분석을 손쉽게 수행할 수 있도록 설계된 전용 통계 패키지입니다. 
+                시트 상단의 <code>[Stat4SW 통계분석]</code> 메뉴를 클릭하면 직관적인 대화상자가 열리며, 
+                변수 척도 자동 판별, 결측치 진단, 정규성 가정 검정, 효과크기(Cohen's d) 계산 및 논문 양식(APA Style) 결과표를 구글 시트로 즉시 내보낼 수 있습니다.
+              </p>
+
+              <!-- 실제 UI 구조 소개 패널 -->
+              <div class="ui-panel-box">
+                <h4 style="margin-top: 0; margin-bottom: 18px; color: #0f172a; font-size: 1.05rem;">
+                  🖥️ Stat4SW 직관적인 3단 분석 인터페이스
+                </h4>
+                
+                <div class="ui-panel-item">
+                  <span class="ui-panel-tag tag-purple">1. 변수 관리자</span>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 0.95rem;">척도 수준 자동 분류 &amp; 결측치 실시간 감지</strong>
+                    <p style="margin: 4px 0 0 0; font-size: 0.9rem; color: #334155; line-height: 1.6;">
+                      사례 수(N)와 변수 개수를 즉시 확인하고, 각 변수의 척도(<code>명목</code>, <code>서열</code>, <code>연속</code>)를 색상 배지로 자동 분류합니다. 결측 문항 수까지 한눈에 파악하여 분석에 투입할 수 있습니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="ui-panel-item">
+                  <span class="ui-panel-tag tag-blue">2. 분석 제어판</span>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 0.95rem;">원클릭 변수 투입 &amp; 정밀 가정 검정 옵션</strong>
+                    <p style="margin: 4px 0 0 0; font-size: 0.9rem; color: #334155; line-height: 1.6;">
+                      대응표본 t-검정, 독립표본 t-검정 등 필요한 기법을 고르고 <strong>[보내기]</strong> 버튼으로 변수를 투입합니다. 초보자를 위한 <em>'분석 도우미'</em>와 정규성 검정, 비모수 추천, 효과크기(Cohen's d_z, Hedges' g) 산출 옵션을 완벽 지원합니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="ui-panel-item">
+                  <span class="ui-panel-tag tag-green">3. 결과 뷰어</span>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 0.95rem;">APA 스타일 논문 표 자동 생성 &amp; [시트로 내보내기]</strong>
+                    <p style="margin: 4px 0 0 0; font-size: 0.9rem; color: #334155; line-height: 1.6;">
+                      실행 즉시 기술통계량, 상관계수, t검정 통계표와 학술 해석 가이드가 생성됩니다. <strong>[시트로 내보내기]</strong>를 누르면 구글 시트 결과 시트에 표 형태로 깔끔하게 저장됩니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 주요 기능 카드 4선 -->
+              <div class="feature-card-grid">
+                <div class="stat-feature-card">
+                  <span class="icon">☁️</span>
+                  <h4>무설치 &amp; 사본 즉시 활용</h4>
+                  <p>프로그램 설치나 복잡한 환경 설정 없이, 링크 사본 생성 한 번으로 내 구글 드라이브에서 즉시 동작합니다.</p>
+                </div>
+                <div class="stat-feature-card">
+                  <span class="icon">🎯</span>
+                  <h4>사회복지 평가 최적화</h4>
+                  <p>프로그램 사전-사후 효과성 검증, 서비스 만족도 조사, 욕구 조사 등 사회복지 평가 보고서에 필수적인 분석에 특화되어 있습니다.</p>
+                </div>
+                <div class="stat-feature-card">
+                  <span class="icon">📐</span>
+                  <h4>전문 학술 검정 탑재</h4>
+                  <p>단순 평균 비교를 넘어 정규성 가정 검정, 비모수 대안 추천, 효과크기(Cohen's d, Hedges' g)까지 전문 통계 패키지 수준으로 제공합니다.</p>
+                </div>
+                <div class="stat-feature-card">
+                  <span class="icon">🔒</span>
+                  <h4>안전한 데이터 보관</h4>
+                  <p>외부 서버로 소중한 대상자(클라이언트) 정보가 유출되지 않으며, 사용자의 구글 계정 드라이브 내에서만 안전하게 처리됩니다.</p>
+                </div>
+              </div>
+
+              <!-- 활용 가이드 단계 -->
+              <div class="usage-steps"
+                style="background: #f8fafc; padding: 25px; border-radius: 12px; margin: 25px 0; border: 1px solid #e2e8f0;">
+                <h4 style="margin-top: 0; margin-bottom: 15px; color: #0f172a; font-size: 1.05rem;">💡 Stat4SW v1.0 사용 방법</h4>
+                <ol style="margin: 0; padding-left: 20px; line-height: 1.8; color: #334155; font-size: 0.92rem;">
+                  <li>아래 <strong>[Stat4SW v1.0 사본 만들기]</strong> 버튼을 클릭하여 본인의 구글 드라이브에 시트를 복사합니다.</li>
+                  <li>스프레드시트 하단의 <code>데이터</code> 시트에 조사 설문 데이터나 관찰값을 입력합니다.</li>
+                  <li>상단 메뉴바의 <strong>[Stat4SW 통계분석]</strong> 메뉴를 클릭하여 통계 대화상자를 실행합니다.</li>
+                  <li>좌측에서 변수를 선택하여 분석 창에 넣고 <strong>[실행]</strong> 후, <strong>[시트로 내보내기]</strong>를 통해 최종 결과표를 확인합니다.</li>
+                </ol>
+              </div>
+
+              <!-- CTA 사본 만들기 카드 (선명하고 뚜렷한 가독성) -->
+              <div class="copy-card">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                  <span style="font-size: 1.6rem;">📋</span>
+                  <h3 style="margin: 0; font-size: 1.35rem; color: #0f172a; font-weight: 700;">지금 바로 사본을 만들어 활용해보세요</h3>
+                </div>
+                <p style="margin: 0 0 22px 0; font-size: 1.02rem; color: #1e293b; line-height: 1.65; font-weight: 500;">
+                  구글 계정에 로그인한 상태에서 아래 버튼을 클릭하면 원본 훼손 없는 독립적인 개인 사본이 생성되어 즉시 데이터를 분석할 수 있습니다.
+                </p>
+                <div class="cta-buttons" style="justify-content: flex-start; margin: 0;">
+                  <a href="https://docs.google.com/spreadsheets/d/1XCa7G5v1XZAHeIp3c7cDT72-9_A1On9Zk8vnBunU8fA/copy"
+                    target="_blank" class="btn"
+                    style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background-color: #059669; color: #ffffff; font-weight: 700; font-size: 1.08rem; padding: 15px 30px; border-radius: 10px; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35); text-decoration: none; transition: transform 0.2s;">
+                    <span>📂</span> Stat4SW v1.0 사본 만들기 (Google Sheets)
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 우측: 실제 실행 캡처 화면 카드 -->
+            <div class="profile-image-area" style="display: flex; flex-direction: column; gap: 24px;">
+              <div class="screenshot-card" style="transition: all 0.3s ease;">
+                <div class="profile-image-box"
+                  style="height: auto; min-height: 240px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-radius: 14px; overflow: hidden; border: 1px solid #cbd5e1; background: #ffffff;">
+                  <a href="images/stat4sw_capture.png" target="_blank" title="클릭하여 원본 크기로 보기">
+                    <img src="images/stat4sw_capture.png" alt="Stat4SW v1.0 실제 구글 스프레드시트 실행 화면 캡처"
+                      style="width: 100%; height: auto; display: block; transition: transform 0.3s ease;"
+                      onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                  </a>
+                </div>
+                <p style="margin-top: 14px; color: #0f172a; font-weight: 700; font-size: 0.95rem; text-align: center;">
+                  🔍 실제 Stat4SW v1.0 대화상자 실행 화면 (클릭 시 확대)
+                </p>
+              </div>
+
+              <!-- 화면 주요 구성 팁 박스 (글자 또렷하게 개선) -->
+              <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 22px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                <h4 style="margin: 0 0 14px 0; color: #0f172a; font-size: 1.02rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                  <span>✨</span> 화면 캡처로 보는 핵심 포인트
+                </h4>
+                <ul style="margin: 0; padding-left: 20px; font-size: 0.92rem; color: #1e293b; line-height: 1.85;">
+                  <li><strong style="color: #0f172a;">상단 맞춤 메뉴</strong>: 구글 시트 상단에 전용 <code>Stat4SW 통계분석</code> 메뉴가 탑재되어 클릭으로 즉시 호출</li>
+                  <li><strong style="color: #0f172a;">변수 척도 태그</strong>: <code>[명목]</code>, <code>[서열]</code>, <code>[연속]</code> 수준 및 결측치 자동 식별</li>
+                  <li><strong style="color: #0f172a;">대응표본 t-검정</strong>: 사전점수와 사후점수 비교, 상관계수, 효과크기(Cohen's d) 자동 산출</li>
+                  <li><strong style="color: #0f172a;">학술 해석 코멘트</strong>: 산출된 통계 수치에 대한 논문 작성 기준 해석 가이드라인 제공</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--CONTENT_END-->
+      </div>
+
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>

@@ -5,3 +5,6 @@ run_server.bat
 package.json
 package-lock.json
 generate_backlinks.py
+stats-agent.html
+images/stat_insight_mockup1.png
+images/stat_insight_mockup2.png
