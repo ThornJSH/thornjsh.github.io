@@ -90,8 +90,9 @@ export function initMenu() {
         // ── 일반 하위 메뉴 링크(예: 스마트워크) 클릭 ──
         e.preventDefault();
         const pageName = this.textContent.trim();
+        const hrefAttr = this.getAttribute('href');
         if (window.loadContent) {
-          window.loadContent(pageName);
+          window.loadContent(pageName, hrefAttr);
         }
 
         // 모바일: 메뉴 전체 닫기

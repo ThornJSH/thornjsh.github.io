@@ -192,16 +192,29 @@ export async function navigateToPage(pageName) {
     await loadContent(pageName);
 }
 
-export async function loadContent(pageName) {
+export async function loadContent(pageName, directUrl) {
     // 열매똑똑 아이디어 HUB 예외 처리 (새 창 열기)
     if (pageName === '열매똑똑 아이디어 HUB' || pageName === 'Idea HUB') {
         window.open('https://script.google.com/macros/s/AKfycbyPLnlrTM2-0tNy-O9fQj5eoVNC9oytxkCDBzIy094CJyYJsdJ5S9XFsbqnT194tovJ/exec', '_blank');
         return;
     }
 
-    const targetUrl = pageMap[pageName] || '/';
+    // 1) pageMap에서 먼저 찾고, 없으면 directUrl(href), 그래도 없으면 키워드 폴백
+    let targetUrl = pageMap[pageName];
+    if (!targetUrl && directUrl && directUrl !== '#' && !directUrl.startsWith('?page=')) {
+        targetUrl = directUrl;
+    }
+    if (!targetUrl) {
+        if (pageName && (pageName.includes('Stat4SW') || pageName.includes('stat4sw'))) {
+            targetUrl = '/stats-stat4sw.html';
+        } else {
+            targetUrl = '/';
+        }
+    }
+
     try {
-        const response = await fetch(targetUrl);
+        const cacheBuster = targetUrl.includes('?') ? `&_=${Date.now()}` : `?_=${Date.now()}`;
+        const response = await fetch(targetUrl + cacheBuster);
         if (!response.ok) throw new Error(`Failed to fetch ${targetUrl}`);
         const html = await response.text();
         const doc = new DOMParser().parseFromString(html, 'text/html');
