@@ -375,6 +375,31 @@
               </div>
             </div>
 
+            <!-- Step 5: Cloudflare Worker -->
+            <div class="step-card" style="border-left: 4px solid #f6821f;">
+              <div class="step-number" style="background: #f6821f;">5</div>
+              <div class="step-content">
+                <h4>⚡ (선택) Cloudflare Worker 연결로 응답 속도 개선</h4>
+                <p>
+                  GAS(Google Apps Script)는 콜드 스타트 특성상 첫 메시지 응답에 최대 <strong>5~10초</strong>가 걸릴 수 있습니다.<br>
+                  <strong>Cloudflare Worker</strong>를 중간에 연결하면 엣지 서버가 요청을 즉시 수신하여 GAS로 전달하므로
+                  <strong>체감 응답 속도가 크게 단축</strong>됩니다.
+                </p>
+                <div style="background: #fff8f3; border: 1px solid #fddcb5; border-radius: 10px; padding: 16px 18px; margin: 12px 0; font-size: 0.92rem;">
+                  <ol style="margin: 0; padding-left: 20px; line-height: 2;">
+                    <li><a href="https://dash.cloudflare.com" target="_blank" style="color: #f6821f; font-weight: 600;">Cloudflare 대시보드</a>에 무료 계정으로 로그인합니다.</li>
+                    <li>좌측 메뉴 <strong>Workers &amp; Pages</strong> → <strong>[Worker 만들기]</strong> 클릭 후, Worker 스크립트에 GAS 웹훅 URL을 등록합니다.</li>
+                    <li>BotFather에서 발급받은 텔레그램 봇의 Webhook URL을 <strong>GAS 배포 URL 대신 Cloudflare Worker URL</strong>로 설정합니다.</li>
+                    <li>시트 메뉴 <strong>[도비서] → [연결 설정]</strong>에서 Worker URL을 입력한 뒤 저장하면 완료됩니다.</li>
+                  </ol>
+                </div>
+                <p style="font-size: 0.88rem; color: #64748b;">
+                  ※ Cloudflare Worker 무료 플랜은 일 10만 건 요청을 지원하므로 개인 비서 용도로는 충분합니다.<br>
+                  ※ 이 단계를 건너뛰어도 도비서는 정상 동작하며, 응답 속도만 다소 느릴 수 있습니다.
+                </p>
+              </div>
+            </div>
+
             <div class="tip-callout">
               <div class="tip-icon">💡</div>
               <div class="tip-text">
