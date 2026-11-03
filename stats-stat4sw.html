@@ -11,14 +11,14 @@
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://thornjsh.github.io/stats-stat4sw.html">
-  <meta property="og:title" content="Stat4SW : 사회복지사를 위한 전문 통계 패키지 (v3.0 Windows & v2.0 Sheets)">
+  <meta property="og:title" content="Stat4SW : 사회복지사를 위한 전문 통계 패키지 (v3.0 Windows &amp; v2.0 Sheets)">
   <meta property="og:description"
     content="사회복지 실무자와 연구자를 위한 전문 통계 패키지 Stat4SW입니다. 구조방정식(SEM)을 지원하는 파이썬 기반 오프라인 윈도우 설치버전(v3.0)과 AI 결과 해석을 지원하는 구글 시트 온라인 버전(v2.0)을 만나보세요.">
   <meta property="og:image" content="https://thornjsh.github.io/images/stat4sw_win.png">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stat4SW : 사회복지사를 위한 전문 통계 패키지 (v3.0 Windows & v2.0 Sheets)">
+  <meta name="twitter:title" content="Stat4SW : 사회복지사를 위한 전문 통계 패키지 (v3.0 Windows &amp; v2.0 Sheets)">
   <meta name="twitter:description"
     content="구조방정식(SEM)을 지원하는 오프라인 윈도우 설치버전(v3.0)과 AI 자동 해석을 지원하는 온라인 구글 시트 버전(v2.0)의 전문 통계 패키지 Stat4SW.">
   <meta name="twitter:image" content="https://thornjsh.github.io/images/stat4sw_win.png">
@@ -40,349 +40,6 @@
   </script>
 
   <link rel="stylesheet" href="/style.css">
-  <style>
-    /* 에디션 비교 배너 그리드 */
-    .edition-compare-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin: 30px 0;
-    }
-    .edition-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      border: 2px solid #e2e8f0;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.25s ease;
-    }
-    .edition-card:hover {
-      transform: translateY(-4px);
-    }
-    .edition-card.v3-desktop {
-      border-color: #2563eb;
-      background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 40%);
-    }
-    .edition-card.v3-desktop:hover {
-      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.15);
-    }
-    .edition-card.v2-online {
-      border-color: #059669;
-      background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 40%);
-    }
-    .edition-card.v2-online:hover {
-      box-shadow: 0 12px 25px rgba(5, 150, 105, 0.15);
-    }
-    .edition-badge {
-      display: inline-block;
-      font-size: 0.8rem;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 20px;
-      letter-spacing: 0.02em;
-      margin-bottom: 12px;
-    }
-    .badge-blue {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-    .badge-green {
-      background: #d1fae5;
-      color: #047857;
-    }
-    .edition-card h3 {
-      font-size: 1.5rem;
-      margin: 0 0 10px 0;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .edition-tagline {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #475569;
-      margin: 0 0 16px 0;
-      line-height: 1.5;
-    }
-    .edition-features {
-      margin: 0 0 24px 0;
-      padding-left: 18px;
-      font-size: 0.9rem;
-      color: #334155;
-      line-height: 1.75;
-    }
-
-    /* 테이블 스타일 */
-    .compare-table-box {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 24px;
-      margin: 35px 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-    }
-    .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.92rem;
-    }
-    .compare-table th, .compare-table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid #edf2f7;
-      text-align: left;
-    }
-    .compare-table th {
-      background: #f8fafc;
-      color: #1e293b;
-      font-weight: 700;
-    }
-    .compare-table td.col-v3 {
-      background: #fcfdfe;
-      font-weight: 500;
-    }
-    .compare-table td.col-v2 {
-      background: #fafdfc;
-      font-weight: 500;
-    }
-
-    /* 상세 섹션 박스 */
-    .detail-section-box {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 16px;
-      padding: 35px 30px;
-      margin: 40px 0;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-    }
-    .detail-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-      gap: 15px;
-      border-bottom: 2px solid #f1f5f9;
-      padding-bottom: 18px;
-    }
-    .detail-header h3 {
-      margin: 0;
-      font-size: 1.6rem;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* 기능 카드 그리드 */
-    .feature-card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin: 25px 0;
-    }
-    .stat-feature-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      transition: all 0.25s ease;
-      position: relative;
-    }
-    .stat-feature-card:hover {
-      transform: translateY(-4px);
-      border-color: #2563eb;
-      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.12);
-    }
-    .stat-feature-card.green-hover:hover {
-      border-color: #059669;
-      box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.12);
-    }
-    .stat-feature-card.card-highlight {
-      border: 1.5px solid #8b5cf6;
-      background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
-    }
-    .stat-feature-card .icon {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      display: inline-block;
-    }
-    .stat-feature-card h4 {
-      margin: 0 0 8px 0;
-      font-size: 1.05rem;
-      color: #0f172a;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .stat-feature-card p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #334155;
-      line-height: 1.6;
-    }
-
-    /* UI 패널 안내 */
-    .ui-panel-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 22px;
-      margin: 25px 0;
-    }
-    .ui-panel-item {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 16px;
-      align-items: flex-start;
-    }
-    .ui-panel-item:last-child {
-      margin-bottom: 0;
-    }
-    .ui-panel-tag {
-      flex-shrink: 0;
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      color: white;
-    }
-    .tag-purple { background-color: #8b5cf6; }
-    .tag-blue { background-color: #2563eb; }
-    .tag-green { background-color: #059669; }
-    .tag-ai {
-      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-      box-shadow: 0 2px 6px rgba(139, 92, 246, 0.35);
-    }
-
-    /* CTA 버튼 스타일 */
-    .btn-download-v3 {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #2563eb;
-      color: #ffffff !important;
-      font-weight: 700;
-      font-size: 1.05rem;
-      padding: 13px 26px;
-      border-radius: 10px;
-      text-decoration: none;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-      transition: all 0.2s ease;
-    }
-    .btn-download-v3:hover {
-      background: #1d4ed8;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
-    }
-    .btn-copy-v2 {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #059669;
-      color: #ffffff !important;
-      font-weight: 700;
-      font-size: 1.05rem;
-      padding: 13px 26px;
-      border-radius: 10px;
-      text-decoration: none;
-      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
-      transition: all 0.2s ease;
-    }
-    .btn-copy-v2:hover {
-      background: #047857;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.45);
-    }
-
-    /* 버전 히스토리 타임라인 */
-    .version-history-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 24px;
-      margin: 35px 0;
-    }
-    .version-timeline {
-      position: relative;
-      margin-top: 18px;
-      padding-left: 24px;
-      border-left: 2px solid #cbd5e1;
-    }
-    .version-entry {
-      position: relative;
-      margin-bottom: 24px;
-    }
-    .version-entry:last-child {
-      margin-bottom: 0;
-    }
-    .version-point {
-      position: absolute;
-      left: -31px;
-      top: 3px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #2563eb;
-      border: 2px solid #ffffff;
-      box-shadow: 0 0 0 2px #2563eb;
-    }
-    .version-point.v2 {
-      background: #059669;
-      box-shadow: 0 0 0 2px #059669;
-    }
-    .version-point.legacy {
-      background: #64748b;
-      box-shadow: 0 0 0 2px #94a3b8;
-    }
-    .version-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
-      flex-wrap: wrap;
-    }
-    .version-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #0f172a;
-      margin: 0;
-    }
-    .version-tag {
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 999px;
-    }
-    .version-tag.v3 {
-      background: #dbeafe;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
-    }
-    .version-tag.v2 {
-      background: #ede9fe;
-      color: #7c3aed;
-      border: 1px solid #ddd6fe;
-    }
-    .version-tag.legacy {
-      background: #f1f5f9;
-      color: #64748b;
-      border: 1px solid #e2e8f0;
-    }
-
-    @media (max-width: 900px) {
-      .edition-compare-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 
 <body>
@@ -401,387 +58,722 @@
 
       <div class="container" id="page-body">
         <!--CONTENT_START-->
-        <div class="content-section">
+        <div class="stat4sw-container">
 
-          <!-- 상단 메인 헤더 -->
-          <div class="intro-box" style="margin-bottom: 25px;">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap;">
-              <h2 style="font-size: 2.3rem; margin: 0; color: #0f172a;">Stat4SW (Statistics for Social Workers)</h2>
-              <span class="edition-badge badge-blue">Windows 독립형 v3.0 &amp; 구글 시트 온라인 v2.0</span>
-            </div>
-            <p class="tagline" style="font-size: 1.25rem; font-weight: 700; color: #2563eb; margin: 6px 0 16px 0;">
-              "사회복지 연구자와 실무자를 위해 최적화된 맞춤형 전문 통계 솔루션"
-            </p>
-            <p class="description" style="font-size: 1.05rem; line-height: 1.8; color: #334155; margin-bottom: 20px;">
-              <strong>Stat4SW</strong>는 복잡하고 값비싼 상용 통계 패키지 대신, 사회복지 실무와 학술 연구에 꼭 필요한 통계 기법들을 누구나 쉽고 정확하게 분석할 수 있도록 개발된 오픈 통계 프로젝트입니다.<br>
-              현재 사용자의 분석 환경과 목적에 맞춰 <strong>두 가지 독립된 에디션</strong>으로 제공됩니다.
-            </p>
-          </div>
-
-          <!-- 2가지 에디션 비교 카드 (Windows 설치형 v3 vs 구글 시트 온라인 v2) -->
-          <div class="edition-compare-grid">
-            <!-- 에디션 1: v3.0 윈도우 설치형 -->
-            <div class="edition-card v3-desktop">
-              <div>
-                <span class="edition-badge badge-blue">💻 Windows 데스크톱 · Python 독립형</span>
-                <h3>Stat4SW v3.0 (설치형)</h3>
-                <p class="edition-tagline">
-                  "구조방정식(SEM) &amp; 대용량 로컬 데이터 완벽 지원"
-                </p>
-                <p style="font-size: 0.92rem; color: #475569; line-height: 1.65; margin-bottom: 14px;">
-                  파이썬(Python &amp; PySide6) 기반으로 제작된 독립 실행 프로그램입니다. 
-                  인터넷 연결이 전혀 필요 없는 100% 로컬 환경에서 구동되며, 
-                  <strong>구조방정식(SEM)</strong>, <strong>확인적 요인분석(CFA)</strong> 등 
-                  고급 학술 다변량 모형을 안정적으로 분석할 수 있습니다. 
-                  <em>(※ v3는 고성능 로컬 통계 연산 및 복잡한 학술 모형에 집중하여 AI 기능은 제외되었습니다.)</em>
-                </p>
-                <ul class="edition-features">
-                  <li>🏛️ <strong>구조방정식(SEM) &amp; 확인적 요인분석(CFA)</strong> 탑재 (lavaan 문법, 적합도 CFI/TLI/RMSEA 산출)</li>
-                  <li>📊 <strong>SPSS 스타일의 2분할 뷰</strong>: 데이터 격자 보기 + 변수 속성(라벨·척도·결측치) 보기</li>
-                  <li>⚡ <strong>수만~50만 행 대용량 데이터</strong>의 부드러운 고속 스크롤 및 연산</li>
-                  <li>🔒 <strong>완전한 오프라인 로컬 환경</strong>: 외부 네트워크 전송 없는 철저한 연구 데이터 보호</li>
-                </ul>
+          <!-- Hero Section -->
+          <section class="s4sw-hero">
+            <div class="s4sw-hero-content">
+              <div class="s4sw-badge">Statistics for Social Workers</div>
+              <h1>Stat4SW</h1>
+              <p class="s4sw-tagline">사회복지 연구자와 실무자를 위한 맞춤형 전문 통계 솔루션</p>
+              <p class="s4sw-description">
+                복잡하고 값비싼 상용 통계 패키지 대신, 사회복지 실무와 학술 연구에 꼭 필요한 통계 기법들을 누구나 쉽고 정확하게 분석할 수 있도록 개발된 오픈 통계 프로젝트입니다.<br>
+                사용 목적과 환경에 맞게 <strong>두 가지 독립 에디션</strong>으로 제공됩니다.
+              </p>
+              <div class="s4sw-cta">
+                <a href="downloads/Stat4SW-3.3.0-설치.exe" class="s4sw-btn-primary">
+                  <span class="icon">📥</span> v3.0 Windows 다운로드
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/15bChd3xdxn56rLCMu8R4BPu9A_4wCgUhSocGshssBic/copy"
+                  target="_blank" class="s4sw-btn-outline">
+                  <span class="icon">🚀</span> v2.0 시트 사본 만들기
+                </a>
               </div>
-              <div>
-                <a href="downloads/Stat4SW-3.3.0-설치.exe" class="btn-download-v3" style="width: 100%; box-sizing: border-box; justify-content: center;">
-                  <span>📥</span> Windows 설치 프로그램 다운로드 (v3.0)
+            </div>
+            <div class="s4sw-hero-image">
+              <img src="images/stat4sw_win.png" alt="Stat4SW v3.0 윈도우 실행 화면">
+              <p style="margin-top: 12px; color: #888; font-size: 0.85rem; text-align: center;">
+                Stat4SW v3.0 Windows 실행 화면
+              </p>
+            </div>
+          </section>
+
+          <!-- 에디션 선택 카드 -->
+          <section id="editions" class="s4sw-editions">
+            <div class="section-title">
+              <h2>에디션 선택</h2>
+              <div class="underline"></div>
+            </div>
+            <div class="s4sw-edition-grid">
+
+              <!-- v3.0 카드 -->
+              <div class="s4sw-edition-card s4sw-v3">
+                <div class="edition-top">
+                  <span class="edition-pill blue">💻 Windows 설치형</span>
+                  <h3>Stat4SW v3.0</h3>
+                  <p class="edition-sub">"구조방정식(SEM) &amp; 대용량 로컬 데이터 완벽 지원"</p>
+                  <p style="font-size: 0.92rem; color: #334155; line-height: 1.7; margin-bottom: 16px;">
+                    파이썬(Python &amp; PySide6) 기반 독립 실행 프로그램입니다. 인터넷 연결 없이 100% 로컬에서 동작하며,
+                    <strong>구조방정식(SEM)</strong>과 <strong>확인적 요인분석(CFA)</strong> 등 고급 학술 다변량 분석을 지원합니다.
+                  </p>
+                  <ul class="edition-features">
+                    <li>🏛️ <strong>SEM &amp; CFA</strong> 탑재 (lavaan 문법, CFI/TLI/RMSEA 산출)</li>
+                    <li>📊 SPSS 스타일 데이터/변수 2분할 뷰</li>
+                    <li>⚡ 50만 행 대용량 데이터 고속 처리</li>
+                    <li>🔒 완전 오프라인 · 로컬 데이터 보안</li>
+                  </ul>
+                </div>
+                <a href="downloads/Stat4SW-3.3.0-설치.exe" class="edition-btn blue-btn">
+                  📥 Windows 설치 파일 다운로드 (v3.0)
                 </a>
                 <p style="margin: 8px 0 0 0; font-size: 0.8rem; color: #64748b; text-align: center;">
-                  Windows 10/11 64bit 지원 · 약 65MB 단일 설치 파일
+                  Windows 10/11 64bit · 약 65MB 단일 설치 파일
                 </p>
               </div>
-            </div>
 
-            <!-- 에디션 2: v2.0 구글 시트 온라인 -->
-            <div class="edition-card v2-online">
-              <div>
-                <span class="edition-badge badge-green">🌐 Google Sheets · GAS 온라인형</span>
-                <h3>Stat4SW v2.0 (온라인)</h3>
-                <p class="edition-tagline">
-                  "무설치 웹 브라우저 구동 &amp; Gemini AI 통계 결과 자동 해석"
-                </p>
-                <p style="font-size: 0.92rem; color: #475569; line-height: 1.65; margin-bottom: 14px;">
-                  구글 스프레드시트(Google Apps Script) 기반으로 제작되어 별도의 프로그램 설치가 전혀 필요 없습니다. 
-                  링크 클릭 한 번으로 내 드라이브에 사본을 만들어 즉시 분석할 수 있으며, 
-                  <strong>생성형 AI(Gemini API)</strong>가 산출된 통계 수치를 
-                  <strong>APA 논문 형식의 학술 문장과 사회복지 실무 제언</strong>으로 자동 작성해 줍니다.
-                </p>
-                <ul class="edition-features">
-                  <li>🤖 <strong>Gemini AI 기반 통계 결과 자동 브리핑</strong> (논문 및 평가보고서 문장 원클릭 완성)</li>
-                  <li>☁️ <strong>무설치 원클릭 실행</strong>: 구글 계정만 있으면 웹 브라우저에서 즉시 사본 생성</li>
-                  <li>📋 <strong>APA 표준 표 내보내기</strong>: 기술통계, 상관행렬, t검정 결과표를 시트 탭에 자동 렌더링</li>
-                  <li>👥 <strong>간편한 팀 협업</strong>: 구글 드라이브를 통해 팀원과 결과 공유 및 동시 검토 용이</li>
-                </ul>
-              </div>
-              <div>
-                <a href="https://docs.google.com/spreadsheets/d/15bChd3xdxn56rLCMu8R4BPu9A_4wCgUhSocGshssBic/copy" 
-                   target="_blank" class="btn-copy-v2" style="width: 100%; box-sizing: border-box; justify-content: center;">
-                  <span>🚀</span> 구글 시트 사본 만들기 (v2.0 온라인)
+              <!-- v2.0 카드 -->
+              <div class="s4sw-edition-card s4sw-v2">
+                <div class="edition-top">
+                  <span class="edition-pill green">🌐 Google Sheets 온라인</span>
+                  <h3>Stat4SW v2.0</h3>
+                  <p class="edition-sub">"무설치 웹 실행 &amp; Gemini AI 통계 결과 자동 해석"</p>
+                  <p style="font-size: 0.92rem; color: #334155; line-height: 1.7; margin-bottom: 16px;">
+                    구글 스프레드시트(GAS) 기반으로 별도 설치 없이 즉시 사용 가능합니다.
+                    <strong>생성형 AI(Gemini)</strong>가 통계 결과를 <strong>APA 논문 형식 학술 문장</strong>으로 자동 작성해 줍니다.
+                  </p>
+                  <ul class="edition-features">
+                    <li>🤖 <strong>Gemini AI 자동 통계 해석문</strong> 생성</li>
+                    <li>☁️ 무설치 원클릭 · Google 계정만으로 실행</li>
+                    <li>📋 APA 스타일 표 자동 렌더링</li>
+                    <li>👥 구글 드라이브 팀 협업 공유</li>
+                  </ul>
+                </div>
+                <a href="https://docs.google.com/spreadsheets/d/15bChd3xdxn56rLCMu8R4BPu9A_4wCgUhSocGshssBic/copy"
+                  target="_blank" class="edition-btn green-btn">
+                  🚀 구글 시트 사본 만들기 (v2.0)
                 </a>
                 <p style="margin: 8px 0 0 0; font-size: 0.8rem; color: #64748b; text-align: center;">
                   Google 계정 로그인 필요 · 무료 클라우드 템플릿
                 </p>
               </div>
-            </div>
-          </div>
 
-          <!-- 한눈에 보는 에디션 비교 테이블 -->
-          <div class="compare-table-box">
-            <h4 style="margin: 0 0 16px 0; font-size: 1.2rem; color: #0f172a; display: flex; align-items: center; gap: 8px;">
-              <span>⚖️</span> Stat4SW 에디션별 상세 비교
-            </h4>
-            <div style="overflow-x: auto;">
-              <table class="compare-table">
+            </div>
+          </section>
+
+          <!-- 에디션 비교표 -->
+          <section class="s4sw-compare">
+            <div class="section-title">
+              <h2>⚖️ 에디션 비교</h2>
+              <div class="underline"></div>
+            </div>
+            <div class="compare-scroll">
+              <table class="s4sw-table">
                 <thead>
                   <tr>
                     <th style="width: 22%;">구분</th>
-                    <th style="width: 39%; color: #1d4ed8;">💻 Stat4SW v3.0 (Windows 설치형)</th>
-                    <th style="width: 39%; color: #047857;">🌐 Stat4SW v2.0 (Google Sheets 온라인)</th>
+                    <th style="width: 39%; color: #1d4ed8;">💻 v3.0 Windows 설치형</th>
+                    <th style="width: 39%; color: #047857;">🌐 v2.0 Google Sheets</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td><strong>구동 환경</strong></td>
-                    <td class="col-v3">Windows 10 / 11 (64bit) 로컬 PC</td>
-                    <td class="col-v2">웹 브라우저 (Chrome, Edge 등)</td>
+                    <td>Windows 10 / 11 (64bit) 로컬 PC</td>
+                    <td>웹 브라우저 (Chrome, Edge 등)</td>
                   </tr>
                   <tr>
                     <td><strong>기반 기술</strong></td>
-                    <td class="col-v3">Python 3.12, PySide6 (Qt), semopy, scipy</td>
-                    <td class="col-v2">Google Apps Script (JavaScript)</td>
+                    <td>Python 3.12, PySide6 (Qt), semopy</td>
+                    <td>Google Apps Script (JavaScript)</td>
                   </tr>
                   <tr>
-                    <td><strong>설치 필요 여부</strong></td>
-                    <td class="col-v3">설치 파일 실행 필요 (약 65MB, 간편 설치)</td>
-                    <td class="col-v2"><strong>무설치</strong> (시트 사본 생성 즉시 실행)</td>
+                    <td><strong>설치 필요</strong></td>
+                    <td>설치 파일 실행 필요 (약 65MB, 간편)</td>
+                    <td><strong>무설치</strong> (시트 사본 생성 즉시 실행)</td>
                   </tr>
                   <tr>
-                    <td><strong>AI 자동 결과 해석</strong></td>
-                    <td class="col-v3">❌ 미탑재 (통계 연산 및 수치 분석 엔진 집중)</td>
-                    <td class="col-v2">✅ <strong>탑재 (Gemini API 연동 자동 해석문 생성)</strong></td>
+                    <td><strong>AI 자동 해석</strong></td>
+                    <td>❌ 미탑재 (통계 연산 엔진에 집중)</td>
+                    <td>✅ <strong>Gemini API 연동 자동 해석문</strong></td>
                   </tr>
                   <tr>
-                    <td><strong>고급 학술 분석 기법</strong></td>
-                    <td class="col-v3">✅ <strong>구조방정식(SEM), 확인적 요인분석(CFA)</strong>, 다층모형 지원</td>
-                    <td class="col-v2">대응/독립 t검정, ANOVA, 상관, 회귀, 신뢰도 등 지원</td>
+                    <td><strong>고급 학술 분석</strong></td>
+                    <td>✅ <strong>SEM, CFA</strong>, 다층모형 지원</td>
+                    <td>t검정, ANOVA, 상관, 회귀, 신뢰도 등</td>
                   </tr>
                   <tr>
                     <td><strong>데이터 수용량</strong></td>
-                    <td class="col-v3">수만 ~ <strong>50만 행 대용량 데이터</strong> 고속 처리</td>
-                    <td class="col-v2">구글 시트 기반 (권장 5,000 ~ 최대 5만 행)</td>
+                    <td>수만 ~ <strong>50만 행</strong> 고속 처리</td>
+                    <td>권장 5,000 ~ 최대 5만 행</td>
                   </tr>
                   <tr>
                     <td><strong>인터넷 연결</strong></td>
-                    <td class="col-v3"><strong>완전 불필요</strong> (100% 오프라인 동작)</td>
-                    <td class="col-v2">인터넷 연결 필수 (구글 클라우드 기반)</td>
+                    <td><strong>완전 불필요</strong> (100% 오프라인)</td>
+                    <td>인터넷 필수 (클라우드 기반)</td>
                   </tr>
                   <tr>
                     <td><strong>추천 사용자</strong></td>
-                    <td class="col-v3">연구 논문 작성자, 석·박사 연구자, 대용량 설문 분석 실무자</td>
-                    <td class="col-v2">사회복지관 실무자, 사업 평가 담당자, 팀 단위 협업 분석가</td>
+                    <td>논문 연구자, 석·박사생, 대용량 분석</td>
+                    <td>사회복지관 실무자, 사업 평가 담당자</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </div>
+          </section>
 
-          <!-- ======================================================== -->
-          <!-- 섹션 1: Stat4SW v3.0 Windows 설치형 상세 안내 -->
-          <!-- ======================================================== -->
-          <div class="detail-section-box" style="border-top: 4px solid #2563eb;">
-            <div class="detail-header">
-              <div>
-                <h3><span>💻</span> Stat4SW v3.0 Windows 오프라인 설치버전</h3>
-                <p style="margin: 5px 0 0 0; color: #64748b; font-size: 0.95rem;">
-                  파이썬 엔진으로 한 단계 더 강력해진 고성능 데스크톱 통계 소프트웨어
-                </p>
-              </div>
-              <a href="downloads/Stat4SW-3.3.0-설치.exe" class="btn-download-v3">
-                <span>📥</span> v3.0 설치 파일 받기 (.exe)
-              </a>
+          <!-- v3.0 상세 섹션 -->
+          <section id="v3" class="s4sw-detail">
+            <div class="section-title">
+              <h2>💻 Stat4SW v3.0 상세 안내</h2>
+              <div class="underline" style="background: #2563eb;"></div>
+              <p style="margin-top: 12px; color: #64748b; font-size: 0.95rem;">파이썬 엔진으로 한 단계 더 강력해진 고성능 데스크톱 통계 소프트웨어</p>
             </div>
 
             <div class="responsive-intro-grid" style="align-items: start;">
-              <!-- 좌측: 설명 및 특징 -->
+              <!-- 좌측: 설명 및 기능 -->
               <div>
-                <p style="font-size: 1.05rem; line-height: 1.8; color: #334155; margin-bottom: 20px;">
-                  Stat4SW v3.0은 클라우드 브라우저의 한계를 뛰어넘어, <strong>연구 논문 작성을 위한 고급 통계 분석</strong>을 로컬 PC에서 즉각적으로 수행할 수 있도록 파이썬(PySide6)으로 새롭게 개발된 독립 프로그램입니다.<br>
-                  특히 사회복지 학술 연구에서 가장 빈번하게 요구되는 <strong>구조방정식 모형(SEM)</strong>과 <strong>확인적 요인분석(CFA)</strong> 엔진이 탑재되어, 복잡한 경로 분석과 잠재변수 측정을 손쉽게 검증할 수 있습니다.
+                <p style="font-size: 1.05rem; line-height: 1.8; color: #334155; margin-bottom: 24px;">
+                  Stat4SW v3.0은 클라우드 브라우저의 한계를 뛰어넘어, <strong>연구 논문 작성을 위한 고급 통계 분석</strong>을
+                  로컬 PC에서 즉각적으로 수행할 수 있도록 파이썬(PySide6)으로 새롭게 개발된 독립 프로그램입니다.<br>
+                  특히 <strong>구조방정식 모형(SEM)</strong>과 <strong>확인적 요인분석(CFA)</strong> 엔진이 탑재되어 복잡한 경로 분석과 잠재변수 측정을 손쉽게 검증할 수 있습니다.
                 </p>
 
-                <!-- 주요 기능 카드 4선 -->
-                <div class="feature-card-grid" style="margin-bottom: 25px;">
-                  <div class="stat-feature-card">
-                    <span class="icon">🏛️</span>
-                    <h4>구조방정식 모형 (SEM)</h4>
-                    <p>lavaan 호환 문법 지원, 잠재변수 간 직접·간접·총효과 분해 및 CFI, TLI, RMSEA, SRMR 등 주요 모델 적합도 지수를 즉시 산출합니다.</p>
+                <div class="s4sw-feature-grid">
+                  <div class="s4sw-feature-card">
+                    <div class="icon">🏛️</div>
+                    <h3>구조방정식 모형 (SEM)</h3>
+                    <p>lavaan 호환 문법 지원, 직접·간접·총효과 분해 및 CFI, TLI, RMSEA, SRMR 등 모델 적합도 지수 산출.</p>
                   </div>
-                  <div class="stat-feature-card">
-                    <span class="icon">🔬</span>
-                    <h4>확인적 요인분석 (CFA)</h4>
-                    <p>측정 도구의 타당도를 검증하기 위한 요인 적재량, 개념신뢰도(CR), 평균분산추출값(AVE) 및 판별타당도를 원클릭으로 분석합니다.</p>
+                  <div class="s4sw-feature-card">
+                    <div class="icon">🔬</div>
+                    <h3>확인적 요인분석 (CFA)</h3>
+                    <p>요인 적재량, 개념신뢰도(CR), 평균분산추출값(AVE) 및 판별타당도를 원클릭으로 분석합니다.</p>
                   </div>
-                  <div class="stat-feature-card">
-                    <span class="icon">📑</span>
-                    <h4>SPSS 스타일 데이터/변수 뷰</h4>
-                    <p>하단 탭 전환으로 데이터 입력 격자와 변수 속성(이름, 라벨, 척도수준, 결측치 코드, 값 레이블)을 손쉽게 설정하고 편집할 수 있습니다.</p>
+                  <div class="s4sw-feature-card">
+                    <div class="icon">📑</div>
+                    <h3>SPSS 스타일 데이터/변수 뷰</h3>
+                    <p>하단 탭 전환으로 데이터 격자와 변수 속성(라벨, 척도수준, 결측치 코드)을 손쉽게 편집.</p>
                   </div>
-                  <div class="stat-feature-card">
-                    <span class="icon">📁</span>
-                    <h4>CSV / 엑셀(XLSX) 직접 지원</h4>
-                    <p>시트 변환 없이 기존 설문 데이터(CSV, XLSX)를 직접 열고 편집하며, 결과를 표 서식 그대로 엑셀이나 워드로 복사할 수 있습니다.</p>
+                  <div class="s4sw-feature-card">
+                    <div class="icon">📁</div>
+                    <h3>CSV / XLSX 직접 지원</h3>
+                    <p>기존 설문 데이터를 변환 없이 직접 열고, 결과를 표 서식 그대로 엑셀이나 워드로 복사 가능.</p>
                   </div>
                 </div>
 
-                <div class="ui-panel-box" style="background: #f1f5f9;">
-                  <h4 style="margin: 0 0 10px 0; font-size: 0.98rem; color: #0f172a;">💡 설치 및 실행 방법</h4>
-                  <ol style="margin: 0; padding-left: 20px; font-size: 0.9rem; color: #475569; line-height: 1.8;">
-                    <li>상단의 <strong>[Windows 설치 프로그램 다운로드]</strong> 버튼을 눌러 설치 파일(<code>Stat4SW-3.3.0-설치.exe</code>)을 내려받습니다.</li>
-                    <li>설치 파일을 더블클릭하여 실행합니다. <em>(Windows SmartScreen 경고가 뜰 경우 [추가 정보] → [실행] 클릭)</em></li>
-                    <li>관리자 권한 없이도 사용자 로컬 계정 폴더에 안전하고 빠르게 설치되며, 시작 메뉴에 등록됩니다.</li>
-                    <li>바탕화면 또는 시작 메뉴의 <strong>Stat4SW 통계분석</strong>을 실행하여 바로 분석을 시작하세요.</li>
+                <div class="usage-steps" style="background: #f1f5f9; padding: 22px; border-radius: 12px; margin-top: 20px; border: 1px solid #e2e8f0;">
+                  <h4 style="margin-top: 0; margin-bottom: 14px; color: #0f172a;">💡 설치 및 실행 방법</h4>
+                  <ol style="margin: 0; padding-left: 20px; font-size: 0.92rem; color: #475569; line-height: 1.85;">
+                    <li>상단 <strong>[Windows 설치 파일 다운로드]</strong> 버튼으로 <code>Stat4SW-3.3.0-설치.exe</code>를 내려받습니다.</li>
+                    <li>설치 파일을 더블클릭하여 실행합니다. <em>(Windows SmartScreen 경고 시 [추가 정보] → [실행])</em></li>
+                    <li>관리자 권한 없이도 사용자 폴더에 안전하게 설치되며, 시작 메뉴에 등록됩니다.</li>
+                    <li>시작 메뉴의 <strong>Stat4SW 통계분석</strong>을 실행하여 바로 분석을 시작하세요.</li>
                   </ol>
                 </div>
-              </div>
 
-              <!-- 우측: 윈도우 버전 실행 캡처 화면 -->
-              <div>
-                <div class="screenshot-card">
-                  <div class="profile-image-box"
-                    style="height: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-radius: 14px; overflow: hidden; border: 1px solid #cbd5e1; background: #ffffff;">
-                    <a href="images/stat4sw_win.png" target="_blank" title="클릭하여 원본 크기로 보기">
-                      <img src="images/stat4sw_win.png" alt="Stat4SW v3.0 윈도우 설치형 실행 화면"
-                        style="width: 100%; height: auto; display: block; transition: transform 0.3s ease;"
-                        onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
-                  </div>
-                  <p style="margin-top: 14px; color: #0f172a; font-weight: 700; font-size: 0.95rem; text-align: center;">
-                    🔍 Stat4SW v3.0 윈도우 독립형 실행 화면 (클릭 시 확대)
-                  </p>
+                <div style="text-align: center; margin-top: 24px;">
+                  <a href="downloads/Stat4SW-3.3.0-설치.exe" class="s4sw-btn-primary">
+                    📥 Windows 설치 파일 다운로드 (v3.0)
+                  </a>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <!-- ======================================================== -->
-          <!-- 섹션 2: Stat4SW v2.0 구글 시트 온라인 상세 안내 (기존) -->
-          <!-- ======================================================== -->
-          <div class="detail-section-box" style="border-top: 4px solid #059669;">
-            <div class="detail-header">
-              <div>
-                <h3><span>🌐</span> Stat4SW v2.0 구글 시트 온라인 버전 (AI 탑재)</h3>
-                <p style="margin: 5px 0 0 0; color: #64748b; font-size: 0.95rem;">
-                  프로그램 설치 없이 웹에서 바로 쓰는 생성형 AI 기반 지능형 통계 패키지
+              <!-- 우측: 스크린샷 -->
+              <div class="profile-image-area">
+                <div class="profile-image-box" style="height: auto;">
+                  <a href="images/stat4sw_win.png" target="_blank" title="클릭하여 원본 크기로 보기">
+                    <img src="images/stat4sw_win.png" alt="Stat4SW v3.0 윈도우 실행 화면"
+                      style="width: 100%; height: auto; display: block; border-radius: 12px; transition: transform 0.3s ease;"
+                      onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                  </a>
+                </div>
+                <p style="margin-top: 12px; color: #888; font-size: 0.9rem; text-align: center;">
+                  🔍 Stat4SW v3.0 실행 화면 (클릭 시 확대)
                 </p>
               </div>
-              <a href="https://docs.google.com/spreadsheets/d/15bChd3xdxn56rLCMu8R4BPu9A_4wCgUhSocGshssBic/copy" target="_blank" class="btn-copy-v2">
-                <span>🚀</span> v2.0 시트 사본 만들기
-              </a>
+            </div>
+          </section>
+
+          <!-- v2.0 상세 섹션 -->
+          <section id="v2" class="s4sw-detail" style="border-top: 3px solid #059669;">
+            <div class="section-title">
+              <h2>🌐 Stat4SW v2.0 상세 안내</h2>
+              <div class="underline" style="background: #059669;"></div>
+              <p style="margin-top: 12px; color: #64748b; font-size: 0.95rem;">프로그램 설치 없이 웹에서 바로 쓰는 생성형 AI 기반 지능형 통계 패키지</p>
             </div>
 
             <div class="responsive-intro-grid" style="align-items: start;">
-              <!-- 좌측: 워크플로우 및 설명 -->
+              <!-- 좌측: 설명 및 워크플로우 -->
               <div>
-                <p style="font-size: 1.05rem; line-height: 1.8; color: #334155; margin-bottom: 20px;">
-                  Stat4SW v2.0은 사회복지 현장 실무자가 복잡한 수치 해석에 들이는 시간을 획기적으로 줄여주는 <strong>생성형 AI(Gemini) 연동형 온라인 통계 시트</strong>입니다.<br>
-                  구글 스프레드시트 안에서 <code>[Stat4SW 통계분석]</code> 대화상자를 열어 변수를 선택하면 통계 분석과 함께 <strong>APA 논문 규격의 서술문</strong> 및 <strong>현장 평가보고서용 핵심 시사점</strong>이 자동 작성됩니다.
+                <p style="font-size: 1.05rem; line-height: 1.8; color: #334155; margin-bottom: 24px;">
+                  Stat4SW v2.0은 사회복지 현장 실무자가 복잡한 수치 해석에 들이는 시간을 획기적으로 줄여주는
+                  <strong>생성형 AI(Gemini) 연동형 온라인 통계 시트</strong>입니다.<br>
+                  구글 스프레드시트 안에서 <code>[Stat4SW 통계분석]</code> 대화상자를 열어 변수를 선택하면 통계 분석과 함께
+                  <strong>APA 논문 규격 서술문</strong>과 <strong>현장 평가보고서용 시사점</strong>이 자동 작성됩니다.
                 </p>
 
-                <!-- 4단계 워크플로우 -->
-                <div class="ui-panel-box">
-                  <h4 style="margin-top: 0; margin-bottom: 18px; color: #0f172a; font-size: 1.02rem;">
-                    🖥️ Stat4SW v2.0 4단계 스마트 분석 프로세스
-                  </h4>
-                  
-                  <div class="ui-panel-item">
-                    <span class="ui-panel-tag tag-purple">1. 변수 관리자</span>
+                <div class="usage-steps" style="background: #f8f9fa; padding: 22px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
+                  <h4 style="margin-top: 0; margin-bottom: 16px; color: #0f172a;">🖥️ Stat4SW v2.0 · 4단계 스마트 분석 프로세스</h4>
+
+                  <div class="feature-item" style="display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #eee;">
+                    <span style="flex-shrink:0; display:inline-block; font-size:0.78rem; font-weight:700; padding:4px 10px; border-radius:6px; background:#8b5cf6; color:#fff; white-space:nowrap;">1. 변수 관리자</span>
                     <div>
-                      <strong style="color: #0f172a; font-size: 0.92rem;">척도 수준 자동 판별 &amp; 결측치 실시간 감지</strong>
-                      <p style="margin: 3px 0 0 0; font-size: 0.88rem; color: #475569;">
-                        각 변수의 척도(명목, 서열, 연속)를 색상 배지로 자동 분류하고 결측 문항 수를 한눈에 파악합니다.
-                      </p>
+                      <strong style="font-size: 0.92rem;">척도 수준 자동 판별 &amp; 결측치 실시간 감지</strong>
+                      <p style="margin: 3px 0 0 0; font-size: 0.88rem; color: #64748b;">각 변수의 척도(명목, 서열, 연속)를 색상 배지로 자동 분류하고 결측 문항 수를 한눈에 파악합니다.</p>
                     </div>
                   </div>
 
-                  <div class="ui-panel-item">
-                    <span class="ui-panel-tag tag-blue">2. 분석 제어판</span>
+                  <div class="feature-item" style="display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #eee;">
+                    <span style="flex-shrink:0; display:inline-block; font-size:0.78rem; font-weight:700; padding:4px 10px; border-radius:6px; background:#2563eb; color:#fff; white-space:nowrap;">2. 분석 제어판</span>
                     <div>
-                      <strong style="color: #0f172a; font-size: 0.92rem;">원클릭 변수 투입 &amp; 정밀 가정 검정</strong>
-                      <p style="margin: 3px 0 0 0; font-size: 0.88rem; color: #475569;">
-                        대응표본 t-검정, 상관분석 등 목적에 맞는 기법을 선택하고 정규성(Shapiro-Wilk) 검정 및 효과크기(Cohen's d)를 산출합니다.
-                      </p>
+                      <strong style="font-size: 0.92rem;">원클릭 변수 투입 &amp; 정밀 가정 검정</strong>
+                      <p style="margin: 3px 0 0 0; font-size: 0.88rem; color: #64748b;">대응표본 t-검정, 상관분석 등 기법을 선택하고 정규성(Shapiro-Wilk) 검정 및 효과크기(Cohen's d)를 산출합니다.</p>
                     </div>
                   </div>
 
-                  <div class="ui-panel-item">
-                    <span class="ui-panel-tag tag-ai">3. AI 해석기</span>
+                  <div class="feature-item" style="display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #eee;">
+                    <span style="flex-shrink:0; display:inline-block; font-size:0.78rem; font-weight:700; padding:4px 10px; border-radius:6px; background:linear-gradient(135deg, #6366f1, #a855f7); color:#fff; white-space:nowrap;">3. AI 해석기</span>
                     <div>
-                      <strong style="color: #6b21a8; font-size: 0.92rem;">🤖 생성형 AI 기반 결과 자동 브리핑</strong>
-                      <p style="margin: 3px 0 0 0; font-size: 0.88rem; color: #475569;">
-                        산출된 t값, 유의확률, 효과크기를 바탕으로 AI가 APA 논문 규격의 학술 서술문과 보고서용 시사점을 자동 생성합니다.
-                      </p>
+                      <strong style="font-size: 0.92rem; color: #6b21a8;">🤖 생성형 AI 기반 결과 자동 브리핑</strong>
+                      <p style="margin: 3px 0 0 0; font-size: 0.88rem; color: #64748b;">t값, 유의확률, 효과크기를 바탕으로 APA 논문 규격 서술문과 보고서용 시사점을 자동 생성합니다.</p>
                     </div>
                   </div>
 
-                  <div class="ui-panel-item">
-                    <span class="ui-panel-tag tag-green">4. 시트 내보내기</span>
+                  <div class="feature-item" style="display: flex; gap: 14px; align-items: flex-start; padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #eee;">
+                    <span style="flex-shrink:0; display:inline-block; font-size:0.78rem; font-weight:700; padding:4px 10px; border-radius:6px; background:#059669; color:#fff; white-space:nowrap;">4. 시트 내보내기</span>
                     <div>
-                      <strong style="color: #0f172a; font-size: 0.92rem;">APA 스타일 논문 표 자동 렌더링</strong>
-                      <p style="margin: 3px 0 0 0; font-size: 0.88rem; color: #475569;">
-                        [시트로 내보내기] 버튼 한 번으로 구글 시트의 <code>결과</code> 탭에 완성된 표 서식과 해석문이 영구 저장됩니다.
-                      </p>
+                      <strong style="font-size: 0.92rem;">APA 스타일 논문 표 자동 렌더링</strong>
+                      <p style="margin: 3px 0 0 0; font-size: 0.88rem; color: #64748b;">[시트로 내보내기] 버튼 한 번으로 <code>결과</code> 탭에 완성된 표 서식과 해석문이 영구 저장됩니다.</p>
                     </div>
                   </div>
                 </div>
+
+                <div style="text-align: center;">
+                  <a href="https://docs.google.com/spreadsheets/d/15bChd3xdxn56rLCMu8R4BPu9A_4wCgUhSocGshssBic/copy"
+                    target="_blank" class="s4sw-btn-green">
+                    🚀 구글 시트 사본 만들기 (v2.0)
+                  </a>
+                </div>
               </div>
 
-              <!-- 우측: 구글 시트 버전 캡처 화면 -->
-              <div>
-                <div class="screenshot-card">
-                  <div class="profile-image-box"
-                    style="height: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-radius: 14px; overflow: hidden; border: 1px solid #cbd5e1; background: #ffffff;">
-                    <a href="images/stat4sw_capture.png" target="_blank" title="클릭하여 원본 크기로 보기">
-                      <img src="images/stat4sw_capture.png" alt="Stat4SW v2.0 실제 구글 스프레드시트 실행 화면 캡처"
-                        style="width: 100%; height: auto; display: block; transition: transform 0.3s ease;"
-                        onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
+              <!-- 우측: 스크린샷 -->
+              <div class="profile-image-area">
+                <div class="profile-image-box" style="height: auto;">
+                  <a href="images/stat4sw_capture.png" target="_blank" title="클릭하여 원본 크기로 보기">
+                    <img src="images/stat4sw_capture.png" alt="Stat4SW v2.0 구글 스프레드시트 실행 화면"
+                      style="width: 100%; height: auto; display: block; border-radius: 12px; transition: transform 0.3s ease;"
+                      onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                  </a>
+                </div>
+                <p style="margin-top: 12px; color: #888; font-size: 0.9rem; text-align: center;">
+                  🔍 Stat4SW v2.0 구글 시트 실행 화면 (클릭 시 확대)
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 버전 이력 -->
+          <section class="s4sw-history">
+            <div class="section-title">
+              <h2>📜 버전 이력</h2>
+              <div class="underline"></div>
+              <p style="margin-top: 12px; color: #64748b; font-size: 0.95rem;">사회복지 현장과 학술 연구 요구에 발맞춘 지속적인 진화 과정입니다.</p>
+            </div>
+
+            <div class="version-timeline-wrap">
+              <div class="v-entry">
+                <span class="v-dot blue"></span>
+                <div class="v-body">
+                  <div class="v-head">
+                    <span class="v-name">Stat4SW v3.0</span>
+                    <span class="v-pill blue">💻 최신 Windows 설치형 · Python 엔진</span>
+                    <span class="v-date">2026.11</span>
                   </div>
-                  <p style="margin-top: 14px; color: #0f172a; font-weight: 700; font-size: 0.95rem; text-align: center;">
-                    🔍 Stat4SW v2.0 구글 스프레드시트 실행 화면 (클릭 시 확대)
-                  </p>
+                  <p class="v-desc"><strong>오프라인 데스크톱 전면 전환:</strong> 파이썬(PySide6 Qt) 기반 독립 실행 소프트웨어로 전환, 구조방정식(SEM) &amp; CFA 엔진 탑재, 50만 행 고속 처리, 100% 로컬 데이터 보안 환경.</p>
+                </div>
+              </div>
+              <div class="v-entry">
+                <span class="v-dot purple"></span>
+                <div class="v-body">
+                  <div class="v-head">
+                    <span class="v-name">Stat4SW v2.0</span>
+                    <span class="v-pill purple">🌐 클라우드 웹 · AI 어시스턴트 탑재</span>
+                    <span class="v-date">2026.10</span>
+                  </div>
+                  <p class="v-desc"><strong>생성형 AI 통계 결과 해석 어시스턴트 도입:</strong> t값, 유의확률, 효과크기를 바탕으로 APA 논문 규격의 학술 서술문과 사회복지 평가 보고서용 실무 시사점을 원클릭 자동 작성.</p>
+                </div>
+              </div>
+              <div class="v-entry">
+                <span class="v-dot gray"></span>
+                <div class="v-body">
+                  <div class="v-head">
+                    <span class="v-name">Stat4SW v1.0</span>
+                    <span class="v-pill gray">초기 릴리즈 · 클래식</span>
+                    <span class="v-date">2026.10</span>
+                  </div>
+                  <p class="v-desc"><strong>구글 스프레드시트 기반 전문 통계 패키지 최초 릴리즈:</strong> 변수 척도 자동 판별, 대응표본 t-검정, 피어슨 상관분석, 정규성 검정 및 효과크기 산출.</p>
+                  <a href="https://docs.google.com/spreadsheets/d/1XCa7G5v1XZAHeIp3c7cDT72-9_A1On9Zk8vnBunU8fA/copy"
+                    target="_blank" style="font-size: 0.88rem; color: #64748b; font-weight: 600; text-decoration: none;">
+                    📂 v1.0 원본 시트 사본 열기
+                  </a>
                 </div>
               </div>
             </div>
-          </div>
-
-          <!-- 버전 릴리즈 이력 (Version History) -->
-          <div class="version-history-card">
-            <h4 style="margin: 0 0 4px 0; color: #0f172a; font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-              <span>📜</span> Stat4SW 버전 이력 (Release History)
-            </h4>
-            <p style="margin: 0 0 20px 0; font-size: 0.9rem; color: #64748b;">
-              사회복지 현장과 학술 연구 요구에 발맞춘 Stat4SW의 지속적인 진화 과정입니다.
-            </p>
-
-            <div class="version-timeline">
-              <!-- v3.0 -->
-              <div class="version-entry">
-                <span class="version-point"></span>
-                <div class="version-header">
-                  <h5 class="version-title">Stat4SW v3.0</h5>
-                  <span class="version-tag v3">💻 최신 Windows 설치형 · Python 엔진</span>
-                  <span style="font-size: 0.82rem; color: #94a3b8;">2026.11</span>
-                </div>
-                <p class="version-desc">
-                  <strong>오프라인 데스크톱 전면 전환:</strong> 파이썬(PySide6 Qt) 기반의 독립 실행 소프트웨어로 전환하여 인터넷 연결 없이 대용량(50만 행) 데이터를 고속으로 처리하며, 고난도 학술 통계 엔진 탑재.
-                </p>
-                <ul class="version-features">
-                  <li>🏛️ <strong>구조방정식 모형(SEM) &amp; 확인적 요인분석(CFA)</strong> 탑재 (lavaan 문법, 적합도 지수 산출)</li>
-                  <li>📊 SPSS 친화형 데이터/변수 2분할 뷰 및 단독 격자 편집 환경 제공</li>
-                  <li>🔒 외부 네트워크 통신이 일절 없는 100% 로컬 데이터 보안 환경 보장</li>
-                  <li>📦 Inno Setup 기반 Windows 간편 설치 패키지(<code>Stat4SW-3.3.0-설치.exe</code>) 배포</li>
-                </ul>
-              </div>
-
-              <!-- v2.0 -->
-              <div class="version-entry">
-                <span class="version-point v2"></span>
-                <div class="version-header">
-                  <h5 class="version-title">Stat4SW v2.0</h5>
-                  <span class="version-tag v2">🌐 클라우드 웹 · AI 어시스턴트 탑재</span>
-                  <span style="font-size: 0.82rem; color: #94a3b8;">2026.10</span>
-                </div>
-                <p class="version-desc">
-                  <strong>생성형 AI 통계 결과 해석 어시스턴트 도입:</strong> 복잡한 통계 계산 결과(t값, 유의확률, 효과크기)를 바탕으로 APA 논문 규격의 학술 서술문과 사회복지 평가 보고서용 실무적 시사점을 원클릭 자동 작성.
-                </p>
-                <ul class="version-features">
-                  <li>🤖 생성형 AI 기반 통계 브리핑 &amp; 학술 논문 보고서 문장 자동 작성</li>
-                  <li>💡 프로그램 효과성 평가에 즉시 활용 가능한 실무 제언 도출</li>
-                  <li>⚡ 구글 스프레드시트 무설치 템플릿 사본 복제 방식 배포</li>
-                </ul>
-              </div>
-
-              <!-- v1.0 -->
-              <div class="version-entry">
-                <span class="version-point legacy"></span>
-                <div class="version-header">
-                  <h5 class="version-title">Stat4SW v1.0</h5>
-                  <span class="version-tag legacy">초기 릴리즈 · 클래식</span>
-                  <span style="font-size: 0.82rem; color: #94a3b8;">2026.10</span>
-                </div>
-                <p class="version-desc">
-                  <strong>구글 스프레드시트 기반 전문 통계 패키지 최초 릴리즈:</strong> 별도의 복잡한 프로그램 설치 없이 구글 시트 상단 메뉴에서 대화상자를 호출하여 전문 통계 분석 수행.
-                </p>
-                <ul class="version-features">
-                  <li>🏷️ 변수 척도(명목/서열/연속) 자동 판별 및 실시간 결측치 진단</li>
-                  <li>📊 대응표본 t-검정, 피어슨 상관분석, 정규성 검정 및 효과크기 산출</li>
-                  <li>📂 <a href="https://docs.google.com/spreadsheets/d/1XCa7G5v1XZAHeIp3c7cDT72-9_A1On9Zk8vnBunU8fA/copy" target="_blank" style="color: #64748b; font-weight: 600;">v1.0 원본 시트 사본 열기</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          </section>
 
         </div>
+
+        <style>
+          /* Stat4SW Specific Styles */
+          .stat4sw-container {
+            animation: fadeIn 0.8s ease-out;
+            color: #333;
+          }
+
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+
+          .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+          }
+          .section-title h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #0f172a;
+          }
+          .section-title .underline {
+            width: 60px;
+            height: 4px;
+            background: #2563eb;
+            margin: 0 auto;
+            border-radius: 2px;
+          }
+
+          /* Hero */
+          .s4sw-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 40px;
+            padding: 50px 0 60px;
+            margin-bottom: 60px;
+          }
+          .s4sw-badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            color: #1d4ed8;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+          }
+          .s4sw-hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #000 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+          .s4sw-tagline {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 18px;
+          }
+          .s4sw-description {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #64748b;
+            margin-bottom: 32px;
+          }
+          .s4sw-cta {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+          }
+          .s4sw-hero-image img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+            border: 1px solid #e2e8f0;
+          }
+
+          /* Buttons */
+          .s4sw-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #2563eb;
+            color: #fff !important;
+            padding: 13px 26px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+            transition: all 0.2s;
+          }
+          .s4sw-btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+          }
+          .s4sw-btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            color: #059669 !important;
+            padding: 13px 26px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 2px solid #059669;
+            transition: all 0.2s;
+          }
+          .s4sw-btn-outline:hover {
+            background: #ecfdf5;
+            transform: translateY(-2px);
+          }
+          .s4sw-btn-green {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #059669;
+            color: #fff !important;
+            padding: 13px 26px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+            transition: all 0.2s;
+          }
+          .s4sw-btn-green:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(5, 150, 105, 0.45);
+          }
+
+          /* Editions */
+          .s4sw-editions {
+            margin-bottom: 70px;
+          }
+          .s4sw-edition-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+          }
+          .s4sw-edition-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s;
+          }
+          .s4sw-edition-card:hover {
+            transform: translateY(-5px);
+          }
+          .s4sw-v3 {
+            border-color: #2563eb;
+            background: linear-gradient(180deg, #f0f7ff 0%, #fff 40%);
+          }
+          .s4sw-v3:hover { box-shadow: 0 14px 30px rgba(37, 99, 235, 0.15); }
+          .s4sw-v2 {
+            border-color: #059669;
+            background: linear-gradient(180deg, #ecfdf5 0%, #fff 40%);
+          }
+          .s4sw-v2:hover { box-shadow: 0 14px 30px rgba(5, 150, 105, 0.15); }
+
+          .edition-top { flex: 1; }
+          .edition-pill {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.02em;
+            margin-bottom: 12px;
+          }
+          .edition-pill.blue { background: #dbeafe; color: #1d4ed8; }
+          .edition-pill.green { background: #d1fae5; color: #047857; }
+          .s4sw-edition-card h3 {
+            font-size: 1.45rem;
+            margin: 0 0 8px 0;
+            color: #0f172a;
+          }
+          .edition-sub {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #64748b;
+            margin: 0 0 14px 0;
+            line-height: 1.5;
+          }
+          .edition-features {
+            margin: 0 0 22px 0;
+            padding-left: 18px;
+            font-size: 0.9rem;
+            color: #334155;
+            line-height: 1.8;
+          }
+          .edition-btn {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 13px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s;
+          }
+          .blue-btn {
+            background: #2563eb;
+            color: #fff !important;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+          }
+          .blue-btn:hover { background: #1d4ed8; transform: translateY(-2px); }
+          .green-btn {
+            background: #059669;
+            color: #fff !important;
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+          }
+          .green-btn:hover { background: #047857; transform: translateY(-2px); }
+
+          /* Compare Table */
+          .s4sw-compare {
+            margin-bottom: 70px;
+          }
+          .compare-scroll { overflow-x: auto; }
+          .s4sw-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+          }
+          .s4sw-table th, .s4sw-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #edf2f7;
+            text-align: left;
+          }
+          .s4sw-table th {
+            background: #f8fafc;
+            color: #1e293b;
+            font-weight: 700;
+          }
+          .s4sw-table tbody tr:hover { background: #f9fafb; }
+
+          /* Detail Section */
+          .s4sw-detail {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 40px 35px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border-top: 4px solid #2563eb;
+          }
+          .s4sw-detail:last-of-type {
+            border-top: 4px solid #059669;
+          }
+
+          /* Feature Grid */
+          .s4sw-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+          }
+          .s4sw-feature-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+            transition: all 0.25s;
+          }
+          .s4sw-feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #2563eb;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.12);
+          }
+          .s4sw-feature-card .icon {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: inline-block;
+          }
+          .s4sw-feature-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+            color: #0f172a;
+            font-weight: 700;
+          }
+          .s4sw-feature-card p {
+            margin: 0;
+            font-size: 0.88rem;
+            color: #64748b;
+            line-height: 1.6;
+          }
+
+          /* Version History */
+          .s4sw-history {
+            margin-bottom: 40px;
+          }
+          .version-timeline-wrap {
+            position: relative;
+            padding-left: 28px;
+            border-left: 2px solid #cbd5e1;
+          }
+          .v-entry {
+            position: relative;
+            margin-bottom: 28px;
+          }
+          .v-entry:last-child { margin-bottom: 0; }
+          .v-dot {
+            position: absolute;
+            left: -36px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+          }
+          .v-dot.blue   { background: #2563eb; box-shadow: 0 0 0 2px #2563eb; }
+          .v-dot.purple { background: #7c3aed; box-shadow: 0 0 0 2px #7c3aed; }
+          .v-dot.gray   { background: #64748b; box-shadow: 0 0 0 2px #94a3b8; }
+          .v-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+          }
+          .v-name { font-size: 1.05rem; font-weight: 700; color: #0f172a; }
+          .v-pill {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+          }
+          .v-pill.blue   { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+          .v-pill.purple { background: #ede9fe; color: #7c3aed; border: 1px solid #ddd6fe; }
+          .v-pill.gray   { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+          .v-date { font-size: 0.82rem; color: #94a3b8; }
+          .v-desc { margin: 0; font-size: 0.9rem; color: #475569; line-height: 1.7; }
+
+          /* Responsive */
+          @media (max-width: 900px) {
+            .s4sw-hero, .s4sw-edition-grid {
+              grid-template-columns: 1fr;
+            }
+            .s4sw-hero { padding: 30px 0 40px; }
+            .s4sw-hero-content h1 { font-size: 2.5rem; }
+            .s4sw-detail { padding: 28px 20px; }
+          }
+        </style>
+
         <!--CONTENT_END-->
       </div>
 
