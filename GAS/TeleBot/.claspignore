@@ -1,0 +1,10 @@
+# Files to ignore when pushing to Apps Script
+.git/**
+node_modules/**
+README.md
+env.txt
+*.txt
+*.md
+worker.js
+# 다른 프로젝트용 코드(회사일정_보내기.gs 등)가 TeleBot에 올라가지 않도록
+Claude outputs/**

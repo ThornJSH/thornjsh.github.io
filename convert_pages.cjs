@@ -25,6 +25,7 @@ const pages = {
   'sponsorship_form.html': ['후원신청서', '사회복지시설 후원신청서 자동화 도구입니다.'],
   'social-worker-calendar.html': ['사회복지시설 공통업무 캘린더', '사회복지시설의 연간 공통 업무 일정을 관리하는 캘린더 도구입니다.'],
   'ai-prompt-pro.html': ['AI Prompt Pro', '사회복지 현장에 최적화된 AI 프롬프트 작성 도구입니다.'],
+  'ai-dobiseo.html': ['챗봇 비서 "도비서"', '텔레그램과 구글 캘린더, 스프레드시트, Gemini AI를 결합한 스마트 일정·할 일 관리 AI 비서 도비서 소개 및 활용 가이드입니다.'],
   'sns-promotion.html': ['SNS 홍보문 만들기', 'AI를 활용하여 사회복지시설 SNS 홍보문을 자동 생성하는 도구입니다.'],
   'doc-audit.html': ['문서 타당성 검토', 'AI가 사회복지 문서의 타당성과 논리적 일관성을 검토합니다.'],
   'human-rights-docs.html': ['인권 지향적 글쓰기', '사회복지 문서에서 인권 지향적 표현을 사용하도록 AI가 검토하고 제안합니다.'],
