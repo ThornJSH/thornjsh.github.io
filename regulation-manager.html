@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>운영규정 개정·이력 관리 : Smart Welfare Tech</title>
+  <meta name="description" content="복지시설 운영규정을 구글 스프레드시트와 GAS로 체계적으로 개정하고 이력을 관리하는 도구입니다. 개정 이력 자동 기록, 조문별 변경 추적, 시트 기반 무설치 운영.">
+  <link rel="canonical" href="https://thornjsh.github.io/regulation-manager.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://thornjsh.github.io/regulation-manager.html">
+  <meta property="og:title" content="운영규정 개정·이력 관리 : Smart Welfare Tech">
+  <meta property="og:description" content="복지시설 운영규정을 구글 스프레드시트와 GAS로 체계적으로 개정하고 이력을 관리하는 도구입니다.">
+  <meta property="og:image" content="https://thornjsh.github.io/images/regulation.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="운영규정 개정·이력 관리 : Smart Welfare Tech">
+  <meta name="twitter:description" content="복지시설 운영규정을 구글 스프레드시트와 GAS로 체계적으로 개정하고 이력을 관리하는 도구입니다.">
+  <meta name="twitter:image" content="https://thornjsh.github.io/images/regulation.png">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "운영규정 개정·이력 관리",
+    "url": "https://thornjsh.github.io/regulation-manager.html",
+    "description": "복지시설 운영규정을 구글 스프레드시트와 GAS로 체계적으로 개정하고 이력을 관리하는 도구입니다.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Smart Welfare Tech",
+      "url": "https://thornjsh.github.io/"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <section class="page-header">
+    <div class="overlay"></div>
+    <div class="header-content">
+      <h1 id="dynamic-title">운영규정 개정·이력 관리</h1>
+      <div class="title-underline"></div>
+    </div>
+  </section>
+
+  <main class="main-content">
+    <div class="layout-wrapper">
+
+      <div class="container" id="page-body">
+        <!--CONTENT_START-->
+        <div class="content-section">
+
+          <!-- 상단: 소개 + 이미지 -->
+          <div class="responsive-intro-grid">
+            <!-- 좌측: 설명 -->
+            <div class="intro-text">
+              <h2>운영규정 개정·이력 관리</h2>
+              <p class="tagline">"복지시설 운영규정, 개정부터 이력 보관까지 한 번에"</p>
+              <p class="description">
+                사회복지시설은 주기적으로 운영규정을 검토하고 개정해야 하지만, 체계적인 이력 관리가 쉽지 않습니다.<br>
+                이 도구는 <strong>구글 스프레드시트(Gsheet)와 Google Apps Script(GAS)</strong>를 활용하여
+                조문별 개정 내용을 입력하고, 개정 이력을 자동으로 기록·조회할 수 있도록 설계되었습니다.
+              </p>
+
+              <div class="usage-steps"
+                style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 25px 0; border: 1px solid #eee;">
+                <h4 style="margin-top: 0; margin-bottom: 15px; color: #333;">💡 주요 기능</h4>
+                <ul style="margin: 0; padding-left: 20px; line-height: 1.9; color: #555;">
+                  <li><strong>조문별 현행 규정 열람</strong> — 장·조·항 구조로 현행 규정 내용을 한눈에 확인</li>
+                  <li><strong>개정 내용 입력 &amp; 개정 이력 자동 기록</strong> — 개정일, 개정 사유, 개정 전·후 내용을 체계적으로 보관</li>
+                  <li><strong>이력 조회 &amp; 필터링</strong> — 특정 조문 또는 기간별 개정 이력을 빠르게 검색</li>
+                  <li><strong>무설치 · Google 계정만으로 즉시 사용</strong> — 별도 소프트웨어 없이 웹 브라우저에서 바로 운영</li>
+                </ul>
+              </div>
+
+              <div class="cta-buttons" style="justify-content: flex-start; flex-wrap: wrap; gap: 12px;">
+                <a href="https://docs.google.com/spreadsheets/d/1ZX4QaeVyT6cFgi7jjyIG2iW0Onfz4TrDKhbgNOhYskk/copy"
+                  target="_blank" class="btn"
+                  style="display: inline-flex; align-items: center; gap: 8px; background-color: #1a73e8; color: white; max-width: 360px;">
+                  <span>📋</span> 운영규정 관리 시트 사본 만들기
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1ZX4QaeVyT6cFgi7jjyIG2iW0Onfz4TrDKhbgNOhYskk/edit?usp=sharing"
+                  target="_blank"
+                  style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: #fff; color: #1a73e8; border: 1px solid #1a73e8; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.95rem; transition: background 0.2s;"
+                  onmouseover="this.style.background='#e8f0fe'" onmouseout="this.style.background='#fff'">
+                  <span>👀</span> 원본 시트 둘러보기
+                </a>
+              </div>
+            </div>
+
+            <!-- 우측: 스크린샷 -->
+            <div class="profile-image-area">
+              <div class="profile-image-box" style="height: auto;">
+                <a href="images/regulation.png" target="_blank" title="클릭하여 원본 크기로 보기">
+                  <img src="images/regulation.png" alt="운영규정 개정·이력 관리 도구 실행 화면"
+                    style="width: 100%; height: auto; display: block; border-radius: 10px; transition: transform 0.3s ease;"
+                    onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                </a>
+              </div>
+              <p style="margin-top: 12px; color: #888; font-size: 0.88rem; text-align: center;">
+                🔍 실행 화면 (클릭 시 확대)
+              </p>
+            </div>
+          </div>
+
+          <!-- 사용 방법 -->
+          <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 30px; margin: 35px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.04);">
+            <h3 style="margin: 0 0 20px 0; font-size: 1.3rem; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+              <span>🛠️</span> 사용 방법
+            </h3>
+            <ol style="margin: 0; padding-left: 22px; line-height: 2; color: #334155; font-size: 0.95rem;">
+              <li>상단 <strong>[사본 만들기]</strong> 버튼을 눌러 본인의 구글 드라이브에 시트를 복사합니다.</li>
+              <li>시트 상단 메뉴에서 <strong>[운영규정 관리]</strong>를 클릭해 초기 권한을 승인합니다. <em>(최초 1회만)</em></li>
+              <li><strong>[규정 현황]</strong> 탭에서 시설 운영규정 조문을 입력하거나 붙여넣습니다.</li>
+              <li>개정이 필요한 조문을 선택하고 메뉴에서 <strong>[개정 등록]</strong>을 실행하면 개정 사유, 개정 전·후 내용을 입력하는 대화상자가 열립니다.</li>
+              <li>저장하면 <strong>[개정 이력]</strong> 탭에 개정일, 개정자, 조문, 사유, 변경 내용이 자동으로 기록됩니다.</li>
+              <li>이후 <strong>[이력 조회]</strong> 기능으로 조문별·기간별 개정 내역을 필터링하여 확인할 수 있습니다.</li>
+            </ol>
+          </div>
+
+          <!-- 활용 맥락 -->
+          <div style="background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 22px 26px; margin: 25px 0; display: flex; gap: 16px; align-items: flex-start;">
+            <div style="font-size: 1.8rem; flex-shrink: 0;">📌</div>
+            <div>
+              <strong style="color: #1d4ed8; display: block; margin-bottom: 6px;">이런 기관에서 활용하세요</strong>
+              <p style="margin: 0; font-size: 0.93rem; color: #334155; line-height: 1.75;">
+                사회복지관, 노인복지시설, 장애인복지시설, 아동복지시설 등 <strong>정기적인 운영규정 검토·개정 의무</strong>가 있는 기관에서
+                별도 시스템 도입 없이 구글 워크스페이스 환경에서 바로 활용할 수 있습니다.<br>
+                평가 대비 운영규정 이력 자료 제출, 내부 감사 준비, 신규 직원 규정 안내 등 다양한 용도로 활용할 수 있습니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 하단 CTA -->
+          <div style="text-align: center; margin-top: 40px; padding: 40px 20px; background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%); border-radius: 16px; color: #fff;">
+            <h3 style="margin: 0 0 10px 0; font-size: 1.6rem; font-weight: 800;">지금 바로 시작하세요</h3>
+            <p style="margin: 0 0 25px 0; opacity: 0.85; font-size: 1rem;">구글 계정만 있으면 설치 없이 즉시 사용할 수 있습니다.</p>
+            <a href="https://docs.google.com/spreadsheets/d/1ZX4QaeVyT6cFgi7jjyIG2iW0Onfz4TrDKhbgNOhYskk/copy"
+              target="_blank"
+              style="display: inline-block; background: #fff; color: #1a73e8; padding: 15px 36px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: all 0.2s;"
+              onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+              📋 시트 사본 만들기 (무료)
+            </a>
+          </div>
+
+        </div>
+        <!--CONTENT_END-->
+      </div>
+
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
