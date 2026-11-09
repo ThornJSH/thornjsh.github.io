@@ -181,12 +181,19 @@ function getHourProp(key, def) {
 function getMorningHour() { return getHourProp('MORNING_BRIEF_HOUR', MORNING_BRIEF_HOUR); }
 function getEveningHour() { return getHourProp('EVENING_BRIEF_HOUR', EVENING_BRIEF_HOUR); }
 function getCheckHour() { return getHourProp('COMPLETION_CHECK_HOUR', COMPLETION_CHECK_HOUR); }
+function getNightSyncHour() { return getHourProp('NIGHT_SYNC_HOUR', 22); } // 매일 밤 10시 주간업무 자동 동기화
 const DEADLINE_KEYWORDS = /(회신|제출|마감|신청|접수|납부|보고서)/; // 마감성 일정 판별
 const DEADLINE_NOTICE_DAYS = [3, 1];        // 마감 며칠 전에 아침 브리핑으로 알릴지
 
+// 지정된 전용 그룹 캘린더 ID (개인 기본 캘린더 혼동 방지)
+const DEDICATED_CALENDAR_ID = '49f4bafd3f53bb1a2ab803ffcd337cda1eb89396bdf349e456bba5a1a2f637ea@group.calendar.google.com';
+
 function getCalendarId() {
   const id = getScriptProp('CALENDAR_ID').trim();
-  if (!id) throw new Error('시트의 [도비서 → 최초 설정 / 연결 설정]에서 캘린더를 먼저 선택하세요.');
+  // 개인 기본 계정(@gmail.com, primary)으로 잘못 설정되었거나 비어있으면 지정된 전용 캘린더를 사용
+  if (!id || id.endsWith('@gmail.com') || id === 'primary') {
+    return DEDICATED_CALENDAR_ID;
+  }
   return id;
 }
 
@@ -285,6 +292,7 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('📅 일정 동기화')
     .addItem('지금 동기화', 'syncNow')
+    .addItem('📋 주간업무계획 지금 동기화', 'menuImportWeeklyPlan')
     .addSeparator()
     .addItem('자동 동기화 켜기 (15분마다)', 'setupAutoSync')
     .addItem('자동 동기화 끄기', 'stopAutoSync')
@@ -339,6 +347,166 @@ function autoSync() {
     Logger.log('[autoSync] ' + JSON.stringify(s));
   } catch (e) {
     Logger.log('[autoSync] 오류: ' + e.toString());
+  }
+}
+
+/* ============================================================
+ *  📋 주간업무계획 동기화 → 일정목록 시트 연동
+ * ============================================================ */
+const WEEKLY_PLAN_SHEET_NAME = '주간업무계획 동기화';
+const WEEKLY_PLAN_LOG_SHEET = '_주간업무보낸기록';
+
+/** 수식 주입(=, +, -, @) 방어 */
+function safeCellValue_(v) {
+  const s = String(v == null ? '' : v).trim();
+  if (/^[=+\-@]/.test(s)) return "'" + s;
+  return s;
+}
+
+/** 셀 날짜/시간 정규화 문자열 (yyyy-MM-dd 또는 yyyy-MM-dd HH:mm, 종일) */
+function cellToNormalizedDateTimeStr_(v) {
+  if (v === '' || v === null || v === undefined) return '';
+  if (String(v).trim() === ALL_DAY_MARK) return ALL_DAY_MARK;
+  const p = parseCell(v);
+  if (!p || !p.hasDate) return String(v).trim();
+  const ymd = `${p.y}-${String(p.m).padStart(2, '0')}-${String(p.d).padStart(2, '0')}`;
+  return p.hasTime ? `${ymd} ${String(p.hh).padStart(2, '0')}:${String(p.mm).padStart(2, '0')}` : ymd;
+}
+
+/**
+ * '주간업무계획 동기화' 시트의 신규 일정을 '일정목록'에 추가
+ * - 이미 일정목록에 있거나(제목 + 시작일시) 보낸 기록에 있는 일정은 건너뜀
+ * - IMPORTRANGE 로딩/오류 중이면 가져오지 않음
+ * - 수식 주입(=, +, -, @) 방어 적용
+ */
+function importWeeklyPlanToSchedule_() {
+  const ss = getTargetSpreadsheet();
+  const wpSheet = ss.getSheetByName(WEEKLY_PLAN_SHEET_NAME);
+  if (!wpSheet) return { added: 0, skipped: 0 };
+
+  const lastRow = wpSheet.getLastRow();
+  if (lastRow < 2) return { added: 0, skipped: 0 };
+
+  // 1행 헤더에서 열 위치 자동 감지
+  const headerVals = wpSheet.getRange(1, 1, 1, Math.min(wpSheet.getLastColumn(), 12)).getValues()[0];
+  let colTitle = 2, colStart = 3, colEnd = 4, colMemo = 5, colLoc = 7; // 기본값 (B, C, D, E, G)
+  headerVals.forEach((h, idx) => {
+    const text = String(h || '').trim();
+    if (text === '내용' || text === '제목') colTitle = idx + 1;
+    else if (text === '시작일시' || text === '시작') colStart = idx + 1;
+    else if (text === '종료일시' || text === '종료') colEnd = idx + 1;
+    else if (text === '기타' || text === '메모' || text === '구분') colMemo = idx + 1;
+    else if (text === '장소') colLoc = idx + 1;
+  });
+
+  const maxCol = Math.max(colTitle, colStart, colEnd, colMemo, colLoc);
+  const displayVals = wpSheet.getRange(2, 1, lastRow - 1, maxCol).getDisplayValues();
+
+  // IMPORTRANGE 로딩 또는 오류 상태 감지
+  const ERROR_RE = /^#(N\/A|REF!|VALUE!|ERROR!|NAME\?|DIV\/0!|NUM!|NULL!)|^Loading/i;
+  for (let r = 0; r < displayVals.length; r++) {
+    for (let c = 0; c < maxCol; c++) {
+      if (ERROR_RE.test(String(displayVals[r][c] || '').trim())) {
+        Logger.log('[importWeeklyPlanToSchedule_] 주간업무계획 시트가 로딩 중이거나 오류가 있어 건너뜁니다: ' + displayVals[r][c]);
+        return { added: 0, skipped: 0, error: '시트 로딩 중' };
+      }
+    }
+  }
+
+  // 일정목록 대상 시트 및 기존 일정 키 로드
+  const targetSheet = getTargetSheet();
+  const existingKeys = {};
+  const tLastRow = targetSheet.getLastRow();
+  if (tLastRow > 1) {
+    const tData = targetSheet.getRange(2, 1, tLastRow - 1, SHEET_HEADERS.length).getValues();
+    tData.forEach(row => {
+      const title = String(row[COL.TITLE] || '').trim();
+      const start = cellToNormalizedDateTimeStr_(row[COL.START]);
+      if (title && start) existingKeys[title + '||' + start] = true;
+    });
+  }
+
+  // 보낸 기록 시트 로드 (일정목록에서 사용자가 직접 삭제한 일정이 다시 등록되지 않도록 보호)
+  let logSheet = ss.getSheetByName(WEEKLY_PLAN_LOG_SHEET);
+  if (!logSheet) {
+    logSheet = ss.insertSheet(WEEKLY_PLAN_LOG_SHEET);
+    logSheet.getRange(1, 1, 1, 4).setValues([['전송일시', '고유키', '제목', '시작일시']]).setFontWeight('bold').setBackground('#EFEFEF');
+    logSheet.setFrozenRows(1);
+    logSheet.hideSheet();
+  }
+  const logLastRow = logSheet.getLastRow();
+  const sentKeys = {};
+  if (logLastRow > 1) {
+    const logVals = logSheet.getRange(2, 2, logLastRow - 1, 1).getValues();
+    logVals.forEach(([k]) => { if (k) sentKeys[String(k)] = true; });
+  }
+
+  const toAdd = [];
+  const logRows = [];
+  const nowStr = Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd HH:mm');
+  const batchKeys = {};
+
+  displayVals.forEach(row => {
+    const title = String(row[colTitle - 1] || '').trim();
+    const rawStart = String(row[colStart - 1] || '').trim();
+    const rawEnd = String(row[colEnd - 1] || '').trim();
+    const memo = String(row[colMemo - 1] || '').trim();
+    const loc = String(row[colLoc - 1] || '').trim();
+
+    if (!title || !rawStart) return;
+
+    const normStart = cellToNormalizedDateTimeStr_(rawStart);
+    const normEnd = cellToNormalizedDateTimeStr_(rawEnd);
+    if (!normStart) return;
+
+    const key = title + '||' + normStart;
+    if (existingKeys[key] || sentKeys[key] || batchKeys[key]) return;
+    batchKeys[key] = true;
+
+    toAdd.push([
+      '',
+      safeCellValue_(title),
+      safeCellValue_(normStart),
+      safeCellValue_(normEnd),
+      safeCellValue_(memo),
+      '',
+      safeCellValue_(loc),
+      ''
+    ]);
+    logRows.push([nowStr, key, title, normStart]);
+  });
+
+  if (!toAdd.length) return { added: 0, skipped: displayVals.length };
+
+  const startAppendRow = targetSheet.getLastRow() + 1;
+  targetSheet.getRange(startAppendRow, COL.START + 1, toAdd.length, 2).setNumberFormat('@');
+  targetSheet.getRange(startAppendRow, 1, toAdd.length, SHEET_HEADERS.length).setValues(toAdd);
+
+  logSheet.getRange(logSheet.getLastRow() + 1, 1, logRows.length, 4).setNumberFormat('@').setValues(logRows);
+
+  Logger.log(`[importWeeklyPlanToSchedule_] 주간업무계획 ${toAdd.length}건을 일정목록에 추가했습니다.`);
+  return { added: toAdd.length, skipped: displayVals.length - toAdd.length };
+}
+
+/** ▶ [메뉴] 주간업무계획 동기화 수동 실행 */
+function menuImportWeeklyPlan() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  try {
+    if (ss) ss.toast('주간업무계획 시트를 확인하는 중...', '📋 주간업무 동기화', 30);
+    const r = importWeeklyPlanToSchedule_();
+    if (r.error) {
+      if (ss) ss.toast('주간업무계획 시트가 아직 로딩 중입니다. 잠시 후 다시 시도하세요.', '⚠️ 로딩 중', 5);
+      return;
+    }
+    if (r.added > 0) {
+      if (ss) ss.toast(`주간업무 ${r.added}건을 가져왔습니다. 캘린더와 동기화합니다...`, '📋 캘린더 동기화', 30);
+      syncNow();
+    } else {
+      if (ss) ss.toast('가져올 새로운 주간업무 일정이 없습니다 (모두 반영됨).', '✅ 동기화 완료', 5);
+    }
+  } catch (e) {
+    Logger.log('menuImportWeeklyPlan 오류: ' + e.toString());
+    if (ss) ss.toast('주간업무 동기화 실패: ' + e.message, '⚠️ 오류', 10);
   }
 }
 
@@ -542,6 +710,7 @@ function fullSync() {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
+    try { importWeeklyPlanToSchedule_(); } catch (e) { Logger.log('주간업무 자동가져오기 예외: ' + e.toString()); }
     const cal = getTargetCalendar();
     const sheet = getTargetSheet();
     const registry = loadRegistry();
@@ -1074,9 +1243,19 @@ function getCommandHandler(cmd, chatId, user) {
     case '/start':
       return () => sendMessage(chatId, `안녕하세요, ${escapeHtml(user.first_name || '')}님! 일정과 할 일을 돕는 도비서입니다.\n`
         + `"내일 2시 회의 등록해줘", "오늘 일정 알려줘" 같이 편하게 말씀해주세요.\n여러 일정을 줄바꿈으로 한 번에 보내셔도 됩니다.\n이미 등록한 일정도 "보수교육 5시로 바꿔줘", "회의 장소 본관 3층 추가", "워크숍 삭제해줘"처럼 말로 수정·삭제할 수 있어요.\n\n`
-        + `📌 명령어\n/today 오늘 일정\n/week 앞으로 1주일 일정\n/briefon 매일 브리핑 켜기 (${getMorningHour()}시·${getEveningHour()}시)\n/briefoff 브리핑 끄기\n/remindon 일정 ${durationLabel(getRemindMinutes())} 전 알림 켜기\n/remindoff 일정 직전 알림 끄기\n/todo 할 일 목록\n/review 검토 목록\n/setup 브리핑·알림 시각 설정\n/check 오늘 일정 완료 확인\n/pending 처리하지 않은 지난 일정\n/checkon · /checkoff 저녁 ${getCheckHour()}시 완료 확인 켜기·끄기\n\n📝 날짜가 없는 일이나 "~까지" 할 일은 할 일 목록으로 들어가요. (예: "할 일: 소식지 원고 정리", "보고서 금요일까지")\n\n"오늘 일정 브리핑해줘", "이번주 일정"처럼 물어보셔도 바로 알려드려요.\n\n🔎 링크(URL)를 보내거나 "검토: 운영위 자료 보기"처럼 보내면 검토 목록에 들어가요. (/review)\n\n🕒 "다음 주에 2시간 비는 시간 찾아줘", "목요일 오후에 1시간 돼?"처럼 물어보시면 빈 시간을 찾아드려요.`
+        + `📌 명령어\n/today 오늘 일정\n/week 앞으로 1주일 일정\n/briefon 매일 브리핑 켜기 (${getMorningHour()}시·${getEveningHour()}시)\n/briefoff 브리핑 끄기\n/remindon 일정 ${durationLabel(getRemindMinutes())} 전 알림 켜기\n/remindoff 일정 직전 알림 끄기\n/todo 할 일 목록\n/review 검토 목록\n/setup 브리핑·알림 시각 설정\n/check 오늘 일정 완료 확인\n/pending 처리하지 않은 지난 일정\n/checkon · /checkoff 저녁 ${getCheckHour()}시 완료 확인 켜기·끄기\n/agenton · /agentoff 도비서 AI 비서 켜기·끄기 (기본 꺼짐)\n\n📝 날짜가 없는 일이나 "~까지" 할 일은 할 일 목록으로 들어가요. (예: "할 일: 소식지 원고 정리", "보고서 금요일까지")\n\n"오늘 일정 브리핑해줘", "이번주 일정"처럼 물어보셔도 바로 알려드려요.\n\n🔎 링크(URL)를 보내거나 "검토: 운영위 자료 보기"처럼 보내면 검토 목록에 들어가요. (/review)\n\n🕒 "다음 주에 2시간 비는 시간 찾아줘", "목요일 오후에 1시간 돼?"처럼 물어보시면 빈 시간을 찾아드려요.`
         + `\n\n💡 아침 자동 브리핑 뒤에는 일정과 할 일을 함께 살펴 오늘 놓치기 쉬운 일을 최대 3개 제안합니다. /insighton · /insightoff 로 켜거나 끌 수 있어요.`
         + (isAgentEnabled() ? `\n\n🧑‍💼 "도비서야"라고 부르면 도구를 활용해 대화를 이어갑니다. ("끝"으로 이번 대화 종료)` : ''), { parse_mode: 'HTML' });
+    case '/agenton':
+    case '/agentoff':
+      return () => {
+        if (!canChangeSettings(chatId)) return sendMessage(chatId, '🔒 설정은 등록된 대화방에서만 바꿀 수 있어요.');
+        props.setProperty('AGENT_ENABLED', cmd === '/agenton' ? 'on' : 'off');
+        if (cmd === '/agentoff') cancelAgentWork(chatId);
+        return sendMessage(chatId, cmd === '/agenton'
+          ? '🧑‍💼 <b>도비서(에이전틱 AI) 기능을 켰습니다.</b>\n"도비서야 회의 일정 잡아줘"처럼 부르면 대화형 도구로 일정을 관리합니다. 대화를 마치려면 "끝"이라고 하세요.\n끄려면 /agentoff 를 보내주세요.'
+          : '⚡ <b>도비서(에이전틱 AI) 기능을 껐습니다.</b>\n이제 빠르고 안정적인 기본 모드로 동작합니다. 다시 켜려면 /agenton 을 보내주세요.', { parse_mode: 'HTML' });
+      };
     case '/insighton':
     case '/insightoff':
       return () => {
@@ -1825,6 +2004,9 @@ function checkBriefings() {
                && props.getProperty('CHECK_DATE') !== today) {
       props.setProperty('CHECK_DATE', today);
       send = 'check';
+    } else if (hour === getNightSyncHour() && props.getProperty('WEEKLY_PLAN_SYNC_DATE') !== today) {
+      props.setProperty('WEEKLY_PLAN_SYNC_DATE', today);
+      send = 'nightly_sync';
     }
   } finally {
     lock.releaseLock();
@@ -1841,6 +2023,17 @@ function checkBriefings() {
   if (send === 'check') {
     const check = buildCompletionCheck(new Date());
     if (check) sendReply(chatId, check);
+  }
+  if (send === 'nightly_sync') {
+    try {
+      const res = importWeeklyPlanToSchedule_();
+      if (res && res.added > 0) {
+        fullSync();
+        sendMessage(chatId, `📋 <b>주간업무계획 자동 동기화</b>\n새로운 회사 일정 <b>${res.added}건</b>을 캘린더에 자동 등록했습니다.`, { parse_mode: 'HTML' });
+      }
+    } catch (e) {
+      Logger.log('[nightlySyncWeeklyPlan] 오류: ' + e.toString());
+    }
   }
 }
 
@@ -3276,7 +3469,8 @@ const SETUP_ITEMS = {
 const SETUP_TOGGLES = {
   brief:  { label: '브리핑',    prop: 'BRIEF_ENABLED' },
   remind: { label: '일정 알림', prop: 'REMIND_ENABLED' },
-  check:  { label: '완료 확인', prop: 'CHECK_ENABLED' }
+  check:  { label: '완료 확인', prop: 'CHECK_ENABLED' },
+  agent:  { label: 'AI 비서',   prop: 'AGENT_ENABLED', defaultOff: true }
 };
 
 /** 설정을 바꿀 수 있는 대화방인지 (ALLOWED_CHAT_IDS, 없으면 BRIEF_CHAT_ID 대화방) */
@@ -3288,7 +3482,10 @@ function canChangeSettings(chatId) {
 }
 
 function isToggleOn(key) {
-  return getScriptProp(SETUP_TOGGLES[key].prop) !== 'off';
+  const item = SETUP_TOGGLES[key];
+  if (!item) return false;
+  if (item.defaultOff) return getScriptProp(item.prop, 'off') === 'on';
+  return getScriptProp(item.prop, 'on') !== 'off';
 }
 
 function setupValueLabel(item, v) {
@@ -3304,14 +3501,18 @@ function buildSetupMenu(notice) {
     + `${it.am.label}: <b>${setupValueLabel(it.am, it.am.get())}</b> · ${on('brief')}\n`
     + `${it.pm.label}: <b>${setupValueLabel(it.pm, it.pm.get())}</b> · ${on('brief')}\n`
     + `${it.chk.label}: <b>${setupValueLabel(it.chk, it.chk.get())}</b> · ${on('check')}\n`
-    + `${it.rem.label}: <b>${setupValueLabel(it.rem, it.rem.get())}</b> · ${on('remind')}\n\n`
+    + `${it.rem.label}: <b>${setupValueLabel(it.rem, it.rem.get())}</b> · ${on('remind')}\n`
+    + `🧑‍💼 AI 비서(도비서): ${on('agent')}\n\n`
     + '<i>바꿀 항목을 누르세요. 바뀐 시각은 다음 정시부터 적용돼요.</i>';
   const keyboard = [
     [{ text: `☀️ 아침 ${setupValueLabel(it.am, it.am.get())}`, callback_data: 'st:pick:am' },
      { text: `🌆 저녁 ${setupValueLabel(it.pm, it.pm.get())}`, callback_data: 'st:pick:pm' }],
     [{ text: `🌙 완료확인 ${setupValueLabel(it.chk, it.chk.get())}`, callback_data: 'st:pick:chk' },
      { text: `⏰ 알림 ${setupValueLabel(it.rem, it.rem.get())}`, callback_data: 'st:pick:rem' }],
-    Object.keys(SETUP_TOGGLES).map(k => ({ text: `${isToggleOn(k) ? '✅' : '⛔'} ${SETUP_TOGGLES[k].label}`, callback_data: `st:tog:${k}` })),
+    [{ text: `${isToggleOn('brief') ? '✅' : '⛔'} 브리핑`, callback_data: 'st:tog:brief' },
+     { text: `${isToggleOn('remind') ? '✅' : '⛔'} 일정 알림`, callback_data: 'st:tog:remind' }],
+    [{ text: `${isToggleOn('check') ? '✅' : '⛔'} 완료 확인`, callback_data: 'st:tog:check' },
+     { text: `${isToggleOn('agent') ? '✅' : '⛔'} AI 비서`, callback_data: 'st:tog:agent' }],
     [{ text: '닫기', callback_data: 'st:close' }]
   ];
   return { text: text, keyboard: keyboard };
@@ -3364,7 +3565,8 @@ function handleSetupCallback(cq, parts) {
     const t = SETUP_TOGGLES[key];
     const turnOn = !isToggleOn(key);
     props.setProperty(t.prop, turnOn ? 'on' : 'off');
-    if (turnOn) props.setProperty('BRIEF_CHAT_ID', String(chatId)); // 켜면 이 대화방으로 받음 (/briefon 과 같음)
+    if (turnOn && key !== 'agent') props.setProperty('BRIEF_CHAT_ID', String(chatId)); // 켜면 이 대화방으로 받음 (/briefon 과 같음)
+    if (!turnOn && key === 'agent') cancelAgentWork(chatId);
     answerCallbackQuery(cq.id, `${t.label} ${turnOn ? '켬' : '끔'}`);
     r = buildSetupMenu(`${turnOn ? '✅' : '⛔'} ${t.label}을(를) ${turnOn ? '켰어요' : '껐어요'}.`);
   } else {
